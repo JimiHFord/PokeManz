@@ -5,7 +5,7 @@ package data;
 
 /**
  * @author jimiford
- *
+ * @deprecated your mom
  */
 public class DataFetch {
 
@@ -14,5 +14,6 @@ public class DataFetch {
 		System.out.println("This should compile.");
 		//or should it?
 		/*yes, it should*/
+		//ryan commit test xD
 	}
 }
