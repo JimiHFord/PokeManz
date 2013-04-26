@@ -8,6 +8,7 @@ import java.sql.*;
 import java.lang.*;
 
 /**
+ * This class will be used for the majority of Database IO
  * @author jimiford
  *
  */
