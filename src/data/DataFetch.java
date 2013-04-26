@@ -10,6 +10,7 @@ package data;
 public class DataFetch {
 
 	
+	
 	private static class SingletonWrapper {
 		public static DataFetch INSTANCE = new DataFetch();
 	}
