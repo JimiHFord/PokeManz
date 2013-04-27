@@ -17,6 +17,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import view.pokeparty.PokePartyPanel;
+
 import data.DataFetch;
 
 /**
@@ -27,7 +29,12 @@ import data.DataFetch;
 public class GUIEntryPoint extends JFrame {
 
 	public static final String TITLE = "PokeMonitor";
-
+	private static final String T1_TITLE = "Home";
+	private static final String T2_TITLE = "Pokedex";
+	private static final String T3_TITLE = "Pokemetrics";
+	private static final String T4_TITLE = "Pokevolve";
+	private static final String T5_TITLE = "Pokeparty";
+	private static final String T6_TITLE = "Help";
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
@@ -38,7 +45,6 @@ public class GUIEntryPoint extends JFrame {
 
 	public GUIEntryPoint(DataFetch df, String title) {
 		super(title);
-		//		setLayout()
 		this.df = df;
 		initComponents();
 		fillComponents();
@@ -51,12 +57,12 @@ public class GUIEntryPoint extends JFrame {
 
 
 	private void fillComponents() {
-		jtp.addTab("Home", new JPanel());
-		jtp.addTab("Pokedex", new JPanel());
-		jtp.addTab("Pokemetrics", new JPanel());
-		jtp.addTab("Pokevolve", new JPanel());
-		jtp.addTab("Pokeparty", new JPanel());
-		jtp.addTab("Help", new JPanel());
+		jtp.addTab(T1_TITLE, new JPanel());
+		jtp.addTab(T2_TITLE, new JPanel());
+		jtp.addTab(T3_TITLE, new JPanel());
+		jtp.addTab(T4_TITLE, new JPanel());
+		jtp.addTab(T5_TITLE, new PokePartyPanel(df));
+		jtp.addTab(T6_TITLE, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
 		jtp.setMnemonicAt(2, KeyEvent.VK_3);
