@@ -59,7 +59,7 @@ public class DataFetch {
 			Connection con;
 			Statement stmt;
 			Class.forName("org.postgresql.Driver");
-			con = DriverManager.getConnection(url, user, pass);
+			con = DriverManager.getConnection(url + user, user, pass);
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from pokemon_name;");
 			while(rs.next()) {
