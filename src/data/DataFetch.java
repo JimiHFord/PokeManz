@@ -1,11 +1,18 @@
 /**
+ * DataFetch.java
  * 
  */
 package data;
 
-import java.io.*;
-import java.sql.*;
-import java.lang.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 /**
  * This class will be used for the majority of Database IO
@@ -72,6 +79,20 @@ public class DataFetch {
 	}
 	
 	/**
+	 * @return the statement that manages queries
+	 */
+	public Statement getStatement() {
+		return this.stmt;
+	}
+	
+	public void executeAndPrintTestQuery() throws SQLException {
+		ResultSet rs = stmt.executeQuery("select * from pokemon_name;");
+		while(rs.next()) {
+			System.out.println("Pokemon ID: " + rs.getInt("national_id") + '\t' + rs.getString("english"));
+		}
+	}
+	
+	/**
 	 * tests queries
 	 * @param args	command line arguments
 	 * 		args[0]	username
@@ -80,7 +101,6 @@ public class DataFetch {
 	public static void main(String[] args) {
 		String user = "";
 		String pass = "";
-		
 		
 		try {
 			if(args.length < 2) {	
@@ -97,18 +117,14 @@ public class DataFetch {
 			}
 		} catch(IOException e) {
 			System.err.println(e.getMessage());
+			return;
 		}
 		
+		DataFetch df = DataFetch.getInstance();
 		try {
-			Connection con;
-			Statement stmt;
-			Class.forName("org.postgresql.Driver");
-			con = DriverManager.getConnection(url + user, user, pass);
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from pokemon_name;");
-			while(rs.next()) {
-				System.out.println("Pokemon ID: " + rs.getInt("national_id") + '\t' + rs.getString("english"));
-			}
+			df.establishConnection(url, user, pass);
+			df.createStatement();
+			df.executeAndPrintTestQuery();
 		} catch (ClassNotFoundException e) {
 			System.err.println("PSQL Driver is not properly set up");
 		} catch (SQLException e) {
