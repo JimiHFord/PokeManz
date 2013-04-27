@@ -14,7 +14,7 @@ import java.lang.*;
 public class DataFetch {
 
 	
-	private static final String url = "jdbc:postgresql://reddwarf.cs.rit.edu/p48501h";
+	private static final String url = "jdbc:postgresql://reddwarf.cs.rit.edu/";
 	
 	/**
 	 * Singleton Wrapper class 
@@ -72,7 +72,7 @@ public class DataFetch {
 			e.printStackTrace();
 		}
 		
-		System.out.println("This should compile.");
+//		System.out.println("This should compile.");
 		//or should it?
 		/*yes, it should*/
 		//ryan commit test xD
