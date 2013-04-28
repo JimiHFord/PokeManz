@@ -10,8 +10,15 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import view.GUIEntryPoint;
 
 
 /**
@@ -25,13 +32,14 @@ public class DataFetch {
 	 */
 	private static final String driver = "org.postgresql.Driver"; 
 	private static final String url = "jdbc:postgresql://reddwarf.cs.rit.edu/";
-	
+
 	/*
 	 * instance variables
 	 */
 	private Statement stmt;
 	private Connection con;
-	
+	private GUIEntryPoint listener;
+
 	/**
 	 * Singleton Wrapper class 
 	 * @author JimiHFord jhf3617
@@ -49,13 +57,95 @@ public class DataFetch {
 	public static DataFetch getInstance() {
 		return SingletonWrapper.INSTANCE;
 	}
-	
+
 	/**
 	 * Private constructor ensures no extraneous DataFetchers will be created
 	 */
-	private DataFetch() {	}
+	private DataFetch() {
+		listener = null;
+	}
+
+	/**
+	 * Sets the "listener" for error messages to be displayed
+	 * @param listener	the component to be updated with error messages
+	 */
+	public void setListener(GUIEntryPoint listener) {
+		if(this.listener == null) {
+			this.listener = listener;
+		} else {
+			System.err.println("Listener has already been set.");
+		}
+	}
+
+	public DefaultTableModel getMainTrainerTableModel() {
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("select * from trainer;");
+		} catch (SQLException e) {
+			error = true;
+			displayError(e.getMessage(), "SQLException");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
 	
+	public void connectToRIT(String user, String pass) throws SQLException {
+		this.establishConnection(url, user, pass);
+		this.createStatement();
+	}
 	
+	/**
+	 * 
+	 * @param rs
+	 * @return
+	 */
+	public DefaultTableModel buildTableModel(ResultSet rs) {
+		boolean error = false;
+		Vector<String> columnNames = new Vector<String>();
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		try {
+			ResultSetMetaData metaData = rs.getMetaData();
+
+			// names of columns
+
+			int columnCount = metaData.getColumnCount();
+			for (int column = 1; column <= columnCount; column++) {
+				columnNames.add(metaData.getColumnName(column));
+			}
+
+			// data of the table
+
+			while (rs.next()) {
+				Vector<Object> vector = new Vector<Object>();
+				for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+					vector.add(rs.getObject(columnIndex));
+				}
+				data.add(vector);
+			}
+		} catch (SQLException e) {
+			error = true;
+			displayError(e.getMessage(), "SQLException");
+		} catch (NullPointerException e) {
+			error = true;
+		}
+		return error ? new DefaultTableModel() : new DefaultTableModel(data, columnNames);
+	}
+
+	/**
+	 * Displays the error message that occurred
+	 * @param msg 	the message 
+	 * @param title	the title of the error message
+	 */
+	private void displayError(String msg, String title) {
+		if(listener == null) {
+			JOptionPane.showMessageDialog(null, msg, title,
+					JOptionPane.ERROR_MESSAGE, null);
+		} else {
+			listener.showError(msg, title);
+		}
+	}
+
+
 	/**
 	 * 
 	 * @param url	full url to database including database name (not needed though)
@@ -65,11 +155,15 @@ public class DataFetch {
 	 * @throws ClassNotFoundException	if the driver for psql can not be found
 	 */	
 	public void establishConnection(String url, String user, String pass) 
-			throws SQLException, ClassNotFoundException {
-		Class.forName(driver);
+			throws SQLException {
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			displayError(e.getMessage(), "ClassNotFoundExcpetion");
+		}
 		this.con = DriverManager.getConnection(url + user, user, pass);
 	}
-	
+
 	/**
 	 * Creates a statement for the DataFetch object to execute queries with.
 	 * @throws SQLException
@@ -77,21 +171,25 @@ public class DataFetch {
 	public void createStatement() throws SQLException {
 		this.stmt = con.createStatement();
 	}
-	
+
 	/**
 	 * @return the statement that manages queries
 	 */
 	public Statement getStatement() {
 		return this.stmt;
 	}
-	
+
+	/**
+	 * Tests the connection of our database
+	 * @throws SQLException
+	 */
 	public void executeAndPrintTestQuery() throws SQLException {
 		ResultSet rs = stmt.executeQuery("select * from pokemon_name;");
 		while(rs.next()) {
 			System.out.println("Pokemon ID: " + rs.getInt("national_id") + '\t' + rs.getString("english"));
 		}
 	}
-	
+
 	/**
 	 * tests queries
 	 * @param args	command line arguments
@@ -101,7 +199,7 @@ public class DataFetch {
 	public static void main(String[] args) {
 		String user = "";
 		String pass = "";
-		
+
 		try {
 			if(args.length < 2) {	
 				InputStreamReader inReader = new InputStreamReader(System.in);
@@ -119,17 +217,15 @@ public class DataFetch {
 			System.err.println(e.getMessage());
 			return;
 		}
-		
+
 		DataFetch df = DataFetch.getInstance();
 		try {
 			df.establishConnection(url, user, pass);
 			df.createStatement();
 			df.executeAndPrintTestQuery();
-		} catch (ClassNotFoundException e) {
-			System.err.println("PSQL Driver is not properly set up");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
