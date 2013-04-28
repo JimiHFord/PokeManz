@@ -80,7 +80,6 @@ public class PokePartyPanel extends JPanel {
 	}
 	
 	
-	
 	private class TeamPanel extends JPanel {
 		private TeamPanel(DataFetch df) {
 		    // It creates and displays the table
