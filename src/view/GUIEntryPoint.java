@@ -8,25 +8,34 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
 
-import javax.swing.JComponent;
+//import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 import view.pokeparty.PokePartyPanel;
 
 import data.DataFetch;
 
 /**
- * @author James
+ * Main JFrame application container
+ * @author James Ford
  *
  */
 @SuppressWarnings("serial")
 public class GUIEntryPoint extends JFrame {
+
+	private static String user;
+	private static String pass;
 
 	public static final String TITLE = "PokeMonitor";
 	private static final String T1_TITLE = "Home";
@@ -39,22 +48,31 @@ public class GUIEntryPoint extends JFrame {
 	private JTabbedPane jtp;
 
 
-	public GUIEntryPoint(DataFetch df) {
+	public GUIEntryPoint(DataFetch df) throws SQLException {
 		this(df,TITLE);
 	}
 
-	public GUIEntryPoint(DataFetch df, String title) {
+	public GUIEntryPoint(DataFetch df, String title) throws SQLException {
 		super(title);
 		this.df = df;
+		this.df.setListener(this);
+		this.df.connectToRIT(user, pass);
+		user = null;
+		pass = null;
 		initComponents();
 		fillComponents();
 	}
 
 	private void initComponents() {
 		jtp = new JTabbedPane();
-		
+
 	}
 
+
+	public static void showError(String msg, String title) {
+		JOptionPane.showMessageDialog(null, msg, title,
+				JOptionPane.ERROR_MESSAGE, null);
+	}
 
 	private void fillComponents() {
 		jtp.addTab(T1_TITLE, new JPanel());
@@ -73,11 +91,17 @@ public class GUIEntryPoint extends JFrame {
 	}
 
 	protected static void createAndShowGUI() {
-		JFrame f = new GUIEntryPoint(DataFetch.getInstance());
+		JFrame f = null;
+		try {
+			f = new GUIEntryPoint(DataFetch.getInstance());
+		} catch (SQLException e) {
+			showError(e.getMessage(), "SQLException");
+		}
 
 
 		// Setup JFrame deets.
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setPreferredSize(new Dimension(700,600));
 		f.pack(); // Pack before setting location (this determines size)
 
 		// Get the current screen's size
@@ -91,7 +115,7 @@ public class GUIEntryPoint extends JFrame {
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		if (!System.getProperty("java.version").startsWith("1.7")) {
-			JOptionPane.showMessageDialog(null, "Please download Java version 7", "Error", JOptionPane.ERROR_MESSAGE, null);
+			showError("Please install Java version 7", "Error");
 			return;
 		}
 
@@ -106,6 +130,13 @@ public class GUIEntryPoint extends JFrame {
 		} catch (Exception e) {
 			// Will be set to default LAF
 		}
+
+		if(args.length < 2) {
+			showError("Usage: args[0] = username | args[1] = password", "Error");
+			return;
+		}
+		user = args[0];
+		pass = args[1];
 
 		Runnable doCreateAndShowGUI = new Runnable() {
 

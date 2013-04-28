@@ -59,7 +59,7 @@ public class PokeUtils {
 	 * @param t the type to calculate the weaknesses of
 	 * @return weaknesses associated with the type t
 	 */
-	public static final Type[] getWeakness(Type t) {
+	public static Type[] getWeakness(Type t) {
 		switch(t) {
 		case Normal:
 			return normal;
@@ -106,7 +106,7 @@ public class PokeUtils {
 	 * @param t	the type to count the weaknesses of
 	 * @return	the number of weaknesses associated with type t
 	 */
-	public static final int countWeakness(Type t) {
+	public static int countWeakness(Type t) {
 		switch(t) {
 		case Normal:
 			return normal.length;
