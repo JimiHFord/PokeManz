@@ -79,13 +79,6 @@ public class PokePartyPanel extends JPanel {
 		cardlayout.show(cards, key);
 	}
 	
-	
-	private class TeamPanel extends JPanel {
-		private TeamPanel(DataFetch df) {
-		    // It creates and displays the table
-			
-		}
-	}
 
 }
 
