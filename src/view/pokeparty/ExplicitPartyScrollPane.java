@@ -23,15 +23,25 @@ public class ExplicitPartyScrollPane extends JScrollPane {
 		this(df, null, user);
 	}
 	
+	public ExplicitPartyScrollPane() {
+		this(null, null);
+	}
+	
 	public ExplicitPartyScrollPane(DataFetch df, JTable table, String user) {
-		super(table = new JTable(df.getExplicitPartyTAbleModel(user)));
+		super(table = new JTable());
 		this.table = table;
 		this.user = user;
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.df = df;
 	}
 	
+	public void addNewData(DataFetch df, String user) {
+		this.df = df;
+		this.user = user;
+		refresh();
+	}
+	
 	public void refresh() {
-		this.table = new JTable(df.getExplicitPartyTAbleModel(user));
+		this.table.setModel(df.getExplicitPartyTAbleModel(user));
 	}
 }
