@@ -38,8 +38,9 @@ public class PokePartyPanel extends JPanel {
 
 	private GridBagConstraints c;
 	private JPanel cards;
+	private TeamPanel teamPanel;
+	private ManageTrainersPanel manageTrainersPanel;
 	private CardLayout cardlayout;
-	
 	
 	public PokePartyPanel(DataFetch df) {
 		super(new BorderLayout());
@@ -50,11 +51,16 @@ public class PokePartyPanel extends JPanel {
 		show(MANAGE_TRAINERS_PANEL);
 	}
 
+	public void showTeamPanel(String user) {
+		show(TEAM_PANEL);
+		this.teamPanel.setUser(user);
+	}
 
 	private void fillComponents() {
 //		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
-		cards.add(new TeamPanel(df), TEAM_PANEL);
-		cards.add(new ManageTrainersPanel(df).setParent(this), MANAGE_TRAINERS_PANEL);
+		cards.add(teamPanel = new TeamPanel(df), TEAM_PANEL);
+		cards.add(manageTrainersPanel = new ManageTrainersPanel(df)
+		.setParent(this), MANAGE_TRAINERS_PANEL);
 		this.add(cards, BorderLayout.CENTER);
 	}
 
