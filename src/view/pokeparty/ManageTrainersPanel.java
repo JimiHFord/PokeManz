@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 
 import data.DataFetch;
 
@@ -19,7 +20,7 @@ public class ManageTrainersPanel extends JScrollPane {
 
 	private DataFetch df;
 	private JTable table;
-	private PokePartyPanel parent;
+	private PokePartyPanel parent = null;
 	
 	public ManageTrainersPanel(DataFetch df) {
 		this(df, null);
@@ -28,7 +29,8 @@ public class ManageTrainersPanel extends JScrollPane {
 	public ManageTrainersPanel(DataFetch df, JTable table) {
 		super(table = new JTable(df.getMainTrainerTableModel()));
 		this.table = table;
-		parent = null;
+		((JTextArea)this.table.getEditorComponent()).setEditable(false);
+		
 		this.df = df;
 		initComponents();
 		actionInitialization();

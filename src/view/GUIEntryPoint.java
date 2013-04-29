@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import view.pokedex.PokedexScreen;
 import view.pokeparty.PokePartyPanel;
 
 import data.DataFetch;
@@ -76,7 +77,7 @@ public class GUIEntryPoint extends JFrame {
 
 	private void fillComponents() {
 		jtp.addTab(T1_TITLE, new JPanel());
-		jtp.addTab(T2_TITLE, new JPanel());
+		jtp.addTab(T2_TITLE, new PokedexScreen(df));
 		jtp.addTab(T3_TITLE, new JPanel());
 		jtp.addTab(T4_TITLE, new JPanel());
 		jtp.addTab(T5_TITLE, new PokePartyPanel(df));
