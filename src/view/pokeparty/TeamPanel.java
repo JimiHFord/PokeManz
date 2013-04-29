@@ -26,9 +26,11 @@ public class TeamPanel extends JPanel {
 		super(new BorderLayout());
 		this.df = df;
 //		this.user = "";
+		this.partyScrollPane = new ExplicitPartyScrollPane();
 		this.refresh();
 		this.right = new JPanel(new BorderLayout());
 		this.fillComponents();
+		
 	}
 
 	public void fillComponents() {
@@ -42,8 +44,9 @@ public class TeamPanel extends JPanel {
 	}
 	
 	public void refresh() {
-		this.partyScrollPane = new ExplicitPartyScrollPane(df,user);
-		this.repaint();
+		//this.partyScrollPane = new ExplicitPartyScrollPane(df,user);
+		partyScrollPane.addNewData(df, user);
+		//this.repaint();
 	}
 	
 	protected void paintComponent(Graphics g) {
