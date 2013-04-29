@@ -54,7 +54,7 @@ public class PokePartyPanel extends JPanel {
 	private void fillComponents() {
 //		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
 		cards.add(new TeamPanel(df), TEAM_PANEL);
-		cards.add(new ManageTrainersPanel(df), MANAGE_TRAINERS_PANEL);
+		cards.add(new ManageTrainersPanel(df).setParent(this), MANAGE_TRAINERS_PANEL);
 		this.add(cards, BorderLayout.CENTER);
 	}
 
