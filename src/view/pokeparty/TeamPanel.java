@@ -15,8 +15,16 @@ import data.DataFetch;
 public class TeamPanel extends JPanel {
 
 	private DataFetch df;
+	private String user;
+	
 	
 	public TeamPanel(DataFetch df) {
 		this.df = df;
 	}
+
+	public void setUser(String user) {
+		this.user = user;		
+	}
+	
+	
 }

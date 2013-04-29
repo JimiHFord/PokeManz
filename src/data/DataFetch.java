@@ -89,6 +89,20 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	public DefaultTableModel getExplicitPartyTAbleModel(String user) {
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(
+					"select * from explicit_party where t_name = '"
+					+ user + "';");
+		} catch (SQLException e) {
+			error = true;
+			displayError(e.getMessage(), "SQLException");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
 	public void connectToRIT(String user, String pass) throws SQLException {
 		this.establishConnection(url, user, pass);
 		this.createStatement();
