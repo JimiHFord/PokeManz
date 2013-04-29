@@ -79,10 +79,12 @@ public class PokePartyPanel extends JPanel {
 		c.insets = new Insets(0, 0, 0, 0);
 	}
 
-	public void showUser(String user) {
-		this.teamPanel.setUser("Jimi");
+	public void showIndividualTrainerView(String user) {
+		this.teamPanel.setUser(user);
 		cardlayout.show(cards, TEAM_PANEL);
 	}
+	
+	
 	
 	public void show(String key) {
 		cardlayout.show(cards, key);

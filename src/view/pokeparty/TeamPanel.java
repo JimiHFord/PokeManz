@@ -4,6 +4,7 @@
 package view.pokeparty;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -18,13 +19,13 @@ public class TeamPanel extends JPanel {
 
 	private JPanel right;
 	private DataFetch df;
-	private String user;
+	private String user = "Trudy";
 	private ExplicitPartyScrollPane partyScrollPane;
 	
 	public TeamPanel(DataFetch df) {
 		super(new BorderLayout());
 		this.df = df;
-		this.user = "";
+//		this.user = "";
 		this.refresh();
 		this.right = new JPanel(new BorderLayout());
 		this.fillComponents();
@@ -42,7 +43,10 @@ public class TeamPanel extends JPanel {
 	
 	public void refresh() {
 		this.partyScrollPane = new ExplicitPartyScrollPane(df,user);
+		this.repaint();
 	}
 	
-	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 }

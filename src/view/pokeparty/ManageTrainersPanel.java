@@ -57,6 +57,9 @@ public class ManageTrainersPanel extends JScrollPane {
 					int row = target.getSelectedRow();
 //					String user = target.
 					System.err.println("Row " + row + " selected.");
+					String user = (String)target.getValueAt(row,1);
+					System.err.println(user);
+					parent.showIndividualTrainerView(user);
 					//GET RID OF THIS NEXT LINE
 					//JUST FOR TESTING!!!!!
 					updateTable();

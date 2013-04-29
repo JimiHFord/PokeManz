@@ -98,6 +98,7 @@ public class DataFetch {
 					+ user + "';");
 		} catch (SQLException e) {
 			error = true;
+			System.err.println(e.getMessage());
 			displayError(e.getMessage(), "SQLException");
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
@@ -138,6 +139,7 @@ public class DataFetch {
 			}
 		} catch (SQLException e) {
 			error = true;
+			System.err.println(e.getMessage());
 			displayError(e.getMessage(), "SQLException");
 		} catch (NullPointerException e) {
 			error = true;
