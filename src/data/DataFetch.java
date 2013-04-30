@@ -309,7 +309,7 @@ public class DataFetch {
 					"select * from name_both_types where type1 like '"+
 					search + "%' union "+
 					"select * from name_both_types where type2 like '"+
-					search + "%';"
+					search + "%' order by national_id;"
 					);
 		} catch (SQLException e) {
 			error = true;
@@ -322,7 +322,7 @@ public class DataFetch {
 		boolean error = false;
 		ResultSet rs = null;
 		try {
-			rs = stmt.executeQuery("select * from name_both_types;");
+			rs = stmt.executeQuery("select * from name_both_types order by national_id;");
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
