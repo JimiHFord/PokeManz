@@ -100,7 +100,7 @@ public class GUIEntryPoint extends JFrame {
 
 		// Setup JFrame deets.
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setPreferredSize(new Dimension(700,600));
+		f.setPreferredSize(new Dimension(900,600));
 		f.pack(); // Pack before setting location (this determines size)
 
 		// Get the current screen's size
