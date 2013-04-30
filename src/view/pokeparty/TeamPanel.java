@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import view.PokeSearchPanel;
+
 import data.DataFetch;
 
 /**
@@ -23,7 +25,9 @@ public class TeamPanel extends JPanel {
 
 	private JButton back;
 	private JPanel right;
+	private JPanel left;
 	private PokePartyPanel parent;
+	private PokeSearchPanel search;
 	private DataFetch df;
 	private JTable table;
 	@SuppressWarnings("unused")
@@ -39,6 +43,8 @@ public class TeamPanel extends JPanel {
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.jsp = new JScrollPane(table);
 		this.right = new JPanel(new BorderLayout());
+		this.left = new JPanel(new BorderLayout());
+		this.search = new PokeSearchPanel();
 		this.back = new JButton("Back");
 		this.initComponents();
 		this.fillComponents();
@@ -57,7 +63,9 @@ public class TeamPanel extends JPanel {
 	private void fillComponents() {
 		right.add(jsp, BorderLayout.SOUTH);
 		right.add(back, BorderLayout.CENTER);
+		this.left.add(search, BorderLayout.CENTER);
 		this.add(right, BorderLayout.EAST);
+		this.add(left, BorderLayout.WEST);
 	}
 	
 	public void setUser(String user) {
