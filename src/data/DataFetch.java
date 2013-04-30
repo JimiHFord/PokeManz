@@ -304,11 +304,11 @@ public class DataFetch {
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(
-					"select * from name_both_types where english like '"+
+					"select * from name_both_types where english ilike '"+
 					search + "%' union "+
-					"select * from name_both_types where type1 like '"+
+					"select * from name_both_types where type1 ilike '"+
 					search + "%' union "+
-					"select * from name_both_types where type2 like '"+
+					"select * from name_both_types where type2 ilike '"+
 					search + "%' order by national_id;"
 					);
 		} catch (SQLException e) {
