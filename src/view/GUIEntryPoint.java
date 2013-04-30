@@ -76,7 +76,7 @@ public class GUIEntryPoint extends JFrame {
 	}
 
 	private void fillComponents() {
-		jtp.addTab(T1_TITLE, new JPanel());
+		jtp.addTab(T1_TITLE, new PokeSearchPanel());
 		jtp.addTab(T2_TITLE, new PokedexScreen());
 		jtp.addTab(T3_TITLE, new JPanel());
 		jtp.addTab(T4_TITLE, new JPanel());
