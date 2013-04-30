@@ -16,8 +16,8 @@ public class PokedexScreen extends JPanel {
 	
 	private DataFetch df;
 	
-	public PokedexScreen(DataFetch df){
-		this.df = df;
+	public PokedexScreen(){
+		this.df = DataFetch.getInstance();
 	}
 	
 }

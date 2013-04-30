@@ -13,8 +13,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Vector;
-
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -89,12 +91,31 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
-	public DefaultTableModel getExplicitPartyTAbleModel(String user) {
+	public void removeTrainer(String trainerNumber) {
+		try {
+			stmt.execute("delete from trainer where t_id = " + trainerNumber);
+		} catch (SQLException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
+	}
+	
+	public void addTrainer(String user) {
+		try {
+			stmt.execute("insert into trainer (t_name) values ('" +
+					user + "');");
+		} catch (SQLException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
+	}
+	
+	public DefaultTableModel getTeamPanelModel(String user) {
 		boolean error = false;
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(
-					"select * from explicit_party where t_name = '"
+					"select "+
+			"national_id, english, type1, type2" +
+			" from explicit_party where t_name = '"
 					+ user + "';");
 		} catch (SQLException e) {
 			error = true;
@@ -107,6 +128,40 @@ public class DataFetch {
 	public void connectToRIT(String user, String pass) throws SQLException {
 		this.establishConnection(url, user, pass);
 		this.createStatement();
+	}
+	
+	
+	
+	
+	public ArrayList<ArrayList<Object>> iterate(ResultSet rs) {
+		ArrayList<Object> columnNames = new ArrayList<Object>();
+		ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+		try {
+			ResultSetMetaData metaData = rs.getMetaData();
+
+			// names of columns
+
+			int columnCount = metaData.getColumnCount();
+			for (int column = 1; column <= columnCount; column++) {
+				columnNames.add(metaData.getColumnName(column));
+			}
+
+			// data of the table
+
+			while (rs.next()) {
+				ArrayList<Object> vector = new ArrayList<Object>();
+				for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+					vector.add(rs.getObject(columnIndex));
+				}
+				data.add(vector);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			displayError(e.getMessage(), "SQLException");
+		} catch (NullPointerException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
+		return data;
 	}
 	
 	/**

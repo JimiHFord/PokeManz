@@ -5,22 +5,22 @@ package view.pokeparty;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+//import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
 
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
+//import javax.swing.BorderFactory;
+//import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+//import javax.swing.JScrollPane;
+//import javax.swing.JTable;
+//import javax.swing.border.CompoundBorder;
+//import javax.swing.border.EmptyBorder;
 
-import view.GUIEntryPoint;
+//import view.GUIEntryPoint;
 
 import data.DataFetch;
 
@@ -42,9 +42,9 @@ public class PokePartyPanel extends JPanel {
 	private ManageTrainersPanel manageTrainersPanel;
 	private CardLayout cardlayout;
 	
-	public PokePartyPanel(DataFetch df) {
+	public PokePartyPanel() {
 		super(new BorderLayout());
-		this.df = df;
+		this.df = DataFetch.getInstance();
 		this.cardlayout = new CardLayout();
 		this.cards = new JPanel(cardlayout);
 		fillComponents();
@@ -52,15 +52,14 @@ public class PokePartyPanel extends JPanel {
 	}
 
 	public void showTeamPanel(String user) {
-		show(TEAM_PANEL);
 		this.teamPanel.setUser(user);
+		show(TEAM_PANEL);
 	}
 
 	private void fillComponents() {
 //		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
-		cards.add(teamPanel = new TeamPanel(df), TEAM_PANEL);
-		cards.add(manageTrainersPanel = new ManageTrainersPanel(df)
-		.setParent(this), MANAGE_TRAINERS_PANEL);
+		cards.add(teamPanel = new TeamPanel(this), TEAM_PANEL);
+		cards.add(manageTrainersPanel = new ManageTrainersPanel(this), MANAGE_TRAINERS_PANEL);
 		this.add(cards, BorderLayout.CENTER);
 	}
 
@@ -81,13 +80,13 @@ public class PokePartyPanel extends JPanel {
 
 	public void showIndividualTrainerView(String user) {
 		this.teamPanel.setUser(user);
-		cardlayout.show(cards, TEAM_PANEL);
+		this.cardlayout.show(cards, TEAM_PANEL);
 	}
 	
 	
 	
 	public void show(String key) {
-		cardlayout.show(cards, key);
+		this.cardlayout.show(cards, key);
 	}
 	
 
