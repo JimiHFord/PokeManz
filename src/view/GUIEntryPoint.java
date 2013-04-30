@@ -77,10 +77,10 @@ public class GUIEntryPoint extends JFrame {
 
 	private void fillComponents() {
 		jtp.addTab(T1_TITLE, new JPanel());
-		jtp.addTab(T2_TITLE, new PokedexScreen(df));
+		jtp.addTab(T2_TITLE, new PokedexScreen());
 		jtp.addTab(T3_TITLE, new JPanel());
 		jtp.addTab(T4_TITLE, new JPanel());
-		jtp.addTab(T5_TITLE, new PokePartyPanel(df));
+		jtp.addTab(T5_TITLE, new PokePartyPanel());
 		jtp.addTab(T6_TITLE, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);

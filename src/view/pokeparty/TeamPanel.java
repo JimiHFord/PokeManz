@@ -5,8 +5,13 @@ package view.pokeparty;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import data.DataFetch;
 
@@ -17,39 +22,46 @@ import data.DataFetch;
 @SuppressWarnings("serial")
 public class TeamPanel extends JPanel {
 
+	private JButton back;
 	private JPanel right;
+	private PokePartyPanel parent;
 	private DataFetch df;
-	private String user = "Trudy";
-	private ExplicitPartyScrollPane partyScrollPane;
+	private JTable table;
+	private String user;
+	private JScrollPane jsp;
 	
-	public TeamPanel(DataFetch df) {
+	
+	public TeamPanel(PokePartyPanel p) {
 		super(new BorderLayout());
-		this.df = df;
-//		this.user = "";
-		this.partyScrollPane = new ExplicitPartyScrollPane();
-		this.refresh();
+		this.parent = p;
+		this.df = DataFetch.getInstance();
+		this.table = new JTable();
+		this.table.getTableHeader().setReorderingAllowed(false);
+		this.jsp = new JScrollPane(table);
 		this.right = new JPanel(new BorderLayout());
+		this.back = new JButton("Back");
+		this.initComponents();
 		this.fillComponents();
-		
 	}
 
-	public void fillComponents() {
-		right.add(partyScrollPane, BorderLayout.SOUTH);
+	private void initComponents() {
+		this.back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parent.show(PokePartyPanel.MANAGE_TRAINERS_PANEL);
+			}
+			
+		});
+	}
+	
+	private void fillComponents() {
+		right.add(jsp, BorderLayout.SOUTH);
+		right.add(back, BorderLayout.CENTER);
 		this.add(right, BorderLayout.EAST);
 	}
 	
 	public void setUser(String user) {
 		this.user = user;
-		this.refresh();
-	}
-	
-	public void refresh() {
-		//this.partyScrollPane = new ExplicitPartyScrollPane(df,user);
-		partyScrollPane.addNewData(df, user);
-		//this.repaint();
-	}
-	
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		this.table.setModel(df.getTeamPanelModel(user));
 	}
 }
