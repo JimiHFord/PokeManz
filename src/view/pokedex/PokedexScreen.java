@@ -14,6 +14,7 @@ import data.DataFetch;
 @SuppressWarnings("serial")
 public class PokedexScreen extends JPanel {
 	
+	@SuppressWarnings("unused")
 	private DataFetch df;
 	
 	public PokedexScreen(){

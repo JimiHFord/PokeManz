@@ -4,7 +4,6 @@
 package view.pokeparty;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +26,7 @@ public class TeamPanel extends JPanel {
 	private PokePartyPanel parent;
 	private DataFetch df;
 	private JTable table;
+	@SuppressWarnings("unused")
 	private String user;
 	private JScrollPane jsp;
 	
