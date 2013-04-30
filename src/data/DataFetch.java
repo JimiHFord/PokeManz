@@ -19,6 +19,7 @@ import java.util.Vector;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import view.GUIEntryPoint;
 
@@ -298,5 +299,37 @@ public class DataFetch {
 			e.printStackTrace();
 		}
 
+	}
+
+	public TableModel getSearchPokemonModel(String search) {
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(
+					"select * from name_both_types where english like '"+
+					search + "%' union "+
+					"select * from name_both_types where type1 like '"+
+					search + "%' union "+
+					"select * from name_both_types where type2 like '"+
+					search + "%';"
+					);
+		} catch (SQLException e) {
+			error = true;
+			displayError(e.getMessage(), "SQLError");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
+	public TableModel getDefaultPokemonModel() {
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("select * from name_both_types;");
+		} catch (SQLException e) {
+			error = true;
+			System.err.println(e.getMessage());
+			displayError(e.getMessage(), "SQLException");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 }
