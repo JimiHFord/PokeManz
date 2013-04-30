@@ -8,7 +8,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,6 +20,7 @@ import data.DataFetch;
  * @author jimiford
  *
  */
+@SuppressWarnings("serial")
 public class PokeSearchPanel extends JPanel {
 
 	

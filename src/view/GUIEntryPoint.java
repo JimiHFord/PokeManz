@@ -8,10 +8,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Vector;
+
 
 //import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -20,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
+
 
 import view.pokedex.PokedexScreen;
 import view.pokeparty.PokePartyPanel;
