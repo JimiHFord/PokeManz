@@ -259,6 +259,21 @@ public class DataFetch {
 			System.out.println("Pokemon ID: " + rs.getInt("national_id") + '\t' + rs.getString("english"));
 		}
 	}
+	
+	public ArrayList<String> getPokedexQuery(String search){
+		ArrayList<String> queryData = new ArrayList<String>();
+		try{
+			ResultSet rs = stmt.executeQuery("select * from v_pokedex where national_id like '%" + search + "%;");
+			while(rs.next()){
+				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+					queryData.add(rs.getString(i));
+				}
+			}
+		} catch(SQLException e){
+			displayError(e.getMessage(), "SQL Exception");
+		}
+		return queryData;
+	}
 
 	/**
 	 * tests queries
