@@ -5,15 +5,12 @@ package view.pokedex;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +19,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
-
 import data.DataFetch;
 
 /**
@@ -47,6 +43,7 @@ public class PokedexScreen extends JPanel {
 	private JButton pokemetricsBtn;
 	private JButton pokevolveBtn;
 	private JScrollPane jsp;
+	private ArrayList<String> dexData;
 	
 	public PokedexScreen(){
 		super(new BorderLayout());
@@ -57,6 +54,7 @@ public class PokedexScreen extends JPanel {
 		this.jsp = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		jsp.setPreferredSize(new Dimension(160,200));
+		nameLbl = new JLabel("Default Name");
 		htLbl = new JLabel("Height");
 		wtLbl = new JLabel("Weight");
 		colorLbl = new JLabel("Color");
@@ -75,6 +73,7 @@ public class PokedexScreen extends JPanel {
 		westPanel.add(nameLbl, "gapleft 50");
 		westPanel.add(nameLbl, "gapright 50");
 		this.add(eastPanel, BorderLayout.WEST);
+		this.add(westPanel, BorderLayout.CENTER);
 		this.updateTable();
 	}
 	
