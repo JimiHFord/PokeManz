@@ -31,7 +31,7 @@ import data.DataFetch;
  *
  */
 @SuppressWarnings("serial")
-public class GUIEntryPoint extends JFrame {
+public class GUIEntryPoint extends JFrame implements PokeListener {
 
 	private static String user;
 	private static String pass;
@@ -46,14 +46,15 @@ public class GUIEntryPoint extends JFrame {
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
+	private PokeSearchPanel psp;
+	private PokedexScreen ps;
+	private PokePartyPanel ppp;
 
-	public GUIEntryPoint(DataFetch df) throws SQLException {
-		this(df,TITLE);
-	}
+	
 
-	public GUIEntryPoint(DataFetch df, String title) throws SQLException {
+	public GUIEntryPoint(String title) throws SQLException {
 		super(title);
-		this.df = df;
+		this.df = DataFetch.getInstance();
 		this.df.setListener(this);
 		this.df.connectToRIT(user, pass);
 		user = null;
@@ -74,11 +75,11 @@ public class GUIEntryPoint extends JFrame {
 	}
 
 	private void fillComponents() {
-		jtp.addTab(T1_TITLE, new PokeSearchPanel());
-		jtp.addTab(T2_TITLE, new PokedexScreen());
+		jtp.addTab(T1_TITLE, psp = new PokeSearchPanel(this));
+		jtp.addTab(T2_TITLE, ps = new PokedexScreen());
 		jtp.addTab(T3_TITLE, new JPanel());
 		jtp.addTab(T4_TITLE, new JPanel());
-		jtp.addTab(T5_TITLE, new PokePartyPanel());
+		jtp.addTab(T5_TITLE, ppp = new PokePartyPanel());
 		jtp.addTab(T6_TITLE, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
@@ -89,10 +90,28 @@ public class GUIEntryPoint extends JFrame {
 		this.add(jtp, BorderLayout.CENTER);
 	}
 
+	
+
+	@Override
+	public void showView(String view) {
+		if(view.equals(T1_TITLE)) {
+			jtp.setSelectedIndex(0);
+		} else if (view.equals(T2_TITLE)) {
+			jtp.setSelectedIndex(1);
+		} else if (view.equals(T3_TITLE)) {
+			jtp.setSelectedIndex(2);
+		} else if (view.equals(T4_TITLE)) {
+			jtp.setSelectedIndex(3);
+		} else if (view.equals(T5_TITLE)) {
+			jtp.setSelectedIndex(4);
+		}
+	}
+
+	
 	protected static void createAndShowGUI() {
 		JFrame f = null;
 		try {
-			f = new GUIEntryPoint(DataFetch.getInstance());
+			f = new GUIEntryPoint(TITLE);
 		} catch (SQLException e) {
 			showError(e.getMessage(), "SQLException");
 		}
@@ -145,6 +164,11 @@ public class GUIEntryPoint extends JFrame {
 			}
 		};
 		SwingUtilities.invokeAndWait(doCreateAndShowGUI);
+	}
+
+	@Override
+	public void showIndividualTrainerView(String user) {
+		return;
 	}
 
 

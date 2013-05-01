@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
 
 import data.DataFetch;
 
@@ -30,20 +31,26 @@ public class PokeSearchPanel extends JPanel {
 	private JTextArea jta;
 	private JScrollPane jsp;
 	private JTable table;
+	private PokeListener listen;
 	
-	public PokeSearchPanel() {
+	public PokeSearchPanel(PokeListener listen) {
 		super(new BorderLayout());
+		this.listen = listen;
 		this.df = DataFetch.getInstance();
 		this.table = new JTable();
 		this.jsp = new JScrollPane(table);
 		this.jta = new JTextArea(DEFAULT);
-		this.initializeActions();
+		this.initActions();
 		this.add(jsp, BorderLayout.CENTER);
 		this.add(jta, BorderLayout.NORTH);
-		this.updateTable();
+		this.setModel();
 	}
 	
-	private void updateTable() {
+	public void setModel(AbstractTableModel atm) {
+		this.setModel();
+	}
+	
+	public void setModel() {
 		if(jta.getText().equals(DEFAULT)) {
 			this.table.setModel(df.getDefaultPokemonModel());
 		} else {
@@ -51,7 +58,7 @@ public class PokeSearchPanel extends JPanel {
 		}
 	}
 	
-	private void initializeActions() {
+	private void initActions() {
 		this.jta.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -63,7 +70,7 @@ public class PokeSearchPanel extends JPanel {
 			public void focusLost(FocusEvent e) {
 				if(jta.getText().equals("")) {
 					jta.setText(DEFAULT);
-					updateTable();
+					setModel();
 				}
 			}
 		});
@@ -74,7 +81,7 @@ public class PokeSearchPanel extends JPanel {
 				if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
 					jta.setText(DEFAULT);
 				}
-				updateTable();
+				setModel();
 			}
 			
 		});
