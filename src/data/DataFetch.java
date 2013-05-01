@@ -309,11 +309,42 @@ public class DataFetch {
 					"select * from name_both_types where type1 ilike '"+
 					search + "%' union "+
 					"select * from name_both_types where type2 ilike '"+
-					search + "%' order by national_id;"
+					search + "%' union select * from name_both_types where " +
+					"cast(national_id as text) like '" + search + "%' " +
+							"order by national_id;"
 					);
 		} catch (SQLException e) {
 			error = true;
 			displayError(e.getMessage(), "SQLError");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
+	public TableModel getSimplifiedSearchPokemonModel(String search) {
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(
+					"select national_id, english from name_both_types where english ilike '"+
+					search + "%' union select national_id, english from name_both_Types where " +
+							"cast(national_id as text) like '" + search + "%' order by national_id;"
+					);
+		} catch (SQLException e) {
+			error = true;
+			displayError(e.getMessage(), "SQLError");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
+	public TableModel getSimplifiedDefaultPokemonModel(){
+		boolean error = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("select national_id, english from name_both_types order by national_id;");
+		} catch (SQLException e) {
+			error = true;
+			System.err.println(e.getMessage());
+			displayError(e.getMessage(), "SQLException");
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
