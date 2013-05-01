@@ -9,6 +9,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JPanel;
 
+import view.PokeListener;
+
 import data.DataFetch;
 
 /**
@@ -16,7 +18,7 @@ import data.DataFetch;
  *
  */
 @SuppressWarnings({ "serial", "unused" })
-public class PokePartyPanel extends JPanel {
+public class PokePartyPanel extends JPanel implements PokeListener {
 
 	public static final String TEAM_PANEL = "team";
 	public static final String MANAGE_TRAINERS_PANEL = "manage trainers";
@@ -35,12 +37,13 @@ public class PokePartyPanel extends JPanel {
 		this.cardlayout = new CardLayout();
 		this.cards = new JPanel(cardlayout);
 		fillComponents();
-		show(MANAGE_TRAINERS_PANEL);
+		initializeActions();
+		showView(MANAGE_TRAINERS_PANEL);
 	}
 
-	public void showTeamPanel(String user) {
+	public void showTeamPanel(Integer user) {
 		this.teamPanel.setUser(user);
-		show(TEAM_PANEL);
+		showView(TEAM_PANEL);
 	}
 
 	private void fillComponents() {
@@ -50,6 +53,9 @@ public class PokePartyPanel extends JPanel {
 		this.add(cards, BorderLayout.CENTER);
 	}
 
+	private void initializeActions() {
+		
+	}
 	
 	public void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
@@ -65,17 +71,17 @@ public class PokePartyPanel extends JPanel {
 		c.insets = new Insets(0, 0, 0, 0);
 	}
 
-	public void showIndividualTrainerView(String user) {
+	public void showIndividualTrainerView(Integer user) {
 		this.teamPanel.setUser(user);
 		this.cardlayout.show(cards, TEAM_PANEL);
 	}
 	
-	
-	
-	public void show(String key) {
-		this.cardlayout.show(cards, key);
+
+	@Override
+	public void showView(String view) {
+		this.cardlayout.show(cards, view);	
 	}
-	
+
 
 }
 

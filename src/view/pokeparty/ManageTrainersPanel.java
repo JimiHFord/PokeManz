@@ -21,6 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
+import view.PokeListener;
+
 import data.DataFetch;
 
 /**
@@ -41,21 +43,21 @@ public class ManageTrainersPanel extends JPanel {
 	private DataFetch df;
 	private JTable table;
 	private JScrollPane jsp;
-	private PokePartyPanel parent;
+	private PokeListener parent;
 	
 	
-	public ManageTrainersPanel(PokePartyPanel p) {
+	public ManageTrainersPanel(PokeListener p) {
 		super(new BorderLayout());
 		this.parent = p;
 		this.df = DataFetch.getInstance();
-		initComponents();
+		createComponents();
 		actionInitialization();
 		updateTable();
 		fillComponents();
 	}
 	
 	
-	private void initComponents() {
+	private void createComponents() {
 		this.left = new JPanel(new BorderLayout());
 		this.right = new JPanel(new GridBagLayout());
 		this.table = new JTable();
@@ -92,7 +94,7 @@ public class ManageTrainersPanel extends JPanel {
 				if(e.getClickCount() == 1) {
 					JTable target = (JTable)e.getSource();
 					int row = target.getSelectedRow();
-					String user = (String)target.getValueAt(row,1);
+					Integer user = (Integer)target.getValueAt(row,0);
 					parent.showIndividualTrainerView(user);
 				}
 			}

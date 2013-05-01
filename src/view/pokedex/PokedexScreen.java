@@ -70,7 +70,7 @@ public class PokedexScreen extends JPanel {
 		eastPanel.add(jsp, "height 200:300:400");
 		
 		JPanel westPanel = new JPanel(new MigLayout());
-		westPanel.add(nameLbl, "gapleft 50");
+		westPanel.add(nameLbl, "gapleft 250");
 		westPanel.add(nameLbl, "gapright 50");
 		this.add(eastPanel, BorderLayout.WEST);
 		this.add(westPanel, BorderLayout.CENTER);
