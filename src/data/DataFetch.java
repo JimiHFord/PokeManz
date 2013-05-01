@@ -285,11 +285,27 @@ public class DataFetch {
 	public ArrayList<String> getPokedexQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
-			ResultSet rs = stmt.executeQuery("select * from v_pokedex where national_id like '%" + search + "%;");
+			ResultSet rs = stmt.executeQuery("select * from v_pokedex where name ilike '%" + search + "%';");
 			while(rs.next()){
 				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
 					queryData.add(rs.getString(i));
 				}
+			}
+		} catch(SQLException e){
+			displayError(e.getMessage(), "SQL Exception");
+		}
+		return queryData;
+	}
+	
+	public ArrayList<String> getPokedexQuery(int national_id){
+		ArrayList<String> queryData = new ArrayList<String>();
+		String search = "" + national_id;
+		try{
+			ResultSet rs = stmt.executeQuery("select * from v_pokedex where national_id like '%" + search + "%;");
+			int i = 0;
+			while(rs.next()){
+				queryData.add(rs.getString(i));
+				i++;
 			}
 		} catch(SQLException e){
 			displayError(e.getMessage(), "SQL Exception");
