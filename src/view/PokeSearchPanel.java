@@ -71,7 +71,7 @@ public class PokeSearchPanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
 					jta.setText(DEFAULT);
 				}
 				updateTable();
