@@ -5,7 +5,10 @@ package view.pokeparty;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -40,11 +43,13 @@ public class TeamPanel extends JPanel implements PokeListener {
 	@SuppressWarnings("unused")
 	private Integer user;
 	private JScrollPane jsp;
+	private GridBagConstraints c;
 	
 	
 	public TeamPanel(PokeListener p) {
 		super(new BorderLayout());
-		this.buttonPanel = new JPanel(new GridLayout(2,1));
+		this.c = new GridBagConstraints();
+		this.buttonPanel = new JPanel(new GridBagLayout());
 		this.delete = new JButton("Remove Selected");
 		this.listener = p;
 		this.df = DataFetch.getInstance();
@@ -99,8 +104,10 @@ public class TeamPanel extends JPanel implements PokeListener {
 		right.add(buttonPanel, BorderLayout.CENTER);
 		right.add(jsp, BorderLayout.SOUTH);
 		right.add(new JPanel(), BorderLayout.NORTH);
-		this.buttonPanel.add(back);
-		this.buttonPanel.add(delete);
+		this.setGridBagConstraints(0, 0, 0, 0, 0, 2, 1);
+		this.buttonPanel.add(back, c);
+		this.setGridBagConstraints(0, 2, 0, 0, 0, 2, 1);
+		this.buttonPanel.add(delete, c);
 		this.left.add(search, BorderLayout.CENTER);
 		this.add(right, BorderLayout.EAST);
 		this.add(left, BorderLayout.WEST);
@@ -113,6 +120,20 @@ public class TeamPanel extends JPanel implements PokeListener {
 		
 	}
 
+	public void setGridBagConstraints(int row, int col, int fill
+			, double weightx, double weighty, int width, int height) {
+		c.weightx = weightx;
+		c.weighty = weighty;
+		c.fill = fill;
+		c.gridx = col;
+		c.gridy = row;
+		c.gridwidth = width;
+		c.gridheight = height;
+		// Reset the insets each time, we use it a few times so this
+		//  will undo any times we do it.
+		c.insets = new Insets(0, 0, 0, 0);
+	}
+	
 	@Override
 	public void showView(String view) {
 		return;
