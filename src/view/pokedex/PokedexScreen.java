@@ -37,15 +37,16 @@ public class PokedexScreen extends JPanel {
 	
 	public PokedexScreen(){
 		super(new BorderLayout());
-		JPanel eastPanel = new JPanel();
+		JPanel west = new JPanel();
 		this.df = DataFetch.getInstance();
 		this.jta = new JTextArea(DEFAULT);
 		this.table = new JTable();
 		this.jsp = new JScrollPane(table);
-		this.jsp.setPreferredSize(new Dimension(160, 300));
+//		this.jsp.setPreferredSize(new Dimension(160, 300));
 		this.initializeActions();
-		this.add(jta, BorderLayout.WEST);
-		this.add(jsp, BorderLayout.SOUTH);
+		west.add(jta, BorderLayout.NORTH);
+		west.add(jsp, BorderLayout.CENTER);
+		this.add(west, BorderLayout.WEST);
 		this.updateTable();
 	}
 	
