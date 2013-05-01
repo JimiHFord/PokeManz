@@ -14,10 +14,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+
+import net.miginfocom.swing.MigLayout;
 
 import data.DataFetch;
 
@@ -33,19 +37,44 @@ public class PokedexScreen extends JPanel {
 	private DataFetch df;
 	private JTextArea jta;
 	private JTable table;
+	private JLabel nameLbl;
+	private JLabel htLbl;
+	private JLabel wtLbl;
+	private JLabel colorLbl;
+	private JLabel spcsLbl;
+	private JLabel typesLbl;
+	private JLabel abilitiesLbl;
+	private JButton pokemetricsBtn;
+	private JButton pokevolveBtn;
 	private JScrollPane jsp;
 	
 	public PokedexScreen(){
 		super(new BorderLayout());
-		JPanel eastPanel = new JPanel();
 		this.df = DataFetch.getInstance();
 		this.jta = new JTextArea(DEFAULT);
+		jta.setPreferredSize(new Dimension(90,30));
 		this.table = new JTable();
 		this.jsp = new JScrollPane(table);
-		this.jsp.setPreferredSize(new Dimension(160, 300));
+		table.getTableHeader().setReorderingAllowed(false);
+		jsp.setPreferredSize(new Dimension(160,200));
+		htLbl = new JLabel("Height");
+		wtLbl = new JLabel("Weight");
+		colorLbl = new JLabel("Color");
+		spcsLbl = new JLabel("Species");
+		typesLbl = new JLabel("Types");
+		abilitiesLbl = new JLabel("Abilities");
 		this.initializeActions();
-		this.add(jta, BorderLayout.WEST);
-		this.add(jsp, BorderLayout.SOUTH);
+		JPanel eastPanel = new JPanel(new MigLayout());
+		eastPanel.add(jta, "width 40:90:90");
+		eastPanel.add(jta, "height 30:30:30");
+		eastPanel.add(jta, "wrap");
+		eastPanel.add(jsp, "width 50:50:50");
+		eastPanel.add(jsp, "height 200:300:400");
+		
+		JPanel westPanel = new JPanel(new MigLayout());
+		westPanel.add(nameLbl, "gapleft 50");
+		westPanel.add(nameLbl, "gapright 50");
+		this.add(eastPanel, BorderLayout.WEST);
 		this.updateTable();
 	}
 	
@@ -58,6 +87,10 @@ public class PokedexScreen extends JPanel {
 			this.table.getColumnModel().getColumn(1).setMaxWidth(100);
 		}else{
 			this.table.setModel(df.getSimplifiedSearchPokemonModel(jta.getText()));
+			this.table.getColumnModel().getColumn(0).setHeaderValue("ID");
+			this.table.getColumnModel().getColumn(1).setHeaderValue("Name");
+			this.table.getColumnModel().getColumn(0).setMaxWidth(40);
+			this.table.getColumnModel().getColumn(1).setMaxWidth(100);
 		}
 	}
 	
@@ -78,7 +111,7 @@ public class PokedexScreen extends JPanel {
 		this.jta.addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
 					jta.setText(DEFAULT);
 				}
