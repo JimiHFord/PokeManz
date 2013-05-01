@@ -21,6 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
+import view.PokeListener;
+
 import data.DataFetch;
 
 /**
@@ -41,10 +43,10 @@ public class ManageTrainersPanel extends JPanel {
 	private DataFetch df;
 	private JTable table;
 	private JScrollPane jsp;
-	private PokePartyPanel parent;
+	private PokeListener parent;
 	
 	
-	public ManageTrainersPanel(PokePartyPanel p) {
+	public ManageTrainersPanel(PokeListener p) {
 		super(new BorderLayout());
 		this.parent = p;
 		this.df = DataFetch.getInstance();

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import view.PokeListener;
 import view.PokeSearchPanel;
 
 import data.DataFetch;
@@ -21,7 +22,7 @@ import data.DataFetch;
  *
  */
 @SuppressWarnings("serial")
-public class TeamPanel extends JPanel {
+public class TeamPanel extends JPanel implements PokeListener {
 
 	private JButton back;
 	private JPanel right;
@@ -44,7 +45,7 @@ public class TeamPanel extends JPanel {
 		this.jsp = new JScrollPane(table);
 		this.right = new JPanel(new BorderLayout());
 		this.left = new JPanel(new BorderLayout());
-		this.search = new PokeSearchPanel();
+		this.search = new PokeSearchPanel(this);
 		this.back = new JButton("Back");
 		this.initComponents();
 		this.fillComponents();
@@ -71,5 +72,15 @@ public class TeamPanel extends JPanel {
 	public void setUser(String user) {
 		this.user = user;
 		this.table.setModel(df.getTeamPanelModel(user));
+	}
+
+	@Override
+	public void showView(String view) {
+		return;
+	}
+
+	@Override
+	public void showIndividualTrainerView(String user) {
+		return;
 	}
 }

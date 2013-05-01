@@ -58,6 +58,10 @@ public class PokedexScreen extends JPanel {
 			this.table.getColumnModel().getColumn(1).setMaxWidth(100);
 		}else{
 			this.table.setModel(df.getSimplifiedSearchPokemonModel(jta.getText()));
+			this.table.getColumnModel().getColumn(0).setHeaderValue("ID");
+			this.table.getColumnModel().getColumn(1).setHeaderValue("Name");
+			this.table.getColumnModel().getColumn(0).setMaxWidth(40);
+			this.table.getColumnModel().getColumn(1).setMaxWidth(100);
 		}
 	}
 	
