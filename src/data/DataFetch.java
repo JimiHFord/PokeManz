@@ -107,15 +107,33 @@ public class DataFetch {
 		}
 	}
 	
-	public DefaultTableModel getTeamPanelModel(String user) {
+
+	public void removePartyEntry(Integer party_id) {
+		try {
+			stmt.execute("delete from party where party_id = " + party_id + ";");
+		} catch (SQLException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
+	}
+	
+	public void addPokemonToTrainer(Integer national_id, Integer user) {
+		try {
+			stmt.execute("insert into party (t_id, national_id)" +
+					" values (" + user + ", " + national_id + ");");
+		} catch (SQLException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
+	}
+	
+	public DefaultTableModel getTeamPanelModel(Integer user) {
 		boolean error = false;
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(
 					"select "+
-			"national_id, english, type1, type2" +
-			" from explicit_party where t_name = '"
-					+ user + "';");
+			"party_id, national_id, english, type1, type2" +
+			" from explicit_party where t_id = "
+					+ user + " order by party_id;");
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
@@ -124,9 +142,13 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
-	public void connectToRIT(String user, String pass) throws SQLException {
-		this.establishConnection(url, user, pass);
-		this.createStatement();
+	public void connectToRIT(String user, String pass) {
+		try {
+			this.establishConnection(url, user, pass);
+			this.createStatement();
+		} catch (SQLException e) {
+			displayError(e.getMessage(), "SQLException");
+		}
 	}
 	
 	
@@ -376,4 +398,7 @@ public class DataFetch {
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
+
+
+	
 }
