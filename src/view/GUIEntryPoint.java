@@ -4,8 +4,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -21,6 +24,8 @@ import javax.swing.UIManager;
 
 
 import view.pokedex.PokedexScreen;
+import view.pokemetrics.PokeCardPanel;
+import view.pokemetrics.PokemetricsScreen;
 import view.pokeparty.PokePartyPanel;
 
 import data.DataFetch;
@@ -31,7 +36,7 @@ import data.DataFetch;
  *
  */
 @SuppressWarnings("serial")
-public class GUIEntryPoint extends JFrame implements PokeListener {
+public class GUIEntryPoint extends JFrame implements PokeListener, ActionListener {
 
 	private static String user;
 	private static String pass;
@@ -49,6 +54,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener {
 	private PokeSearchPanel psp;
 	private PokedexScreen ps;
 	private PokePartyPanel ppp;
+	private PokeCardPanel pcp;
 
 	
 
@@ -65,7 +71,9 @@ public class GUIEntryPoint extends JFrame implements PokeListener {
 
 	private void initComponents() {
 		jtp = new JTabbedPane();
-
+		pcp = new PokeCardPanel();
+		pcp.pgp.metricsBtn.addActionListener(this);
+		pcp.pmp.thruBtn.addActionListener(this);
 	}
 
 
@@ -77,7 +85,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener {
 	private void fillComponents() {
 		jtp.addTab(T1_TITLE, psp = new PokeSearchPanel(this));
 		jtp.addTab(T2_TITLE, ps = new PokedexScreen());
-		jtp.addTab(T3_TITLE, new JPanel());
+		jtp.addTab(T3_TITLE, pcp);
 		jtp.addTab(T4_TITLE, new JPanel());
 		jtp.addTab(T5_TITLE, ppp = new PokePartyPanel());
 		jtp.addTab(T6_TITLE, new JPanel());
@@ -169,6 +177,23 @@ public class GUIEntryPoint extends JFrame implements PokeListener {
 	@Override
 	public void showIndividualTrainerView(Integer user) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == pcp.pgp.metricsBtn){
+			((CardLayout)(pcp.getLayout())).show(pcp, PokeCardPanel.METRICS_CARD);
+			if(!pcp.pgp.name.getText().equals("")){
+				pcp.pmp.updatePokemetrics(pcp.pgp.name.getText());
+				pcp.pmp.updatePokemoves(pcp.pgp.name.getText());
+			}
+		}else if(e.getSource() == pcp.pmp.thruBtn){
+			((CardLayout)(pcp.getLayout())).show(pcp, PokeCardPanel.GEN_CARD);
+			if(!pcp.pmp.name.getText().equals("")){
+				pcp.pgp.updatePokeGenerations(pcp.pmp.name.getText());
+			}
+		}
 		
 	}
 
