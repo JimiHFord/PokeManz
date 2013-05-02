@@ -100,7 +100,7 @@ public class PokeSearchPanel extends JPanel {
 		this.table.addMouseListener(new MouseListener(){
 
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent e) {
 				int index = table.getSelectedRow();
 				if(index != -1){		
 					String pokemon = (String) table.getValueAt(index, 1);
