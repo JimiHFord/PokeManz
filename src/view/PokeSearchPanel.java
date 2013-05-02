@@ -8,6 +8,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import view.pokedex.PokedexScreen;
 
 import data.DataFetch;
 
@@ -34,6 +38,7 @@ public class PokeSearchPanel extends JPanel {
 	private JScrollPane jsp;
 	private JTable table;
 	private PokeListener listen;
+	private PokedexScreen PSpanel;
 	
 	
 	public PokeSearchPanel(PokeListener listen) {
@@ -47,6 +52,7 @@ public class PokeSearchPanel extends JPanel {
 		this.initActions();
 		this.add(jsp, BorderLayout.CENTER);
 		this.add(jta, BorderLayout.NORTH);
+		PSpanel = new PokedexScreen();
 		this.updateModel();
 	}
 	
@@ -88,6 +94,42 @@ public class PokeSearchPanel extends JPanel {
 					jta.setText(DEFAULT);
 				}
 				updateModel();
+			}
+			
+		});
+		this.table.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int index = table.getSelectedRow();
+				if(index != -1){		
+					String pokemon = (String) table.getValueAt(index, 1);
+					// TODO call the setPokedexEntry(pokemon) method in PokedexScreen and switch views
+				}				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
 			}
 			
 		});
