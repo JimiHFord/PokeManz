@@ -282,6 +282,18 @@ public class DataFetch {
 		}
 	}
 	
+	public String getDexEntry(String query){
+		String result = "";
+		try{
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				result = rs.getString(1);	
+			}
+		}catch(SQLException e){
+			displayError(e.getMessage(), "SQL Exception");
+		}
+		return result;
+	}
 	public ArrayList<String> getExpQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
