@@ -282,6 +282,35 @@ public class DataFetch {
 		}
 	}
 	
+	public ArrayList<String> getExpQuery(String search){
+		ArrayList<String> queryData = new ArrayList<String>();
+		try{
+			ResultSet rs = stmt.executeQuery("select * from v_exp_group where english ilike '%" + search + "%';");
+			while(rs.next()){
+				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+					queryData.add(rs.getString(i));
+				}
+			}
+		}catch(SQLException e){
+			displayError(e.getMessage(), "SQL Exception");
+		}
+		return queryData;
+	}
+	
+	public ArrayList<String> getMetricsQuery(String search){
+		ArrayList<String> queryData = new ArrayList<String>();
+		try{
+			ResultSet rs = stmt.executeQuery("select * from v_base_stats where name ilike '%" + search + "%';");
+			while(rs.next()){
+				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+					queryData.add(rs.getString(i));
+				}
+			}
+		}catch(SQLException e){
+			displayError(e.getMessage(), "SQL Exception");
+		}
+		return queryData;
+	}
 	public ArrayList<String> getPokedexQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
@@ -290,22 +319,6 @@ public class DataFetch {
 				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
 					queryData.add(rs.getString(i));
 				}
-			}
-		} catch(SQLException e){
-			displayError(e.getMessage(), "SQL Exception");
-		}
-		return queryData;
-	}
-	
-	public ArrayList<String> getPokedexQuery(int national_id){
-		ArrayList<String> queryData = new ArrayList<String>();
-		String search = "" + national_id;
-		try{
-			ResultSet rs = stmt.executeQuery("select * from v_pokedex where national_id like '%" + search + "%;");
-			int i = 0;
-			while(rs.next()){
-				queryData.add(rs.getString(i));
-				i++;
 			}
 		} catch(SQLException e){
 			displayError(e.getMessage(), "SQL Exception");
@@ -385,6 +398,31 @@ public class DataFetch {
 		} catch (SQLException e) {
 			error = true;
 			displayError(e.getMessage(), "SQLError");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
+	public TableModel getMovesPokemonModel(String search){
+		boolean error = false;
+		ResultSet rs = null;
+		try{
+			rs = stmt.executeQuery("select level, move from v_level_moves where name ilike '%" + search + "%';");
+		}catch (SQLException e){
+			error = true;
+			System.err.println(e.getMessage());
+			displayError(e.getMessage(), "SQLException");
+		}
+		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	public TableModel getMetricsPokemonModel(String search){
+		boolean error = false;
+		ResultSet rs = null;
+		try{
+			rs = stmt.executeQuery("select hp, atk, def, spatk, spdef, spd from v_base_stats where name ilike '%" + search + "%';");
+		}catch (SQLException e){
+			error = true;
+			System.err.println(e.getMessage());
+			displayError(e.getMessage(), "SQLException");
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
