@@ -100,21 +100,23 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 
 	
 
-	@Override
-	public void showView(String view) {
-		if(view.equals(T1_TITLE)) {
-			jtp.setSelectedIndex(0);
-		} else if (view.equals(T2_TITLE)) {
-			jtp.setSelectedIndex(1);
-		} else if (view.equals(T3_TITLE)) {
-			jtp.setSelectedIndex(2);
-		} else if (view.equals(T4_TITLE)) {
-			jtp.setSelectedIndex(3);
-		} else if (view.equals(T5_TITLE)) {
-			jtp.setSelectedIndex(4);
+	public void act(String command, String argument) {
+		switch(command) {
+		case PokeListener.TAB_VIEW:
+			if(command.equals(T1_TITLE)) {
+				jtp.setSelectedIndex(0);
+			} else if (command.equals(T2_TITLE)) {
+				jtp.setSelectedIndex(1);
+			} else if (command.equals(T3_TITLE)) {
+				jtp.setSelectedIndex(2);
+			} else if (command.equals(T4_TITLE)) {
+				jtp.setSelectedIndex(3);
+			} else if (command.equals(T5_TITLE)) {
+				jtp.setSelectedIndex(4);
+			}
+			break;
 		}
 	}
-
 	
 	protected static void createAndShowGUI() {
 		JFrame f = null;
@@ -174,11 +176,6 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		SwingUtilities.invokeAndWait(doCreateAndShowGUI);
 	}
 
-	@Override
-	public void showIndividualTrainerView(Integer user) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -197,10 +194,5 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		
 	}
 
-	@Override
-	public void showLogin(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

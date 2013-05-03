@@ -72,7 +72,8 @@ public class PokeSignIn extends JPanel {
 		this.back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listener.showView(PokePartyPanel.MANAGE_TRAINERS_PANEL);
+				listener.act(PokePartyPanel.MANAGE_TRAINERS_PANEL, 
+						PokePartyPanel.MANAGE_TRAINERS_PANEL);
 			}
 			
 		});
@@ -93,7 +94,7 @@ public class PokeSignIn extends JPanel {
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 //					System.out.println(PokeUtils.doPass(pass.getPassword()));
 					if(df.login(userID, PokeUtils.doPass(pass.getPassword()))) {
-						listener.showIndividualTrainerView(userID);
+						listener.act(PokePartyPanel.TEAM_PANEL, String.valueOf(userID));
 					} else {
 						JOptionPane.showMessageDialog(null, msg, title,
 								JOptionPane.ERROR_MESSAGE, null);
