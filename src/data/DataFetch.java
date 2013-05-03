@@ -33,7 +33,8 @@ public class DataFetch {
 	 */
 	private static final String driver = "org.postgresql.Driver"; 
 	private static final String url = "jdbc:postgresql://reddwarf.cs.rit.edu/";
-
+	private static final String SQLERROR = "SQLException";
+	
 	/*
 	 * instance variables
 	 */
@@ -82,10 +83,10 @@ public class DataFetch {
 		boolean error = false;
 		ResultSet rs = null;
 		try {
-			rs = stmt.executeQuery("select * from trainer;");
+			rs = stmt.executeQuery("select * from trainer order by t_id;");
 		} catch (SQLException e) {
 			error = true;
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
@@ -94,7 +95,7 @@ public class DataFetch {
 		try {
 			stmt.execute("delete from trainer where t_id = " + trainerNumber);
 		} catch (SQLException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 	}
 	
@@ -103,16 +104,39 @@ public class DataFetch {
 			stmt.execute("insert into trainer (t_name) values ('" +
 					user + "');");
 		} catch (SQLException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 	}
 	
+	public String getTrainerNameFromID(Integer id) {
+		ResultSet rs = null;
+		String userName = new String();
+		try {
+			rs = stmt.executeQuery("select t_name from trainer where " +
+					"t_id = " + id + ";");
+			if(rs.next()) {
+				userName = rs.getString(1);
+			}
+		} catch (SQLException e){
+			displayError(e.getMessage(), SQLERROR);
+		}
+		return userName;
+	}
+	
+	public void updateTrainerNameWithID(Integer id, String newName) {
+		try {
+			stmt.execute("update trainer set t_name = '" + 
+					newName + "' where t_id = " + id + ";");
+		} catch (SQLException e) {
+			displayError(e.getMessage(), SQLERROR);
+		}
+	}
 
 	public void removePartyEntry(Integer party_id) {
 		try {
 			stmt.execute("delete from party where party_id = " + party_id + ";");
 		} catch (SQLException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 	}
 	
@@ -121,7 +145,7 @@ public class DataFetch {
 			stmt.execute("insert into party (t_id, national_id)" +
 					" values (" + user + ", " + national_id + ");");
 		} catch (SQLException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 	}
 	
@@ -137,7 +161,7 @@ public class DataFetch {
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
@@ -147,7 +171,7 @@ public class DataFetch {
 			this.establishConnection(url, user, pass);
 			this.createStatement();
 		} catch (SQLException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 	}
 	
@@ -178,9 +202,9 @@ public class DataFetch {
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return data;
 	}
@@ -216,7 +240,7 @@ public class DataFetch {
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
 			error = true;
 		}
@@ -422,7 +446,7 @@ public class DataFetch {
 		}catch (SQLException e){
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
@@ -434,7 +458,7 @@ public class DataFetch {
 		}catch (SQLException e){
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
@@ -447,7 +471,7 @@ public class DataFetch {
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
@@ -460,7 +484,7 @@ public class DataFetch {
 		} catch (SQLException e) {
 			error = true;
 			System.err.println(e.getMessage());
-			displayError(e.getMessage(), "SQLException");
+			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}

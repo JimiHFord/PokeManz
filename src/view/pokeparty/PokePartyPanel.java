@@ -79,6 +79,9 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 
 	@Override
 	public void showView(String view) {
+		if(view.equals(MANAGE_TRAINERS_PANEL)) {
+			manageTrainersPanel.updateTable();
+		}
 		this.cardlayout.show(cards, view);	
 	}
 

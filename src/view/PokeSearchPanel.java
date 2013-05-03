@@ -43,6 +43,7 @@ public class PokeSearchPanel extends JPanel {
 	
 	public PokeSearchPanel(PokeListener listen) {
 		super(new BorderLayout());
+		this.setFocusable(true);
 		this.listen = listen;
 		this.df = DataFetch.getInstance();
 		this.table = new JTable();
