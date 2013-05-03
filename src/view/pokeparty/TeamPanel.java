@@ -204,4 +204,10 @@ public class TeamPanel extends JPanel implements PokeListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void showLogin(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

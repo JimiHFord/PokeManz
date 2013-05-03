@@ -16,7 +16,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -33,6 +35,10 @@ import data.DataFetch;
 public class ManageTrainersPanel extends JPanel {
 
 	private static final String DEFAULT = "Name (or #)";
+	protected static final String errorMsg = "Passwords do not match";
+	protected static final String errorTitle = "Retype Password";
+
+	
 	
 	private GridBagConstraints c;
 	private JTextArea trainerName;
@@ -43,12 +49,15 @@ public class ManageTrainersPanel extends JPanel {
 	private DataFetch df;
 	private JTable table;
 	private JScrollPane jsp;
-	private PokeListener parent;
-	
+	private JPasswordField passOne;
+	private JPasswordField passTwo;
+	private PokeListener listener;
+
+		
 	
 	public ManageTrainersPanel(PokeListener p) {
 		super(new BorderLayout());
-		this.parent = p;
+		this.listener = p;
 		this.df = DataFetch.getInstance();
 		createComponents();
 		actionInitialization();
@@ -65,6 +74,8 @@ public class ManageTrainersPanel extends JPanel {
 		this.jsp = new JScrollPane(table);
 		this.trainerName = new JTextArea(DEFAULT);
 		this.trainerName.setPreferredSize(new Dimension(160, 25));
+		this.passOne = new JPasswordField();
+		this.passTwo = new JPasswordField();
 		c = new GridBagConstraints();
 		this.add = new JButton("Add Trainer");
 		this.remove = new JButton("Remove Trainer #");
@@ -95,7 +106,7 @@ public class ManageTrainersPanel extends JPanel {
 					JTable target = (JTable)e.getSource();
 					int row = target.getSelectedRow();
 					Integer user = (Integer)target.getValueAt(row,0);
-					parent.showIndividualTrainerView(user);
+					listener.showLogin(user);
 				}
 			}
 		});
@@ -116,9 +127,14 @@ public class ManageTrainersPanel extends JPanel {
 		this.add.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				df.addTrainer(trainerName.getText());
-				trainerName.setText(DEFAULT);
-				updateTable();
+				if(passOne.getPassword().equals(passTwo.getPassword())) {
+					df.addTrainer(trainerName.getText(), passOne.getPassword().hashCode());
+					trainerName.setText(DEFAULT);
+					updateTable();
+				} else {
+					JOptionPane.showMessageDialog(null, errorMsg, errorTitle,
+							JOptionPane.ERROR_MESSAGE, null);
+				}
 			}
 		});
 		this.remove.addActionListener(new ActionListener() {
@@ -143,5 +159,10 @@ public class ManageTrainersPanel extends JPanel {
 		this.add(left, BorderLayout.WEST);
 		this.add(right, BorderLayout.EAST);
 		this.left.add(jsp, BorderLayout.CENTER);
+	}
+	
+	public static void main(String[] args) {
+		char[] j = {'j'};
+		System.out.println(j.hashCode());
 	}
 }

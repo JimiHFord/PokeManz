@@ -197,4 +197,10 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		
 	}
 
+	@Override
+	public void showLogin(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

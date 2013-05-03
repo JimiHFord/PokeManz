@@ -31,6 +31,26 @@ public class PokeUtils {
 	private static final Type dark[] = { Type.Fighting, Type.Bug };
 	private static final Type steel[] = { Type.Fire, Type.Fighting, Type.Ground };
 	
+	private static final int PRIME = 977;
+	private static final int INT = 429857;
+	private static final int MODLENGTH = 1000000;
+	
+	/**
+	 * Hashes password
+	 *
+	 * @param pass
+	 * @return integer
+	 */
+	public static int doPass(char[] pass) {
+		int hashed = 0;
+		for (int i = 0; i < pass.length; i++){
+			hashed = hashed + ((pass[i] * PRIME) + INT);
+		}
+		return hashed % MODLENGTH;
+	}
+	
+	
+	
 	/*
 	 * All the different types of Pokemon
 	 */
@@ -145,5 +165,13 @@ public class PokeUtils {
 		default:
 			return 0;
 		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(PokeUtils.doPass(new char[]{'a'}));
+		System.out.println(PokeUtils.doPass(new char[]{'j'}));
+		System.out.println(PokeUtils.doPass(new char[]{'d'}));
+		System.out.println(PokeUtils.doPass(new char[]{'b'}));
+		System.out.println(PokeUtils.doPass(new char[]{'a'}));
 	}
 }
