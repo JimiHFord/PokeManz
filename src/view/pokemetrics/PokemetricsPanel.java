@@ -9,8 +9,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -129,7 +133,13 @@ public class PokemetricsPanel extends JPanel {
 		String path = "resources/images/" + ID + ".png";
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
-		Image resizeImg = img.getScaledInstance(150, 150, 0);
+		BufferedImage imgs = null;
+		try {
+			imgs = ImageIO.read(new File(path));
+		} catch (IOException e) {
+		}
+		
+		Image resizeImg = img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, 0);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		id.setText(ID);
 		name.setText(metricsData.get(1));
