@@ -69,8 +69,12 @@ public class PokevolvePanel extends JPanel{
 		this.removeAll();
 		initComponents();
 		int j = 0;
+		int one = 0;
+		if(dataLbls.size()/2-1 == 0){
+			one = 1;
+		}
 		System.out.println((dataLbls.size()/2)-1);
-		for(int i = 0; i < (dataLbls.size()/2)-1; i++){
+		for(int i = 0; i < (dataLbls.size()/2)-1 + one; i++){
 			JPanel panel = new JPanel(new MigLayout());
 			panel.add(dataLbls.get(j), "center, wrap");
 			j++;
@@ -108,24 +112,34 @@ public class PokevolvePanel extends JPanel{
 			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up with high friendship during the night")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when traded")){
 			dataLbls.add(new JLabel("Evovles " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).endsWith("while holding")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(5)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).endsWith("when exposed to")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(5)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up with high Beauty")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).endsWith("while knowing")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(6)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up with Remoraid in the party")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up at Mt. Coronet")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up near a Moss Rock")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}else if(evoData.get(3).equals("when leveled up near an Ice Rock")){
 			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
 		}
 	}
 	
