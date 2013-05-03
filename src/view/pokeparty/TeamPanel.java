@@ -116,7 +116,6 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				df.updateTrainerNameWithID(ID, nameArea.getText());
-//				table.requestFocus();
 				nameArea.setText(UPDATE_MSG);
 				new Thread() {
 					@Override
