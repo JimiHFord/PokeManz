@@ -110,7 +110,7 @@ public class ManageTrainersPanel extends JPanel {
 					JTable target = (JTable)e.getSource();
 					int row = target.getSelectedRow();
 					Integer user = (Integer)target.getValueAt(row,0);
-					listener.showLogin(user);
+					listener.act(PokePartyPanel.PASS_PANEL, String.valueOf(user));
 				}
 			}
 		});

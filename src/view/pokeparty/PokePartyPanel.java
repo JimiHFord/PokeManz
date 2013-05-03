@@ -40,13 +40,13 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 		this.cards = new JPanel(cardlayout);
 		fillComponents();
 		initializeActions();
-		showView(MANAGE_TRAINERS_PANEL);
+		act(MANAGE_TRAINERS_PANEL, MANAGE_TRAINERS_PANEL);
 	}
 
-	public void showTeamPanel(Integer user) {
-		this.teamPanel.setUser(user);
-		showView(TEAM_PANEL);
-	}
+//	public void showTeamPanel(Integer user) {
+//		this.teamPanel.setUser(user);
+//		showView(TEAM_PANEL);
+//	}
 
 	private void fillComponents() {
 //		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
@@ -80,20 +80,28 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	}
 	
 
-	@Override
-	public void showView(String view) {
-		if(view.equals(MANAGE_TRAINERS_PANEL)) {
+	public void act(String command, String argument) {
+		switch(command) {
+		case MANAGE_TRAINERS_PANEL:
 			manageTrainersPanel.updateTable();
+			break;
+			
+		case PASS_PANEL:
+			try {
+			this.pass.setID(Integer.parseInt(argument));
+			this.pass.pass.requestFocus();
+			} catch (NumberFormatException e) {}
+			break;
+			
+		case TEAM_PANEL:
+			try {
+			this.teamPanel.setUser(Integer.parseInt(argument));
+			} catch (NumberFormatException e) {}
+			break;
 		}
-		this.cardlayout.show(cards, view);	
+		this.cardlayout.show(cards, command);
 	}
-
-	@Override
-	public void showLogin(Integer id) {
-		this.pass.setID(id);
-		this.pass.pass.requestFocus();
-		showView(PASS_PANEL);
-	}
+	
 
 
 }

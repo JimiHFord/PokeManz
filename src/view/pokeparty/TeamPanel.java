@@ -81,7 +81,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listener.showView(PokePartyPanel.MANAGE_TRAINERS_PANEL);
+				listener.act(PokePartyPanel.MANAGE_TRAINERS_PANEL, PokePartyPanel.MANAGE_TRAINERS_PANEL);
 			}
 			
 		});
@@ -193,21 +193,12 @@ public class TeamPanel extends JPanel implements PokeListener {
 		//  will undo any times we do it.
 		c.insets = new Insets(0, 0, 0, 0);
 	}
+
+	@Override
+	public void act(String command, String argument) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
-	@Override
-	public void showView(String view) {
-		return;
-	}
-
-	@Override
-	public void showIndividualTrainerView(Integer user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void showLogin(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
 }
