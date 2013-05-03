@@ -178,8 +178,12 @@ public class PokeUtils {
 
 	public static boolean equals(char[] password, char[] password2) {
 		boolean same = true;
-		for(int i = 0; i < password.length && same; i++) {
-			same = password[i] == password2[i];
+		if(password.length == password2.length) {
+			for(int i = 0; i < password.length && same; i++) {
+				same = password[i] == password2[i];
+			}
+		} else {
+			same = false;
 		}
 		return same;
 	}
