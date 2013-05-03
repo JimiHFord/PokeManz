@@ -95,55 +95,11 @@ public class PokeGenerationsPanel extends JPanel {
 		
 		ActionListener listener = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				if(e.getActionCommand().equals("Red/Blue")){
-					String query = "select red_blue from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Yellow")){
-					String query = "select yellow from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Gold")){
-					String query = "select gold from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Silver")){
-					String query = "select silver from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Crystal")){
-					String query = "select crystal from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Ruby")){
-					String query = "select ruby from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Sapphire")){
-					String query = "select sapphire from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Emerald")){
-					String query = "select emerald from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Fire Red")){
-					String query = "select fire_red from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Leaf Green")){
-					String query = "select leaf_green from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Diamond")){
-					String query = "select diamond from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}else if(e.getActionCommand().equals("Pearl")){
-					String query = "select pearl from pokedex_description where national_id = '" + national_id + "';";
-					String result = df.getDexEntry(query);
-					pokedexEntry.setText(result);
-				}
+				String option = e.getActionCommand().replaceAll("/", "_").replaceAll(" ", "_");
+				String query = "select " + option + " from pokedex_description where national_id = '" + national_id + "';";
+				String result = df.getDexEntry(query);
+//				result = result.replaceAll(".", ".\n");
+				pokedexEntry.setText(result);
 			}
 		};
 		redblue.addActionListener(listener);

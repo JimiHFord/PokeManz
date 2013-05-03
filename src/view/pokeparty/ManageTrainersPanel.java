@@ -38,7 +38,7 @@ import data.PokeUtils;
 @SuppressWarnings("serial")
 public class ManageTrainersPanel extends JPanel {
 
-	private static final String DEFAULT = "Name (or #)";
+	private static final String DEFAULT = "Name";
 	protected static final String errorMsg = "Passwords do not match";
 	protected static final String errorTitle = "Retype Password";
 
@@ -49,7 +49,6 @@ public class ManageTrainersPanel extends JPanel {
 	private JPanel left;
 	private JPanel right;
 	private JButton add;
-	private JButton remove;
 	private DataFetch df;
 	private JTable table;
 	private JScrollPane jsp;
@@ -82,7 +81,7 @@ public class ManageTrainersPanel extends JPanel {
 		this.passTwo = new JPasswordField(10);
 		c = new GridBagConstraints();
 		this.add = new JButton("Add Trainer");
-		this.remove = new JButton("Remove Trainer #");
+//		this.remove = new JButton("Remove Trainer #");
 	}
 	
 	public void updateTable() {
@@ -134,16 +133,16 @@ public class ManageTrainersPanel extends JPanel {
 				createUser();
 			}
 		});
-		this.remove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(!trainerName.getText().equals(DEFAULT)) {
-					df.removeTrainer(trainerName.getText());
-					trainerName.setText(DEFAULT);
-					updateTable();
-				}
-			}
-		});
+//		this.remove.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!trainerName.getText().equals(DEFAULT)) {
+//					df.removeTrainer(trainerName.getText());
+//					trainerName.setText(DEFAULT);
+//					updateTable();
+//				}
+//			}
+//		});
 		this.passOne.addKeyListener(new KeyListener() {
 
 			@Override
@@ -204,7 +203,7 @@ public class ManageTrainersPanel extends JPanel {
 	}
 	
 	private void fillComponents() {
-		this.setGridBagConstraints(0, 0, 0, 0, 0, 3, 1);
+		this.setGridBagConstraints(0, 1, 0, 0, 0, 3, 1);
 		this.right.add(trainerName, c);
 		this.setGridBagConstraints(1, 0, 0, 0, 0, 1, 1);
 		this.right.add(new JLabel("Password"), c);
@@ -214,10 +213,10 @@ public class ManageTrainersPanel extends JPanel {
 		this.right.add(new JLabel("Confirm"), c);
 		this.setGridBagConstraints(2, 1, 0, 0, 0, 3, 1);
 		this.right.add(passTwo, c);
-		this.setGridBagConstraints(3, 0, 0, 0, 0, 1, 1);
+		this.setGridBagConstraints(3, 1, 0, 0, 0, 1, 1);
 		this.right.add(add, c);
 		this.setGridBagConstraints(3, 1, 0, 0, 0, 1, 1);
-		this.right.add(remove, c);
+//		this.right.add(remove, c);
 		this.add(left, BorderLayout.WEST);
 		this.add(right, BorderLayout.EAST);
 		this.left.add(jsp, BorderLayout.CENTER);
