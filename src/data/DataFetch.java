@@ -294,6 +294,35 @@ public class DataFetch {
 		}
 		return result;
 	}
+	
+	public ArrayList<String> getPokevolveQuery(String search){
+		ArrayList<String> queryData = new ArrayList<String>();
+		if(search.matches("[0-9]")){
+			try{
+				ResultSet rs = stmt.executeQuery("select * from v_evolution_data where national_id = " + search + ";");
+				while(rs.next()){
+					for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+						queryData.add(rs.getString(i));
+					}
+				}
+			}catch(SQLException e){
+				displayError(e.getMessage(), "SQL Exception");
+			}
+		}else{
+			try{
+				ResultSet rs = stmt.executeQuery("select * from v_evolution_data where name ilike '" + search + "';");
+				while(rs.next()){
+					for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+						queryData.add(rs.getString(i));
+					}
+				}
+			}catch(SQLException e){
+				displayError(e.getMessage(), "SQL Exception");
+			}
+		}
+		return queryData;
+	}
+	
 	public ArrayList<String> getExpQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
