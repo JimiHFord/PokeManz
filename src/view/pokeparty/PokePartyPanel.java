@@ -22,6 +22,7 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 
 	public static final String TEAM_PANEL = "team";
 	public static final String MANAGE_TRAINERS_PANEL = "manage trainers";
+	public static final String PASS_PANEL = "authenticate";
 	
 //	private DataFetch df;
 
@@ -29,6 +30,7 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	private JPanel cards;
 	private TeamPanel teamPanel;
 	private ManageTrainersPanel manageTrainersPanel;
+	private PokeSignIn pass;
 	private CardLayout cardlayout;
 	
 	public PokePartyPanel() {
@@ -50,6 +52,7 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 //		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
 		cards.add(teamPanel = new TeamPanel(this), TEAM_PANEL);
 		cards.add(manageTrainersPanel = new ManageTrainersPanel(this), MANAGE_TRAINERS_PANEL);
+		cards.add(pass = new PokeSignIn(this), PASS_PANEL);
 		this.add(cards, BorderLayout.CENTER);
 	}
 
@@ -83,6 +86,12 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 			manageTrainersPanel.updateTable();
 		}
 		this.cardlayout.show(cards, view);	
+	}
+
+	@Override
+	public void showLogin(Integer id) {
+		this.pass.setID(id);
+		showView(PASS_PANEL);
 	}
 
 
