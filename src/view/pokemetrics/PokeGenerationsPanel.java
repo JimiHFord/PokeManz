@@ -241,6 +241,7 @@ public class PokeGenerationsPanel extends JPanel {
 		Image img = tk.createImage(path);
 		Image resizeImg = img.getScaledInstance(150, 150, 0);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
+		
 		id.setText(ID);
 		name.setText(metricsData.get(1));
 		idLbl.setText("ID:");

@@ -42,12 +42,12 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private static String pass;
 
 	public static final String TITLE = "PokeMonitor";
-	private static final String T1_TITLE = "Home";
+	private static final String T1_TITLE = "PokeHome";
 	private static final String T2_TITLE = "Pokedex";
 	private static final String T3_TITLE = "Pokemetrics";
 	private static final String T4_TITLE = "Pokevolve";
 	private static final String T5_TITLE = "Pokeparty";
-	private static final String T6_TITLE = "Help";
+	private static final String T6_TITLE = "PokeHelp";
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
