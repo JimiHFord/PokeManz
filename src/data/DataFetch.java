@@ -79,11 +79,12 @@ public class DataFetch {
 		}
 	}
 
+	
 	public DefaultTableModel getMainTrainerTableModel() {
 		boolean error = false;
 		ResultSet rs = null;
 		try {
-			rs = stmt.executeQuery("select * from trainer order by t_id;");
+			rs = stmt.executeQuery("select t_id, t_name from trainer order by t_id;");
 		} catch (SQLException e) {
 			error = true;
 			displayError(e.getMessage(), SQLERROR);
@@ -103,6 +104,15 @@ public class DataFetch {
 		try {
 			stmt.execute("insert into trainer (t_name) values ('" +
 					user + "');");
+		} catch (SQLException e) {
+			displayError(e.getMessage(), SQLERROR);
+		}
+	}
+	
+	public void addTrainer(String user, int hash) {
+		try {
+			stmt.execute("insert into trainer (t_name, hash) values ('" +
+					user + "', " + hash + ");");
 		} catch (SQLException e) {
 			displayError(e.getMessage(), SQLERROR);
 		}
@@ -160,7 +170,7 @@ public class DataFetch {
 					+ user + " order by party_id;");
 		} catch (SQLException e) {
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
@@ -175,7 +185,20 @@ public class DataFetch {
 		}
 	}
 	
-	
+	public boolean login(Integer t_id, Integer hash) {
+		boolean loginSuccess = false;
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("select hash from trainer where t_id = " + t_id + ";");
+			if(rs.next()) {
+				Integer dbHash = rs.getInt(1);
+				loginSuccess = dbHash.equals(hash);
+			}
+		} catch (SQLException e) {
+			displayError(e.getMessage(), SQLERROR);
+		}
+		return loginSuccess;
+	}
 	
 	
 	public ArrayList<ArrayList<Object>> iterate(ResultSet rs) {
@@ -201,7 +224,7 @@ public class DataFetch {
 				data.add(vector);
 			}
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
 			displayError(e.getMessage(), SQLERROR);
@@ -239,7 +262,7 @@ public class DataFetch {
 			}
 		} catch (SQLException e) {
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
 			error = true;
@@ -474,7 +497,7 @@ public class DataFetch {
 			rs = stmt.executeQuery("select level, move from v_level_moves where name ilike '%" + search + "%';");
 		}catch (SQLException e){
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
@@ -486,7 +509,7 @@ public class DataFetch {
 			rs = stmt.executeQuery("select hp, atk, def, spatk, spdef, spd from v_base_stats where name ilike '%" + search + "%';");
 		}catch (SQLException e){
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
@@ -499,7 +522,7 @@ public class DataFetch {
 			rs = stmt.executeQuery("select national_id, english from name_both_types order by national_id;");
 		} catch (SQLException e) {
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
@@ -512,7 +535,7 @@ public class DataFetch {
 			rs = stmt.executeQuery("select * from name_both_types order by national_id;");
 		} catch (SQLException e) {
 			error = true;
-			System.err.println(e.getMessage());
+//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);

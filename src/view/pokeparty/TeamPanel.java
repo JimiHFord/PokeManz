@@ -40,8 +40,9 @@ public class TeamPanel extends JPanel implements PokeListener {
 	private static final String UPDATE_MSG = "processed";
 	
 	private JButton back;
-	private JButton delete;
+	private JButton removePokemon;
 	private JButton update;
+	private JButton deleteAccount;
 	private JTextArea nameArea;
 	private JPanel buttonPanel;
 	private JPanel right;
@@ -61,7 +62,8 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.setFocusable(true);
 		this.c = new GridBagConstraints();
 		this.buttonPanel = new JPanel(new GridBagLayout());
-		this.delete = new JButton("Remove Selected");
+		this.removePokemon = new JButton("Remove Selected");
+		this.deleteAccount = new JButton("Delete Account");
 		this.update = new JButton("Update Name");
 		this.nameArea = new JTextArea();
 		this.listener = p;
@@ -72,7 +74,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.right = new JPanel(new BorderLayout());
 		this.left = new JPanel(new BorderLayout());
 		this.search = new PokeSearchPanel(this);
-		this.back = new JButton("Back");
+		this.back = new JButton("Sign Out");
 		this.initActions();
 		this.fillComponents();
 	}
@@ -81,11 +83,17 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listener.showView(PokePartyPanel.MANAGE_TRAINERS_PANEL);
+				listener.act(PokePartyPanel.MANAGE_TRAINERS_PANEL, PokePartyPanel.MANAGE_TRAINERS_PANEL);
 			}
 			
 		});
-		
+		this.deleteAccount.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					df.removeTrainer(String.valueOf(ID));
+					listener.act(PokePartyPanel.MANAGE_TRAINERS_PANEL, PokePartyPanel.MANAGE_TRAINERS_PANEL);
+			}
+		});
 		this.search.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
@@ -94,14 +102,14 @@ public class TeamPanel extends JPanel implements PokeListener {
 					if(row >= 0) {
 						Integer national_id = (Integer)target.getValueAt(row, 0);
 						df.addPokemonToTrainer(national_id, ID);
-						System.err.println("National ID: " + national_id);
+//						System.err.println("National ID: " + national_id);
 						setUser(ID);
 					}
 				}
 			}
 		});
 		
-		this.delete.addActionListener(new ActionListener() {
+		this.removePokemon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -162,11 +170,13 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 2, 1);
 		this.buttonPanel.add(back, c);
 		this.setGridBagConstraints(0, 2, 0, 0, 0, 2, 1);
-		this.buttonPanel.add(delete, c);
+		this.buttonPanel.add(removePokemon, c);
 		this.setGridBagConstraints(1, 0, 0, 0, 0, 1, 1);
 		this.buttonPanel.add(update, c);
 		this.setGridBagConstraints(1, 1, 0, 0, 0, 3, 1);
 		this.buttonPanel.add(nameArea, c);
+		this.setGridBagConstraints(2, 0, 0, 0, 0, 2, 1);
+		this.buttonPanel.add(deleteAccount, c);
 		this.left.add(search, BorderLayout.CENTER);
 		this.add(right, BorderLayout.EAST);
 		this.add(left, BorderLayout.WEST);
@@ -193,15 +203,12 @@ public class TeamPanel extends JPanel implements PokeListener {
 		//  will undo any times we do it.
 		c.insets = new Insets(0, 0, 0, 0);
 	}
-	
-	@Override
-	public void showView(String view) {
-		return;
-	}
 
 	@Override
-	public void showIndividualTrainerView(Integer user) {
+	public void act(String command, String argument) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 }

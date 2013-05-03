@@ -2,7 +2,9 @@ package view;
 
 public interface PokeListener {
 
-	public void showView(String view);
+	
+	public static final String TAB_VIEW = "TAB_VIEW";
+	public static final String TRAINER_VIEW = "TRAINER_VIEW";	
+	public void act(String command, String argument);
 
-	public void showIndividualTrainerView(Integer user);
 }
