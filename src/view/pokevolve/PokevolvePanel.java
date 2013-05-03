@@ -9,8 +9,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -22,6 +27,7 @@ import net.miginfocom.swing.MigLayout;
 
 import data.DataFetch;
 
+@SuppressWarnings("serial")
 public class PokevolvePanel extends JPanel{
 	private static final String DEFAULT = "Search Pokemon...";
 	private DataFetch df;
@@ -40,6 +46,7 @@ public class PokevolvePanel extends JPanel{
 	public PokevolvePanel(){
 		super(new MigLayout());
 		this.df = DataFetch.getInstance();
+		dataLbls = new ArrayList<JLabel>();
 		initComponents();
 	}
 
@@ -50,11 +57,6 @@ public class PokevolvePanel extends JPanel{
 		jsp = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		jsp.setPreferredSize(new Dimension(160,200));
-		levelLbl = new JLabel("");
-		itemLbl = new JLabel("");
-		moveLbl = new JLabel("");
-		dataLbls = new ArrayList<JLabel>();
-		centerPanel = new JPanel(new MigLayout());
 		initializeActions();
 		JPanel westPanel = new JPanel(new MigLayout());
 		westPanel.add(jta, "wrap");
@@ -63,47 +65,60 @@ public class PokevolvePanel extends JPanel{
 		this.add(westPanel, "west");
 	}
 	
+	private void updateComponents(){
+		this.removeAll();
+		initComponents();
+		int j = 0;
+		for(int i = 0; i < dataLbls.size()/2; i++){
+			JPanel panel = new JPanel(new MigLayout());
+			panel.add(dataLbls.get(j), "wrap");
+			j++;
+			panel.add(dataLbls.get(j), "center");
+			j++;
+			panel.setBorder(BorderFactory.createEtchedBorder());
+			this.add(panel);
+		}
+		this.revalidate();
+		this.repaint();
+		if(!dataLbls.isEmpty()){
+			dataLbls.clear();
+		}
+	}
 	public void updatePokevolve(String pokemon){
 		evoData = df.getPokevolveQuery(pokemon);
-		int i = 1;
-		while(!evoData.get(4).equals("0") || i == 1){
-			int num = Integer.parseInt(evoData.get(0));
-			num++;
-			String ID = "" + num;
-			if(i==1){
-				ID = evoData.get(0);
-			}
-			evoData = df.getPokevolveQuery(ID);
-			System.out.println(evoData);
-			if(ID.length() < 3){
-				if(ID.length() == 1){
-					ID = "00" + ID;
-				}else{
-					ID = "0" + ID;
-				}
-			}
-			String path = "resources/images/" + ID + ".png";
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Image img = tk.createImage(path);
-			Image resizeImg = img.getScaledInstance(150, 150, 0);
-			size = dataLbls.size();
-			dataLbls.add(new JLabel(""));
-			dataLbls.get(size).setIcon(new ImageIcon(resizeImg));
-			String temp = evoData.get(3);
-			if(temp.endsWith("at level")){
-				size = dataLbls.size();
-				levelLbl.setText("Level:");
-				dataLbls.add(new JLabel("Level:"));
-				dataLbls.add(new JLabel(evoData.get(4)));
-				centerPanel.add(dataLbls.get(size), "wrap");
-				centerPanel.add(levelLbl);
-				centerPanel.add(dataLbls.get(size+1), "wrap");
-			}
-			i++;
+		System.out.println(evoData);
+		String ID = evoData.get(0);
+		addImage(ID);
+		if(evoData.get(3).endsWith("does not evolve")){
+			dataLbls.add(new JLabel("Does Not Evolve"));
+			updateComponents();
 		}
-		this.add(centerPanel, "center");
+		if(evoData.get(3).endsWith("at level")){
+			dataLbls.add(new JLabel("Evolves at level " + evoData.get(4)));
+			updatePokevolve(evoData.get(2));
+		}
 	}
 	
+	private void addImage(String ID){
+		if(ID.length() < 3){
+			if(ID.length() == 1){
+				ID = "00" + ID;
+			}else{
+				ID = "0" + ID;
+			}
+		}
+		String path = "resources/images/" + ID + ".png";
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image img = tk.createImage(path);
+		BufferedImage imgs = null;
+		try {
+			imgs = ImageIO.read(new File(path));
+		} catch (IOException e) {
+		}
+		Image resizeImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		dataLbls.add(new JLabel(""));
+		dataLbls.get(dataLbls.size()-1).setIcon(new ImageIcon(resizeImg));
+	}
 	private void updateTable(){
 		if(jta.getText().equals(DEFAULT)){
 			this.table.setModel(df.getSimplifiedDefaultPokemonModel());
