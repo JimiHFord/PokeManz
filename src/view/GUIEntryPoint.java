@@ -27,6 +27,7 @@ import view.pokedex.PokedexScreen;
 import view.pokemetrics.PokeCardPanel;
 import view.pokemetrics.PokemetricsScreen;
 import view.pokeparty.PokePartyPanel;
+import view.pokevolve.PokevolvePanel;
 
 import data.DataFetch;
 
@@ -55,7 +56,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private PokedexScreen ps;
 	private PokePartyPanel ppp;
 	private PokeCardPanel pcp;
-
+	private PokevolvePanel pep;
 	
 
 	public GUIEntryPoint(String title) throws SQLException {
@@ -86,7 +87,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		jtp.addTab(T1_TITLE, psp = new PokeSearchPanel(this));
 		jtp.addTab(T2_TITLE, ps = new PokedexScreen());
 		jtp.addTab(T3_TITLE, pcp);
-		jtp.addTab(T4_TITLE, new JPanel());
+		jtp.addTab(T4_TITLE, pep = new PokevolvePanel());
 		jtp.addTab(T5_TITLE, ppp = new PokePartyPanel());
 		jtp.addTab(T6_TITLE, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
