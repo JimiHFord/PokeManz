@@ -35,7 +35,7 @@ public class PokeSignIn extends JPanel {
 	
 	private DataFetch df;
 	private Integer userID;
-	private JPasswordField pass;
+	protected JPasswordField pass;
 	private PokeListener listener;
 	private JButton back;
 	private JPanel center;
@@ -91,7 +91,7 @@ public class PokeSignIn extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
-					System.out.println(PokeUtils.doPass(pass.getPassword()));
+//					System.out.println(PokeUtils.doPass(pass.getPassword()));
 					if(df.login(userID, PokeUtils.doPass(pass.getPassword()))) {
 						listener.showIndividualTrainerView(userID);
 					} else {
