@@ -91,6 +91,7 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	@Override
 	public void showLogin(Integer id) {
 		this.pass.setID(id);
+		this.pass.pass.requestFocus();
 		showView(PASS_PANEL);
 	}
 

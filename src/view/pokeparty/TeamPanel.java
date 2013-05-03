@@ -94,7 +94,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 					if(row >= 0) {
 						Integer national_id = (Integer)target.getValueAt(row, 0);
 						df.addPokemonToTrainer(national_id, ID);
-						System.err.println("National ID: " + national_id);
+//						System.err.println("National ID: " + national_id);
 						setUser(ID);
 					}
 				}
