@@ -69,9 +69,12 @@ public class PokevolvePanel extends JPanel{
 		this.removeAll();
 		initComponents();
 		int j = 0;
-		for(int i = 0; i < dataLbls.size()/2; i++){
+		System.out.println((dataLbls.size()/2)-1);
+		for(int i = 0; i < (dataLbls.size()/2)-1; i++){
 			JPanel panel = new JPanel(new MigLayout());
-			panel.add(dataLbls.get(j), "wrap");
+			panel.add(dataLbls.get(j), "center, wrap");
+			j++;
+			panel.add(dataLbls.get(j), "center, wrap");
 			j++;
 			panel.add(dataLbls.get(j), "center");
 			j++;
@@ -87,6 +90,7 @@ public class PokevolvePanel extends JPanel{
 	public void updatePokevolve(String pokemon){
 		evoData = df.getPokevolveQuery(pokemon);
 		System.out.println(evoData);
+		dataLbls.add(new JLabel(evoData.get(1)));
 		String ID = evoData.get(0);
 		addImage(ID);
 		if(evoData.get(3).endsWith("does not evolve")){
@@ -94,8 +98,34 @@ public class PokevolvePanel extends JPanel{
 			updateComponents();
 		}
 		if(evoData.get(3).endsWith("at level")){
-			dataLbls.add(new JLabel("Evolves at level " + evoData.get(4)));
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(4)));
 			updatePokevolve(evoData.get(2));
+		}else if(evoData.get(3).equals("when leveled up with high friendship")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
+		}else if(evoData.get(3).equals("when leveled up with high friendship during the day")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+			updatePokevolve(evoData.get(2));
+		}else if(evoData.get(3).equals("when leveled up with high friendship during the night")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+		}else if(evoData.get(3).equals("when traded")){
+			dataLbls.add(new JLabel("Evovles " + evoData.get(3)));
+		}else if(evoData.get(3).endsWith("while holding")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(5)));
+		}else if(evoData.get(3).endsWith("when exposed to")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(5)));
+		}else if(evoData.get(3).equals("when leveled up with high Beauty")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+		}else if(evoData.get(3).endsWith("while knowing")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3) + " " + evoData.get(6)));
+		}else if(evoData.get(3).equals("when leveled up with Remoraid in the party")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+		}else if(evoData.get(3).equals("when leveled up at Mt. Coronet")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+		}else if(evoData.get(3).equals("when leveled up near a Moss Rock")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
+		}else if(evoData.get(3).equals("when leveled up near an Ice Rock")){
+			dataLbls.add(new JLabel("Evolves " + evoData.get(3)));
 		}
 	}
 	
