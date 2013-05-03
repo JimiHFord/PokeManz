@@ -12,10 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -26,6 +29,7 @@ import javax.swing.JTextArea;
 import view.PokeListener;
 
 import data.DataFetch;
+import data.PokeUtils;
 
 /**
  * @author jimiford
@@ -74,8 +78,8 @@ public class ManageTrainersPanel extends JPanel {
 		this.jsp = new JScrollPane(table);
 		this.trainerName = new JTextArea(DEFAULT);
 		this.trainerName.setPreferredSize(new Dimension(160, 25));
-		this.passOne = new JPasswordField();
-		this.passTwo = new JPasswordField();
+		this.passOne = new JPasswordField(10);
+		this.passTwo = new JPasswordField(10);
 		c = new GridBagConstraints();
 		this.add = new JButton("Add Trainer");
 		this.remove = new JButton("Remove Trainer #");
@@ -127,14 +131,7 @@ public class ManageTrainersPanel extends JPanel {
 		this.add.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(passOne.getPassword().equals(passTwo.getPassword())) {
-					df.addTrainer(trainerName.getText(), passOne.getPassword().hashCode());
-					trainerName.setText(DEFAULT);
-					updateTable();
-				} else {
-					JOptionPane.showMessageDialog(null, errorMsg, errorTitle,
-							JOptionPane.ERROR_MESSAGE, null);
-				}
+				createUser();
 			}
 		});
 		this.remove.addActionListener(new ActionListener() {
@@ -147,14 +144,79 @@ public class ManageTrainersPanel extends JPanel {
 				}
 			}
 		});
+		this.passOne.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					passTwo.requestFocus();
+				}
+			}
+			
+		});
+		this.passTwo.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					createUser();
+				}
+			}
+			
+		});
 	}
 
+	private void createUser() {
+		if(PokeUtils.equals(passOne.getPassword(),passTwo.getPassword())) {
+			df.addTrainer(trainerName.getText(), PokeUtils.doPass(passOne.getPassword()));
+			passOne.setText("");
+			passTwo.setText("");
+			trainerName.setText(DEFAULT);
+			updateTable();
+		} else {
+			JOptionPane.showMessageDialog(null, errorMsg, errorTitle,
+					JOptionPane.ERROR_MESSAGE, null);
+		}
+	}
+	
 	private void fillComponents() {
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 3, 1);
 		this.right.add(trainerName, c);
 		this.setGridBagConstraints(1, 0, 0, 0, 0, 1, 1);
+		this.right.add(new JLabel("Password"), c);
+		this.setGridBagConstraints(1, 1, 0, 0, 0, 3, 1);
+		this.right.add(passOne, c);
+		this.setGridBagConstraints(2, 0, 0, 0, 0, 1, 1);
+		this.right.add(new JLabel("Confirm"), c);
+		this.setGridBagConstraints(2, 1, 0, 0, 0, 3, 1);
+		this.right.add(passTwo, c);
+		this.setGridBagConstraints(3, 0, 0, 0, 0, 1, 1);
 		this.right.add(add, c);
-		this.setGridBagConstraints(1, 1, 0, 0, 0, 1, 1);
+		this.setGridBagConstraints(3, 1, 0, 0, 0, 1, 1);
 		this.right.add(remove, c);
 		this.add(left, BorderLayout.WEST);
 		this.add(right, BorderLayout.EAST);

@@ -72,7 +72,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.right = new JPanel(new BorderLayout());
 		this.left = new JPanel(new BorderLayout());
 		this.search = new PokeSearchPanel(this);
-		this.back = new JButton("Back");
+		this.back = new JButton("Sign Out");
 		this.initActions();
 		this.fillComponents();
 	}

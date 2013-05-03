@@ -174,4 +174,13 @@ public class PokeUtils {
 		System.out.println(PokeUtils.doPass(new char[]{'b'}));
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
 	}
+
+
+	public static boolean equals(char[] password, char[] password2) {
+		boolean same = true;
+		for(int i = 0; i < password.length && same; i++) {
+			same = password[i] == password2[i];
+		}
+		return same;
+	}
 }
