@@ -39,8 +39,9 @@ public class PokedexScreen extends JPanel {
 
 	private static final String DEFAULT = "Search Pokemon...";
 	private static final String EXT = ".mp3";
-	private static final String SOUND_DIR = "resources/sounds/";
-	private static final String IMG_PATH = "resources/images/";
+	private static final String RESOURCE_DIR = "resources/";
+	private static final String SOUND_DIR = RESOURCE_DIR + "sounds/";
+	private static final String IMG_PATH = RESOURCE_DIR + "images/";
 	
 	private String pokemon;	
 	private DataFetch df;
@@ -63,6 +64,7 @@ public class PokedexScreen extends JPanel {
 	private JLabel abilitiesLbl;
 	private JLabel ability1;
 	private JLabel ability2;
+	private JLabel cryLabel;
 	private JPanel southPanel;
 	private JButton pokemetricsBtn;
 	private JButton pokevolveBtn;
@@ -95,6 +97,7 @@ public class PokedexScreen extends JPanel {
 		color = new JLabel("");
 		type1 = new JLabel("");
 		type2 = new JLabel("");
+		cryLabel = new JLabel("Cry:");
 		cry = new CryButton(0);
 		ability1 = new JLabel("");
 		ability2 = new JLabel("");
@@ -131,10 +134,12 @@ public class PokedexScreen extends JPanel {
 		southPanel.add(abilitiesLbl);
 		southPanel.add(ability1);
 		southPanel.add(ability2, "wrap");
+		southPanel.add(cryLabel);
+		southPanel.add(cry, "wrap");
 		southPanel.add(pokemetricsBtn, "gaptop 50");
 		southPanel.add(pokevolveBtn, "gaptop 50");
-//		southPanel.setBackground(Color.red);
 		this.add(southPanel, "south");
+		this.setPokedexEntry("Bulbasaur", 1);
 	}
 	
 	private void updateTable(){
@@ -159,12 +164,12 @@ public class PokedexScreen extends JPanel {
 		String path = dexData.get(0);
 		if(path.length() < 3){
 			if(path.length() == 1){
-				path = "resources/images/00" + path + ".png";
+				path = IMG_PATH + "00" + path + ".png";
 			}else{
-				path = "resources/images/0" + path + ".png";
+				path = IMG_PATH + "0" + path + ".png";
 			}
 		}else{
-			path = "resources/images/" + path + ".png";
+			path = IMG_PATH + path + ".png";
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
@@ -204,14 +209,15 @@ public class PokedexScreen extends JPanel {
 		this.revalidate();
 	}
 	
-	public void setPokedexEntry(String pokemon){
-		this.pokemon = pokemon;
-		updatePokedexName();
-	}
+//	public void setPokedexEntry(String pokemon){
+//		this.pokemon = pokemon;
+//		updatePokedexName();
+//	}
 	
 	private void setPokedexEntry(String pokemon, int national_id) {
 		this.pokemon = pokemon;
 		this.cry.setNationalID(national_id);
+		updatePokedexName();
 	}
 	
 	private void initializeActions(){
@@ -299,5 +305,7 @@ public class PokedexScreen extends JPanel {
 		});
 	}
 	
-	
+	public static void main(String[] args) {
+		new SoundJLayer(SOUND_DIR + 490 + EXT).play();
+	}
 }
