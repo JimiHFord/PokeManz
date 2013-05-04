@@ -25,7 +25,6 @@ import javax.swing.UIManager;
 
 import view.pokedex.PokedexScreen;
 import view.pokemetrics.PokeCardPanel;
-import view.pokemetrics.PokemetricsScreen;
 import view.pokeparty.PokePartyPanel;
 import view.pokevolve.PokevolvePanel;
 
@@ -43,12 +42,12 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private static String pass;
 
 	public static final String TITLE = "PokeMonitor";
-	private static final String T1_TITLE = "PokeHome";
-	private static final String T2_TITLE = "Pokedex";
-	private static final String T3_TITLE = "Pokemetrics";
-	private static final String T4_TITLE = "Pokevolve";
-	private static final String T5_TITLE = "Pokeparty";
-	private static final String T6_TITLE = "PokeHelp";
+	public static final String POKEHOME = "PokeHome";
+	public static final String POKEDEX = "Pokedex";
+	public static final String POKEMETRICS = "Pokemetrics";
+	public static final String POKEVOLVE = "Pokevolve";
+	public static final String POKEPARTY = "Pokeparty";
+	public static final String POKEHELP = "PokeHelp";
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
@@ -84,12 +83,12 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	private void fillComponents() {
-		jtp.addTab(T1_TITLE, psp = new PokeSearchPanel(this));
-		jtp.addTab(T2_TITLE, ps = new PokedexScreen());
-		jtp.addTab(T3_TITLE, pcp);
-		jtp.addTab(T4_TITLE, pep = new PokevolvePanel());
-		jtp.addTab(T5_TITLE, ppp = new PokePartyPanel());
-		jtp.addTab(T6_TITLE, new JPanel());
+		jtp.addTab(POKEHOME, psp = new PokeSearchPanel(this));
+		jtp.addTab(POKEDEX, ps = new PokedexScreen(this));
+		jtp.addTab(POKEMETRICS, pcp);
+		jtp.addTab(POKEVOLVE, pep = new PokevolvePanel());
+		jtp.addTab(POKEPARTY, ppp = new PokePartyPanel());
+		jtp.addTab(POKEHELP, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
 		jtp.setMnemonicAt(2, KeyEvent.VK_3);
@@ -99,22 +98,27 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		this.add(jtp, BorderLayout.CENTER);
 	}
 
-	
+
 
 	public void act(String command, String argument) {
 		switch(command) {
-		case PokeListener.TAB_VIEW:
-			if(command.equals(T1_TITLE)) {
-				jtp.setSelectedIndex(0);
-			} else if (command.equals(T2_TITLE)) {
-				jtp.setSelectedIndex(1);
-			} else if (command.equals(T3_TITLE)) {
-				jtp.setSelectedIndex(2);
-			} else if (command.equals(T4_TITLE)) {
-				jtp.setSelectedIndex(3);
-			} else if (command.equals(T5_TITLE)) {
-				jtp.setSelectedIndex(4);
-			}
+		case POKEHOME:
+			jtp.setSelectedIndex(0);
+			break;
+		case POKEDEX:
+			jtp.setSelectedIndex(1);
+			break;
+		case POKEMETRICS:
+			pcp.pmp.updatePokemetrics(argument);
+			pcp.pmp.updatePokemoves(argument);
+			jtp.setSelectedIndex(2);
+			break;
+		case POKEVOLVE:
+			pep.updatePokevolve(argument, 0);
+			jtp.setSelectedIndex(3);
+			break;
+		case POKEPARTY:
+			jtp.setSelectedIndex(4);
 			break;
 		}
 	}

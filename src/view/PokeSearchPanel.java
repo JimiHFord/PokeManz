@@ -38,7 +38,6 @@ public class PokeSearchPanel extends JPanel {
 	private JScrollPane jsp;
 	private JTable table;
 	private PokeListener listen;
-	private PokedexScreen PSpanel;
 	
 	
 	public PokeSearchPanel(PokeListener listen) {
@@ -53,7 +52,7 @@ public class PokeSearchPanel extends JPanel {
 		this.initActions();
 		this.add(jsp, BorderLayout.CENTER);
 		this.add(jta, BorderLayout.NORTH);
-		PSpanel = new PokedexScreen();
+
 		this.updateModel();
 	}
 	
@@ -62,9 +61,7 @@ public class PokeSearchPanel extends JPanel {
 	}
 	
 	public void updateModel() {
-		if(jta.getText().equals(DEFAULT)) {
-//			TableModel atm = df.getDefaultPokemonModel();
-			
+		if(jta.getText().equals(DEFAULT)) {			
 			this.table.setModel(df.getDefaultPokemonModel());
 		} else {
 			this.table.setModel(df.getSearchPokemonModel(jta.getText()));

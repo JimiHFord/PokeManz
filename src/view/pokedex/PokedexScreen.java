@@ -26,6 +26,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
+import view.GUIEntryPoint;
+import view.PokeListener;
+
 import net.miginfocom.swing.MigLayout;
 
 import data.DataFetch;
@@ -70,9 +73,11 @@ public class PokedexScreen extends JPanel {
 	private JButton pokevolveBtn;
 	private JScrollPane jsp;
 	private ArrayList<String> dexData;
+	private PokeListener listener;
 	
-	public PokedexScreen(){
+	public PokedexScreen(PokeListener listener){
 		super(new MigLayout());
+		this.listener = listener;
 		this.df = DataFetch.getInstance();
 		initComponents();
 	}
@@ -173,7 +178,7 @@ public class PokedexScreen extends JPanel {
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
-		Image resizeImg = img.getScaledInstance(200, 200, 0);
+		Image resizeImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		nameLbl.setText(dexData.get(1));
 		nameLbl.setFont(new Font("Dialog", Font.BOLD, 26));
@@ -249,16 +254,14 @@ public class PokedexScreen extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO switch to pokemetrics panel
-				
+				listener.act(GUIEntryPoint.POKEMETRICS, pokemon);
 			}
 		});
 		this.pokevolveBtn.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO switch to pokevolve panel
-				
+				listener.act(GUIEntryPoint.POKEVOLVE, pokemon);
 			}
 			
 		});

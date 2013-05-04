@@ -28,6 +28,7 @@ import data.DataFetch;
 
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("serial")
 public class PokemetricsPanel extends JPanel {
 	private static final String DEFAULT =  "Search Pokemon...";
 	private DataFetch df;
