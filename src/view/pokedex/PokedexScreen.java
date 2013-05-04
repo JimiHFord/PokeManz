@@ -39,7 +39,8 @@ public class PokedexScreen extends JPanel {
 
 	private static final String DEFAULT = "Search Pokemon...";
 	private static final String EXT = ".mp3";
-	private static final String SOUND_DIR = "sounds/";
+	private static final String SOUND_DIR = "resources/sounds/";
+	private static final String IMG_PATH = "resources/images/";
 	
 	private String pokemon;	
 	private DataFetch df;
