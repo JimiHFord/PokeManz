@@ -1,6 +1,7 @@
 package view.pokedex;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -15,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,9 +38,13 @@ import data.DataFetch;
 public class PokedexScreen extends JPanel {
 
 	private static final String DEFAULT = "Search Pokemon...";
-	private String pokemon;
+	private static final String EXT = ".mp3";
+	private static final String SOUND_DIR = "sounds/";
+	
+	private String pokemon;	
 	private DataFetch df;
 	private JTextArea jta;
+	private CryButton cry;
 	private JTable table;
 	private JLabel nameLbl;
 	private JLabel imageLbl;
@@ -90,6 +94,7 @@ public class PokedexScreen extends JPanel {
 		color = new JLabel("");
 		type1 = new JLabel("");
 		type2 = new JLabel("");
+		cry = new CryButton(0);
 		ability1 = new JLabel("");
 		ability2 = new JLabel("");
 		imageLbl = new JLabel("");
@@ -127,6 +132,7 @@ public class PokedexScreen extends JPanel {
 		southPanel.add(ability2, "wrap");
 		southPanel.add(pokemetricsBtn, "gaptop 50");
 		southPanel.add(pokevolveBtn, "gaptop 50");
+//		southPanel.setBackground(Color.red);
 		this.add(southPanel, "south");
 	}
 	
@@ -202,6 +208,11 @@ public class PokedexScreen extends JPanel {
 		updatePokedexName();
 	}
 	
+	private void setPokedexEntry(String pokemon, int national_id) {
+		this.pokemon = pokemon;
+		this.cry.setNationalID(national_id);
+	}
+	
 	private void initializeActions(){
 		this.jta.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e){
@@ -251,10 +262,10 @@ public class PokedexScreen extends JPanel {
 				int index = table.getSelectedRow();
 				if(index != -1){		
 					String pokemon = (String) table.getValueAt(index, 1);
-					setPokedexEntry(pokemon);
+					int national_id = (int) table.getValueAt(index, 0);
+					setPokedexEntry(pokemon, national_id);
 				}				
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
@@ -278,7 +289,12 @@ public class PokedexScreen extends JPanel {
 				// TODO Auto-generated method stub
 				
 			}
-			
+		});
+		this.cry.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new SoundJLayer(SOUND_DIR + cry.getNationalID() + EXT).play();
+			}
 		});
 	}
 	
