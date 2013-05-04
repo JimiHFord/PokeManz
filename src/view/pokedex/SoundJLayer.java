@@ -51,12 +51,12 @@ public class SoundJLayer extends PlaybackListener implements Runnable
     // PlaybackListener members
     public void playbackStarted(PlaybackEvent playbackEvent)
     {
-        System.out.println("playbackStarted()");
+//        System.out.println("playbackStarted()");
     }
 
     public void playbackFinished(PlaybackEvent playbackEvent)
     {
-        System.out.println("playbackEnded()");
+//        System.out.println("playbackEnded()");
     }    
 
     // Runnable members
