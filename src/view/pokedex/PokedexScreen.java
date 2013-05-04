@@ -38,13 +38,15 @@ import data.DataFetch;
  *
  */
 @SuppressWarnings("serial")
-public class PokedexScreen extends JPanel {
+public class PokedexScreen extends JPanel implements PokeListener {
 
 	private static final String DEFAULT = "Search Pokemon...";
 	private static final String EXT = ".mp3";
 	private static final String RESOURCE_DIR = "resources/";
 	private static final String SOUND_DIR = RESOURCE_DIR + "sounds/";
 	private static final String IMG_PATH = RESOURCE_DIR + "images/";
+	public static final String DISABLE = "DISABLE";
+	public static final String ENABLE = "ENABLE";
 	
 	private String pokemon;	
 	private DataFetch df;
@@ -74,6 +76,7 @@ public class PokedexScreen extends JPanel {
 	private JScrollPane jsp;
 	private ArrayList<String> dexData;
 	private PokeListener listener;
+	private PokeListener thisListener = this;
 	
 	public PokedexScreen(PokeListener listener){
 		super(new MigLayout());
@@ -303,12 +306,29 @@ public class PokedexScreen extends JPanel {
 		this.cry.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SoundJLayer(SOUND_DIR + cry.getNationalID() + EXT).play();
+				new SoundJLayer(SOUND_DIR + cry.getNationalID() + EXT, thisListener).play();
 			}
 		});
+	}
+	
+	
+	@Override
+	public void act(String command, String argument) {
+		switch(command) {
+		case ENABLE:
+			this.cry.setEnabled(true);
+			break;
+		case DISABLE:
+			this.cry.setEnabled(false);
+			break;
+		default:
+			System.err.println("Internal error. Wrong message sent.");
+		}
 	}
 	
 	public static void main(String[] args) {
 		new SoundJLayer(SOUND_DIR + 490 + EXT).play();
 	}
+
+	
 }
