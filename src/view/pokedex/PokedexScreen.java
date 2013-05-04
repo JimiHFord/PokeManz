@@ -222,7 +222,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 //		updatePokedexName();
 //	}
 	
-	private void setPokedexEntry(String pokemon, int national_id) {
+	public void setPokedexEntry(String pokemon, int national_id) {
 		this.pokemon = pokemon;
 		this.cry.setNationalID(national_id);
 		updatePokedexName();
