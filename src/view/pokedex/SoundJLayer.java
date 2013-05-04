@@ -10,7 +10,7 @@ import javazoom.jl.player.advanced.PlaybackListener;
 /**
  * @author jimiford
  *
- * @reference http://thiscouldbebetter.wordpress.com/2011/06/14/playing-an-mp3-from-java-using-jlayer/
+ * @source http://thiscouldbebetter.wordpress.com/2011/06/14/playing-an-mp3-from-java-using-jlayer/
  */
 public class SoundJLayer extends PlaybackListener implements Runnable
 {
