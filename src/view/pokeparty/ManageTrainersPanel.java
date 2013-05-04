@@ -62,6 +62,7 @@ public class ManageTrainersPanel extends JPanel {
 		super(new BorderLayout());
 		this.listener = p;
 		this.df = DataFetch.getInstance();
+		this.setFocusable(true);
 		createComponents();
 		actionInitialization();
 		updateTable();
@@ -81,6 +82,7 @@ public class ManageTrainersPanel extends JPanel {
 		this.passTwo = new JPasswordField(10);
 		c = new GridBagConstraints();
 		this.add = new JButton("Add Trainer");
+		this.right.setFocusable(true);
 //		this.remove = new JButton("Remove Trainer #");
 	}
 	

@@ -71,7 +71,7 @@ public class PokevolvePanel extends JPanel{
 		this.removeAll();
 		initComponents();
 		int j = 0;
-		System.out.println(dataLbls.size());
+		//System.out.println(dataLbls.size());
 		for(int i = 0; i < (dataLbls.size()/3); i++){
 			JPanel panel = new JPanel(new MigLayout());
 			panel.add(dataLbls.get(j), "center, wrap");
@@ -133,7 +133,7 @@ public class PokevolvePanel extends JPanel{
 				//branchNo = branchNo + (i*7);
 				branchNo += 7;
 			}
-			System.out.println(evoData);
+			//System.out.println(evoData);
 			dataLbls.add(new JLabel(evoData.get(branchNo+1)));
 			String ID = evoData.get(branchNo);
 			addImage(ID);

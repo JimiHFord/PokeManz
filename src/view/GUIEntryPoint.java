@@ -106,7 +106,15 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 			jtp.setSelectedIndex(0);
 			break;
 		case POKEDEX:
-			jtp.setSelectedIndex(1);
+			try {
+				String[] args = argument.split(PokeSearchPanel.SPLITTER);
+				ps.setPokedexEntry(args[1], Integer.parseInt(args[0]));
+				jtp.setSelectedIndex(1);
+			} catch (NumberFormatException e) {
+				System.err.println("Internal error on ParseInt");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
 			break;
 		case POKEMETRICS:
 			pcp.pmp.updatePokemetrics(argument);

@@ -31,6 +31,7 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class PokemetricsPanel extends JPanel {
 	private static final String DEFAULT =  "Search Pokemon...";
+	public static final String DEFAULT_POKEMON = "Bulbasaur";
 	private DataFetch df;
 	private JTextArea jta;
 	private JTable table;
@@ -57,6 +58,8 @@ public class PokemetricsPanel extends JPanel {
 		super(new MigLayout());
 		this.df = DataFetch.getInstance();
 		initComponents();
+		updatePokemoves(DEFAULT_POKEMON);
+		updatePokemetrics(DEFAULT_POKEMON);
 	}
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);

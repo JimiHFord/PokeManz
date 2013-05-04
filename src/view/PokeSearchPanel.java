@@ -32,6 +32,7 @@ public class PokeSearchPanel extends JPanel {
 
 	
 	private static final String DEFAULT = "Search Pokemon...";
+	public static final String SPLITTER = "_";
 	private boolean override;
 	private DataFetch df;
 	private JTextArea jta;
@@ -102,7 +103,8 @@ public class PokeSearchPanel extends JPanel {
 				int index = table.getSelectedRow();
 				if(index != -1){		
 					String pokemon = (String) table.getValueAt(index, 1);
-					// TODO call the setPokedexEntry(pokemon) method in PokedexScreen and switch views
+					int national_id = (int) table.getValueAt(index, 0);
+					listen.act(GUIEntryPoint.POKEDEX, national_id + SPLITTER+ pokemon);
 				}				
 			}
 
