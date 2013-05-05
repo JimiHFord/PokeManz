@@ -87,7 +87,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 	
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
-		jta.setPreferredSize(new Dimension(90,30));
+		jta.setPreferredSize(new Dimension(160,25));
 		table = new JTable();
 		jsp = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);

@@ -51,6 +51,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static final String POKEVOLVE = "Pokevolve";
 	public static final String POKEPARTY = "Pokeparty";
 	public static final String POKEHELP = "PokeHelp";
+	private static final String DEFAULT = "Bulbasaur";
 	private static final int eUnsElo = 5;
 	private final DataFetch df;
 	private JTabbedPane jtp;
@@ -71,6 +72,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		EENKww90 = null;
 		initComponents();
 		fillComponents();
+		this.pep.updatePokevolve(DEFAULT, 0);
 	}
 
 	private void initComponents() {
@@ -159,11 +161,16 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		java.io.BufferedWriter bw = null;
 		java.io.BufferedReader br = null;
 		boolean ioError = false;
+		String temp = "";
 		try {
 			br = new java.io.BufferedReader(new java.io.FileReader(new java.io.File(PROPS)));
+			for(int i = 0; i < eUnsElo; i++) {
+				br.readLine();
+			}
+			temp = br.readLine();
+			br.close();
 		} catch (IOException e1) {
 			ioError = true;
 		}
@@ -188,19 +195,10 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 			showError(PROPS + " file missing", "Error");
 			return;
 		} else {
-			String temp = "";
-			try {
-				for(int i = 0; i < eUnsElo; i++) {
-					br.readLine();
-				}
-				temp = br.readLine();
-				br.close();
-				String[] both = temp.split(" ");
-				enk24GGn = PokeUtils.decrypt(both[1]);
-				EENKww90 = PokeUtils.decrypt(both[2]);
-			} catch (IOException e) {
-				showError(e.getMessage(), "IOException");
-			}
+
+			String[] both = temp.split(" ");
+			enk24GGn = PokeUtils.decrypt(both[1]);
+			EENKww90 = PokeUtils.decrypt(both[2]);
 		}
 
 		Runnable doCreateAndShowGUI = new Runnable() {
