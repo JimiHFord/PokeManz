@@ -144,8 +144,8 @@ public class PokemetricsPanel extends JPanel {
 		}
 		
 		Image resizeImg = imgs != null ? 
-				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, 0) :
-				img.getScaledInstance(150, 150, 0);
+				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH) :
+				img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		id.setText(ID);
 		name.setText(metricsData.get(1));
@@ -228,6 +228,7 @@ public class PokemetricsPanel extends JPanel {
 			}
 			
 		});
+		
 	}
 	
 	private void updateTable(){

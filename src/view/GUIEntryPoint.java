@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 
 import view.pokedex.PokedexScreen;
 import view.pokemetrics.PokeCardPanel;
+import view.pokemetrics.PokemetricsPanel;
 import view.pokeparty.PokePartyPanel;
 import view.pokevolve.PokevolvePanel;
 
@@ -51,7 +52,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static final String POKEVOLVE = "Pokevolve";
 	public static final String POKEPARTY = "Pokeparty";
 	public static final String POKEHELP = "PokeHelp";
-	private static final String DEFAULT = "Bulbasaur";
+	private static final String DEFAULT = PokemetricsPanel.DEFAULT_POKEMON;
 	private static final int eUnsElo = 5;
 	private final DataFetch df;
 	private JTabbedPane jtp;
