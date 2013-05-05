@@ -14,8 +14,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -181,7 +184,14 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
-		Image resizeImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		java.awt.image.BufferedImage imgs = null;
+		try {
+			imgs = ImageIO.read(new java.io.File(path));
+		} catch (IOException e) {	}
+		
+		Image resizeImg = imgs == null ? 
+				img.getScaledInstance(200, 200, Image.SCALE_SMOOTH) :
+				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		nameLbl.setText(dexData.get(1));
 		nameLbl.setFont(new Font("Dialog", Font.BOLD, 26));

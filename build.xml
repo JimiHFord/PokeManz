@@ -1,8 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="HW.makejar" default="makejar" basedir=".">
-  <target name ="makejar" description="Create a jar for the HW project">
-    <jar jarfile="HelloWorld.jar" includes="*.class" basedir="bin"/>
-  </target>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project PokeManzProject">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/Users/jimiford/git/PokeManz/PokeManzProject/Pokemon.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="view.GUIEntryPoint"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="/Users/jimiford/git/PokeManz/PokeManzProject/build/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/jimiford/git/PokeManz/PokeManzProject/lib/postgresql-9.2-1002.jdbc4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/jimiford/git/PokeManz/PokeManzProject/lib/jcommon-1.0.17.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/jimiford/git/PokeManz/PokeManzProject/lib/jfreechart-1.0.14.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/jimiford/git/PokeManz/PokeManzProject/lib/miglayout-4.0-swing.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/jimiford/git/PokeManz/PokeManzProject/lib/jl1.0.1.jar"/>
+        </jar>
+    </target>
 </project>
-
-<!-- this build file does not work yet -->
