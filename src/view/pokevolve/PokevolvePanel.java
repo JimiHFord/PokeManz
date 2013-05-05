@@ -34,14 +34,16 @@ public class PokevolvePanel extends JPanel{
 	private JTextArea jta;
 	private JTable table;
 	private JScrollPane jsp;
-	private JLabel levelLbl;
-	private JLabel itemLbl;
-	private JLabel moveLbl;
+//	private JLabel levelLbl;
+//	private JLabel itemLbl;
+//	private JLabel moveLbl;
 	private int size;
 	private ArrayList<JLabel> dataLbls;
 	private ArrayList<String> evoData;
-	private JPanel centerPanel;
-	private JTable eggMoves;
+	private JPanel picturePanel;
+	private JPanel westPanel;
+//	private JPanel centerPanel;
+//	private JTable eggMoves;
 	//private int records;
 	private boolean branching = false;
 
@@ -50,64 +52,70 @@ public class PokevolvePanel extends JPanel{
 		this.df = DataFetch.getInstance();
 		dataLbls = new ArrayList<JLabel>();
 		initComponents();
+		fillComponents();
+		updateTable();
 	}
 
 	private void initComponents() {
 		jta = new JTextArea(DEFAULT);
-		jta.setPreferredSize(new Dimension(90,30));
+		jta.setPreferredSize(new Dimension(160,25));
+		jta.setMinimumSize(new Dimension(160,25));
 		table = new JTable();
+		picturePanel = new JPanel(new MigLayout());
 		jsp = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		jsp.setPreferredSize(new Dimension(160,200));
+		jsp.setMinimumSize(new Dimension(160,200));
 		initializeActions();
-		JPanel westPanel = new JPanel(new MigLayout());
+		westPanel = new JPanel(new MigLayout());
+	}
+	
+	private void fillComponents() {
 		westPanel.add(jta, "wrap");
 		westPanel.add(jsp);
-		updateTable();
 		this.add(westPanel, "west");
 	}
 
 	private void updateComponents(){
-		this.removeAll();
-		initComponents();
+		this.picturePanel.removeAll();
+		this.remove(picturePanel);
+//		initComponents();
 		int j = 0;
 		//System.out.println(dataLbls.size());
 		for(int i = 0; i < (dataLbls.size()/3); i++){
 			JPanel panel = new JPanel(new MigLayout());
-			panel.add(dataLbls.get(j), "center, wrap");
-			j++;
-			panel.add(dataLbls.get(j), "center, wrap");
-			j++;
-			panel.add(dataLbls.get(j), "center");
-			j++;
+			panel.add(dataLbls.get(j++), "center, wrap");
+			panel.add(dataLbls.get(j++), "center, wrap");
+			panel.add(dataLbls.get(j++), "center");
 			if(dataLbls.size()/3 == 5){
 				if((i+1)%3 == 0){
-					this.add(panel, "wrap");
+					this.picturePanel.add(panel, "wrap");
 				}else{
-					this.add(panel);
+					this.picturePanel.add(panel);
 				}
 			}else if(dataLbls.size()/3 == 4){
 				if((i+1)%2 == 0){
-					this.add(panel, "wrap");
+					this.picturePanel.add(panel, "wrap");
 				}else{
-					this.add(panel);
+					this.picturePanel.add(panel);
 				}
 			}else if(dataLbls.size()/3 == 8){
 				if((i+1)%4 == 0){
-					this.add(panel, "wrap");
+					this.picturePanel.add(panel, "wrap");
 				}else{
-					this.add(panel);
+					this.picturePanel.add(panel);
 				}
 			}else if(dataLbls.size()/3 == 6){
 				if((i+1)%3 == 0){
-					this.add(panel, "wrap");
+					this.picturePanel.add(panel, "wrap");
 				}else{
-					this.add(panel);
+					this.picturePanel.add(panel);
 				}
 			}else{
-				this.add(panel);
+				this.picturePanel.add(panel);
 			}
 		}
+		this.add(picturePanel);
 		this.revalidate();
 		this.repaint();
 		if(!dataLbls.isEmpty()){
@@ -116,6 +124,9 @@ public class PokevolvePanel extends JPanel{
 	}
 	public void updatePokevolve(String pokemon, int branchNo){
 		evoData = df.getPokevolveQuery(pokemon);
+		if(evoData.size() == 0) {
+			return;
+		}
 		if(evoData.get(0).equals("133")){
 			updateEevee();
 			return;
@@ -270,7 +281,8 @@ public class PokevolvePanel extends JPanel{
 		try {
 			imgs = ImageIO.read(new File(path));
 		} catch (IOException e) { }
-		Image resizeImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		Image resizeImg = img.getScaledInstance(
+				imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH);
 		dataLbls.add(new JLabel(""));
 		dataLbls.get(dataLbls.size()-1).setIcon(new ImageIcon(resizeImg));
 	}
