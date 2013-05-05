@@ -40,6 +40,7 @@ public class PokevolvePanel extends JPanel{
 	private int size;
 	private ArrayList<JLabel> dataLbls;
 	private ArrayList<String> evoData;
+	private JScrollPane pictureScroller;
 	private JPanel picturePanel;
 	private JPanel westPanel;
 //	private JPanel centerPanel;
@@ -59,9 +60,10 @@ public class PokevolvePanel extends JPanel{
 	private void initComponents() {
 		jta = new JTextArea(DEFAULT);
 		jta.setPreferredSize(new Dimension(160,25));
-		jta.setMinimumSize(new Dimension(160,25));
+//		jta.setMinimumSize(new Dimension(160,25));
 		table = new JTable();
 		picturePanel = new JPanel(new MigLayout());
+		pictureScroller = new JScrollPane(picturePanel);
 		jsp = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		jsp.setPreferredSize(new Dimension(160,200));
@@ -74,11 +76,12 @@ public class PokevolvePanel extends JPanel{
 		westPanel.add(jta, "wrap");
 		westPanel.add(jsp);
 		this.add(westPanel, "west");
+		this.add(pictureScroller);
 	}
 
 	private void updateComponents(){
 		this.picturePanel.removeAll();
-		this.remove(picturePanel);
+//		this.remove(picturePanel);
 //		initComponents();
 		int j = 0;
 		//System.out.println(dataLbls.size());
@@ -115,7 +118,7 @@ public class PokevolvePanel extends JPanel{
 				this.picturePanel.add(panel);
 			}
 		}
-		this.add(picturePanel);
+//		this.add(picturePanel);
 		this.revalidate();
 		this.repaint();
 		if(!dataLbls.isEmpty()){

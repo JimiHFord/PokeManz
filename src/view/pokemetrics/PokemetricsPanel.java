@@ -63,7 +63,7 @@ public class PokemetricsPanel extends JPanel {
 	}
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
-		jta.setPreferredSize(new Dimension(90,30));
+		jta.setPreferredSize(new Dimension(160,25));
 		table = new JTable();
 		metrics = new JTable();
 		moves = new JTable();
