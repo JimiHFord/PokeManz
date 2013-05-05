@@ -30,11 +30,19 @@ public class PokeUtils {
 	private static final Type dragon[] = { Type.Ice, Type.Dragon };
 	private static final Type dark[] = { Type.Fighting, Type.Bug };
 	private static final Type steel[] = { Type.Fire, Type.Fighting, Type.Ground };
-	
+
+	///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	////////////////////DON'T TOUCH THIS///////////////////////////
+	/*//////////*/private static final int[] keyChain = {//////////
+	/*//////////*/3, -1, 2, -2, 3, 1, -3, 2, 1, -3, 1  };//////////
+	////////////////////DON'T TOUCH THIS///////////////////////////
+	///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
 	private static final int PRIME = 977;
 	private static final int INT = 429857;
 	private static final int MODLENGTH = 1000000;
-	
+
 	/**
 	 * Hashes password
 	 *
@@ -48,9 +56,49 @@ public class PokeUtils {
 		}
 		return hashed % MODLENGTH;
 	}
-	
-	
-	
+
+
+	public static String encrypt(String str) {
+		String encrypted = ""; 
+		str = str.trim().replaceAll("( )+", " ");
+		int length = str.length();
+		int keyChainLength = keyChain.length;
+		char eachChar;
+		int keyIndex = 0;
+		for(int i = 0; i < length; i++) {
+			if(keyIndex >= keyChainLength) keyIndex = 0;
+			eachChar = str.charAt(i);
+			if(eachChar != '\n') {
+				eachChar += keyChain[keyIndex++];
+				encrypted += eachChar;
+			} else {
+				encrypted += '\n';
+			}
+		}
+
+		return encrypted;
+	}
+
+	public static String decrypt(String str) {
+		String encrypted = "";
+		int length = str.length();
+		int keyChainLength = keyChain.length;
+		char eachChar;
+		int keyIndex = 0;
+		for(int i = 0; i < length; i++) {
+			if(keyIndex >= keyChainLength) keyIndex = 0;
+			eachChar =  str.charAt(i);
+			if(eachChar != '\n') {
+				eachChar -= keyChain[keyIndex++];
+				encrypted += eachChar;
+			} else {
+				encrypted += '\n';
+			}
+		}
+
+		return encrypted;
+	}
+
 	/*
 	 * All the different types of Pokemon
 	 */
@@ -73,7 +121,7 @@ public class PokeUtils {
 		Dark,
 		Steel
 	}
-	
+
 	/**
 	 * This returns all the weaknesses of the type that is passed into this function
 	 * @param t the type to calculate the weaknesses of
@@ -119,8 +167,8 @@ public class PokeUtils {
 			return null;
 		}
 	}
-	
-	
+
+
 	/**
 	 * This counts the number of weaknesses of the passed in type
 	 * @param t	the type to count the weaknesses of
@@ -166,13 +214,17 @@ public class PokeUtils {
 			return 0;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
 		System.out.println(PokeUtils.doPass(new char[]{'j'}));
 		System.out.println(PokeUtils.doPass(new char[]{'d'}));
 		System.out.println(PokeUtils.doPass(new char[]{'b'}));
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
+		System.out.println(PokeUtils.encrypt("p48501h"));
+		System.out.println(PokeUtils.encrypt("pikapikachu"));
+		System.out.println(PokeUtils.decrypt("s3:332e"));
+		System.out.println(PokeUtils.decrypt("shm_sjhcdev"));
 	}
 
 
