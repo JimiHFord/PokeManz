@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
@@ -29,6 +30,7 @@ import view.pokeparty.PokePartyPanel;
 import view.pokevolve.PokevolvePanel;
 
 import data.DataFetch;
+import data.PokeUtils;
 
 /**
  * Main JFrame application container
@@ -38,9 +40,10 @@ import data.DataFetch;
 @SuppressWarnings("serial")
 public class GUIEntryPoint extends JFrame implements PokeListener, ActionListener {
 
-	private static String user;
-	private static String pass;
+	private static String enk24GGn;
+	private static String EENKww90;
 
+	public static final String PROPS = "resources/props";
 	public static final String TITLE = "PokeMonitor";
 	public static final String POKEHOME = "PokeHome";
 	public static final String POKEDEX = "Pokedex";
@@ -48,6 +51,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static final String POKEVOLVE = "Pokevolve";
 	public static final String POKEPARTY = "Pokeparty";
 	public static final String POKEHELP = "PokeHelp";
+	private static final int eUnsElo = 5;
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
@@ -56,15 +60,15 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private PokePartyPanel ppp;
 	private PokeCardPanel pcp;
 	private PokevolvePanel pep;
-	
+
 
 	public GUIEntryPoint(String title) throws SQLException {
 		super(title);
 		this.df = DataFetch.getInstance();
 		this.df.setListener(this);
-		this.df.connectToRIT(user, pass);
-		user = null;
-		pass = null;
+		this.df.connectToRIT(enk24GGn, EENKww90);
+		enk24GGn = null;
+		EENKww90 = null;
 		initComponents();
 		fillComponents();
 	}
@@ -130,7 +134,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 			break;
 		}
 	}
-	
+
 	protected static void createAndShowGUI() {
 		JFrame f = null;
 		try {
@@ -155,6 +159,14 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		java.io.BufferedWriter bw = null;
+		java.io.BufferedReader br = null;
+		boolean ioError = false;
+		try {
+			br = new java.io.BufferedReader(new java.io.FileReader(new java.io.File(PROPS)));
+		} catch (IOException e1) {
+			ioError = true;
+		}
 		if (!System.getProperty("java.version").startsWith("1.7")) {
 			showError("Please install Java version 7", "Error");
 			return;
@@ -172,12 +184,24 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 			// Will be set to default LAF
 		}
 
-		if(args.length < 2) {
-			showError("Usage: args[0] = username | args[1] = password", "Error");
+		if(ioError){
+			showError(PROPS + " file missing", "Error");
 			return;
+		} else {
+			String temp = "";
+			try {
+				for(int i = 0; i < eUnsElo; i++) {
+					br.readLine();
+				}
+				temp = br.readLine();
+				br.close();
+				String[] both = temp.split(" ");
+				enk24GGn = PokeUtils.decrypt(both[1]);
+				EENKww90 = PokeUtils.decrypt(both[2]);
+			} catch (IOException e) {
+				showError(e.getMessage(), "IOException");
+			}
 		}
-		user = args[0];
-		pass = args[1];
 
 		Runnable doCreateAndShowGUI = new Runnable() {
 
@@ -204,7 +228,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 				pcp.pgp.updatePokeGenerations(pcp.pmp.name.getText());
 			}
 		}
-		
+
 	}
 
 
