@@ -267,7 +267,12 @@ public class DataFetch {
 		} catch (NullPointerException e) {
 			error = true;
 		}
-		return error ? new DefaultTableModel() : new DefaultTableModel(data, columnNames);
+		return error ? new DefaultTableModel() : new DefaultTableModel(data, columnNames){
+			@Override
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
 	}
 
 	/**
