@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
@@ -25,11 +26,12 @@ import javax.swing.UIManager;
 
 import view.pokedex.PokedexScreen;
 import view.pokemetrics.PokeCardPanel;
-import view.pokemetrics.PokemetricsScreen;
+import view.pokemetrics.PokemetricsPanel;
 import view.pokeparty.PokePartyPanel;
 import view.pokevolve.PokevolvePanel;
 
 import data.DataFetch;
+import data.PokeUtils;
 
 /**
  * Main JFrame application container
@@ -39,16 +41,19 @@ import data.DataFetch;
 @SuppressWarnings("serial")
 public class GUIEntryPoint extends JFrame implements PokeListener, ActionListener {
 
-	private static String user;
-	private static String pass;
+	private static String enk24GGn;
+	private static String EENKww90;
 
+	public static final String PROPS = "resources/props";
 	public static final String TITLE = "PokeMonitor";
-	private static final String T1_TITLE = "PokeHome";
-	private static final String T2_TITLE = "Pokedex";
-	private static final String T3_TITLE = "Pokemetrics";
-	private static final String T4_TITLE = "Pokevolve";
-	private static final String T5_TITLE = "Pokeparty";
-	private static final String T6_TITLE = "PokeHelp";
+	public static final String POKEHOME = "PokeHome";
+	public static final String POKEDEX = "Pokedex";
+	public static final String POKEMETRICS = "Pokemetrics";
+	public static final String POKEVOLVE = "Pokevolve";
+	public static final String POKEPARTY = "Pokeparty";
+	public static final String POKEHELP = "PokeHelp";
+	private static final String DEFAULT = PokemetricsPanel.DEFAULT_POKEMON;
+	private static final int eUnsElo = 5;
 	private final DataFetch df;
 	private JTabbedPane jtp;
 
@@ -57,17 +62,18 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private PokePartyPanel ppp;
 	private PokeCardPanel pcp;
 	private PokevolvePanel pep;
-	
+
 
 	public GUIEntryPoint(String title) throws SQLException {
 		super(title);
 		this.df = DataFetch.getInstance();
 		this.df.setListener(this);
-		this.df.connectToRIT(user, pass);
-		user = null;
-		pass = null;
+		this.df.connectToRIT(enk24GGn, EENKww90);
+		enk24GGn = null;
+		EENKww90 = null;
 		initComponents();
 		fillComponents();
+		this.pep.updatePokevolve(DEFAULT, 0);
 	}
 
 	private void initComponents() {
@@ -84,12 +90,12 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	private void fillComponents() {
-		jtp.addTab(T1_TITLE, psp = new PokeSearchPanel(this));
-		jtp.addTab(T2_TITLE, ps = new PokedexScreen());
-		jtp.addTab(T3_TITLE, pcp);
-		jtp.addTab(T4_TITLE, pep = new PokevolvePanel());
-		jtp.addTab(T5_TITLE, ppp = new PokePartyPanel());
-		jtp.addTab(T6_TITLE, new JPanel());
+		jtp.addTab(POKEHOME, psp = new PokeSearchPanel(this));
+		jtp.addTab(POKEDEX, ps = new PokedexScreen(this));
+		jtp.addTab(POKEMETRICS, pcp);
+		jtp.addTab(POKEVOLVE, pep = new PokevolvePanel());
+		jtp.addTab(POKEPARTY, ppp = new PokePartyPanel());
+		jtp.addTab(POKEHELP, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
 		jtp.setMnemonicAt(2, KeyEvent.VK_3);
@@ -99,26 +105,39 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		this.add(jtp, BorderLayout.CENTER);
 	}
 
-	
+
 
 	public void act(String command, String argument) {
 		switch(command) {
-		case PokeListener.TAB_VIEW:
-			if(command.equals(T1_TITLE)) {
-				jtp.setSelectedIndex(0);
-			} else if (command.equals(T2_TITLE)) {
+		case POKEHOME:
+			jtp.setSelectedIndex(0);
+			break;
+		case POKEDEX:
+			try {
+				String[] args = argument.split(PokeSearchPanel.SPLITTER);
+				ps.setPokedexEntry(args[1], Integer.parseInt(args[0]));
 				jtp.setSelectedIndex(1);
-			} else if (command.equals(T3_TITLE)) {
-				jtp.setSelectedIndex(2);
-			} else if (command.equals(T4_TITLE)) {
-				jtp.setSelectedIndex(3);
-			} else if (command.equals(T5_TITLE)) {
-				jtp.setSelectedIndex(4);
+			} catch (NumberFormatException e) {
+				System.err.println("Internal error on ParseInt");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
+			break;
+		case POKEMETRICS:
+			pcp.pmp.updatePokemetrics(argument);
+			pcp.pmp.updatePokemoves(argument);
+			jtp.setSelectedIndex(2);
+			break;
+		case POKEVOLVE:
+			pep.updatePokevolve(argument, 0);
+			jtp.setSelectedIndex(3);
+			break;
+		case POKEPARTY:
+			jtp.setSelectedIndex(4);
 			break;
 		}
 	}
-	
+
 	protected static void createAndShowGUI() {
 		JFrame f = null;
 		try {
@@ -130,7 +149,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 
 		// Setup JFrame deets.
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setPreferredSize(new Dimension(940,600));
+		f.setPreferredSize(new Dimension(1240,800));
 		f.pack(); // Pack before setting location (this determines size)
 
 		// Get the current screen's size
@@ -143,6 +162,19 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		java.io.BufferedReader br = null;
+		boolean ioError = false;
+		String temp = "";
+		try {
+			br = new java.io.BufferedReader(new java.io.FileReader(new java.io.File(PROPS)));
+			for(int i = 0; i < eUnsElo; i++) {
+				br.readLine();
+			}
+			temp = br.readLine();
+			br.close();
+		} catch (IOException e1) {
+			ioError = true;
+		}
 		if (!System.getProperty("java.version").startsWith("1.7")) {
 			showError("Please install Java version 7", "Error");
 			return;
@@ -160,12 +192,15 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 			// Will be set to default LAF
 		}
 
-		if(args.length < 2) {
-			showError("Usage: args[0] = username | args[1] = password", "Error");
+		if(ioError){
+			showError(PROPS + " file missing", "Error");
 			return;
+		} else {
+
+			String[] both = temp.split(" ");
+			enk24GGn = PokeUtils.decrypt(both[1]);
+			EENKww90 = PokeUtils.decrypt(both[2]);
 		}
-		user = args[0];
-		pass = args[1];
 
 		Runnable doCreateAndShowGUI = new Runnable() {
 
@@ -192,7 +227,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 				pcp.pgp.updatePokeGenerations(pcp.pmp.name.getText());
 			}
 		}
-		
+
 	}
 
 

@@ -83,6 +83,7 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	public void act(String command, String argument) {
 		switch(command) {
 		case MANAGE_TRAINERS_PANEL:
+			pass.clearText();
 			manageTrainersPanel.updateTable();
 			break;
 			

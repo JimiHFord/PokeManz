@@ -10,6 +10,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.17.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.14.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-4.0-swing.jar"/>
-	<classpathentry kind="lib" path="lib/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jl1.0.1.jar" sourcepath="/Users/jimiford/Downloads/jlayer1.0.1.zip"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

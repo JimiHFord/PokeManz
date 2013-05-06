@@ -49,6 +49,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 	private JPanel left;
 	private PokeListener listener;
 	private PokeSearchPanel search;
+	private PokePI pi;
 	private DataFetch df;
 	private JTable table;
 	private Integer ID;
@@ -58,7 +59,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 	
 	
 	public TeamPanel(PokeListener p) {
-		super(new BorderLayout());
+		super(new GridLayout(1,2));
 		this.setFocusable(true);
 		this.c = new GridBagConstraints();
 		this.buttonPanel = new JPanel(new GridBagLayout());
@@ -67,11 +68,12 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.update = new JButton("Update Name");
 		this.nameArea = new JTextArea();
 		this.listener = p;
+		this.pi = new PokePI(this);
 		this.df = DataFetch.getInstance();
 		this.table = new JTable();
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.jsp = new JScrollPane(table);
-		this.right = new JPanel(new BorderLayout());
+		this.right = new JPanel(new GridLayout(3,1));
 		this.left = new JPanel(new BorderLayout());
 		this.search = new PokeSearchPanel(this);
 		this.back = new JButton("Sign Out");
@@ -133,7 +135,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 						} catch (InterruptedException e) {
 							
 						}
-						nameArea.setText(userName);
+//						nameArea.setText(userName);
 					}
 					
 				}.start();
@@ -164,9 +166,9 @@ public class TeamPanel extends JPanel implements PokeListener {
 	private void fillComponents() {
 
 		this.nameArea.setPreferredSize(new Dimension(110, 25));
-		right.add(buttonPanel, BorderLayout.CENTER);
-		right.add(jsp, BorderLayout.SOUTH);
-		right.add(new JPanel(), BorderLayout.NORTH);
+		right.add(buttonPanel);
+		right.add(pi);//THIS WILL BE THE PIE CHART
+		right.add(jsp);
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 2, 1);
 		this.buttonPanel.add(back, c);
 		this.setGridBagConstraints(0, 2, 0, 0, 0, 2, 1);
@@ -178,8 +180,8 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.setGridBagConstraints(2, 0, 0, 0, 0, 2, 1);
 		this.buttonPanel.add(deleteAccount, c);
 		this.left.add(search, BorderLayout.CENTER);
-		this.add(right, BorderLayout.EAST);
-		this.add(left, BorderLayout.WEST);
+		this.add(left);
+		this.add(right);
 		
 	}
 	
@@ -188,6 +190,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.table.setModel(df.getTeamPanelModel(user));
 		this.userName = df.getTrainerNameFromID(user);
 		this.nameArea.setText(userName);
+		this.pi.setTypeDataSet(df.getTypesOnTeam(user));
 	}
 
 	public void setGridBagConstraints(int row, int col, int fill
@@ -206,7 +209,6 @@ public class TeamPanel extends JPanel implements PokeListener {
 
 	@Override
 	public void act(String command, String argument) {
-		// TODO Auto-generated method stub
 		
 	}
 

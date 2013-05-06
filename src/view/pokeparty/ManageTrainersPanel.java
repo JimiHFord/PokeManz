@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,9 +60,10 @@ public class ManageTrainersPanel extends JPanel {
 		
 	
 	public ManageTrainersPanel(PokeListener p) {
-		super(new BorderLayout());
+		super(new GridLayout(1,2));
 		this.listener = p;
 		this.df = DataFetch.getInstance();
+		this.setFocusable(true);
 		createComponents();
 		actionInitialization();
 		updateTable();
@@ -81,6 +83,7 @@ public class ManageTrainersPanel extends JPanel {
 		this.passTwo = new JPasswordField(10);
 		c = new GridBagConstraints();
 		this.add = new JButton("Add Trainer");
+		this.right.setFocusable(true);
 //		this.remove = new JButton("Remove Trainer #");
 	}
 	
@@ -197,6 +200,8 @@ public class ManageTrainersPanel extends JPanel {
 			trainerName.setText(DEFAULT);
 			updateTable();
 		} else {
+			passOne.setText("");
+			passTwo.setText("");
 			JOptionPane.showMessageDialog(null, errorMsg, errorTitle,
 					JOptionPane.ERROR_MESSAGE, null);
 		}
@@ -217,8 +222,8 @@ public class ManageTrainersPanel extends JPanel {
 		this.right.add(add, c);
 		this.setGridBagConstraints(3, 1, 0, 0, 0, 1, 1);
 //		this.right.add(remove, c);
-		this.add(left, BorderLayout.WEST);
-		this.add(right, BorderLayout.EAST);
+		this.add(left);
+		this.add(right);
 		this.left.add(jsp, BorderLayout.CENTER);
 	}
 	
