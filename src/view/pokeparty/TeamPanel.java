@@ -59,7 +59,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 	
 	
 	public TeamPanel(PokeListener p) {
-		super(new BorderLayout());
+		super(new GridLayout(1,2));
 		this.setFocusable(true);
 		this.c = new GridBagConstraints();
 		this.buttonPanel = new JPanel(new GridBagLayout());
@@ -167,7 +167,7 @@ public class TeamPanel extends JPanel implements PokeListener {
 
 		this.nameArea.setPreferredSize(new Dimension(110, 25));
 		right.add(buttonPanel);
-		right.add(new JPanel());//THIS WILL BE THE PIE CHART
+		right.add(pi);//THIS WILL BE THE PIE CHART
 		right.add(jsp);
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 2, 1);
 		this.buttonPanel.add(back, c);
@@ -180,8 +180,8 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.setGridBagConstraints(2, 0, 0, 0, 0, 2, 1);
 		this.buttonPanel.add(deleteAccount, c);
 		this.left.add(search, BorderLayout.CENTER);
-		this.add(right, BorderLayout.EAST);
-		this.add(left, BorderLayout.WEST);
+		this.add(left);
+		this.add(right);
 		
 	}
 	

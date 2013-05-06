@@ -181,6 +181,7 @@ public class PokeUtils {
 		case STEEL:
 			return steel;
 		default:
+			System.err.println("Internal error on get weakness");
 			return null;
 		}
 	}
@@ -228,6 +229,7 @@ public class PokeUtils {
 		case STEEL:
 			return steel.length;
 		default:
+			System.err.println("Internal error on count weakness");
 			return 0;
 		}
 	}

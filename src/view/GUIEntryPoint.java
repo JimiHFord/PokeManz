@@ -149,7 +149,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 
 		// Setup JFrame deets.
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setPreferredSize(new Dimension(940,600));
+		f.setPreferredSize(new Dimension(1240,800));
 		f.pack(); // Pack before setting location (this determines size)
 
 		// Get the current screen's size
