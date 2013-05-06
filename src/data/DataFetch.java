@@ -192,7 +192,9 @@ public class DataFetch {
 				temp1 = rs.getString("type1");
 				result.add(temp1);
 				temp2 = rs.getString("type2");
-				result.add(temp2);
+				if(!temp1.equals(temp2)) {
+					result.add(temp2);
+				}
 			}
 		} catch(SQLException e) {
 			error = true;
