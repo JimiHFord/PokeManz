@@ -190,7 +190,6 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.table.setModel(df.getTeamPanelModel(user));
 		this.userName = df.getTrainerNameFromID(user);
 		this.nameArea.setText(userName);
-		System.out.println(df.getTypesOnTeam(user));
 		this.pi.setTypeDataSet(df.getTypesOnTeam(user));
 	}
 
