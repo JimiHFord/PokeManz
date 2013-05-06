@@ -376,7 +376,7 @@ public class DataFetch {
 	
 	public ArrayList<String> getPokevolveQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
-		if(search.matches("[a-zA-Z]+") == false){
+		if(search.matches("[a-zA-Z. 2-]+") == false){
 			try{
 				ResultSet rs = stmt.executeQuery("select * from v_evolution_data where national_id = " + search + ";");
 				while(rs.next()){
