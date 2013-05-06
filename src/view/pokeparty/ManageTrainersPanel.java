@@ -199,6 +199,8 @@ public class ManageTrainersPanel extends JPanel {
 			trainerName.setText(DEFAULT);
 			updateTable();
 		} else {
+			passOne.setText("");
+			passTwo.setText("");
 			JOptionPane.showMessageDialog(null, errorMsg, errorTitle,
 					JOptionPane.ERROR_MESSAGE, null);
 		}

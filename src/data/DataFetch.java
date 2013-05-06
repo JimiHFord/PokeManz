@@ -14,6 +14,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -174,6 +175,30 @@ public class DataFetch {
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
+	}
+	
+	public LinkedList<String> getTypesOnTeam(int user) {
+		boolean error = false;
+		ResultSet rs = null;
+		LinkedList<String> result = new LinkedList<String>();
+		try {
+			rs = stmt.executeQuery("" +
+					"select type1, type2" +
+					" from explicit_party where t_id = " + user +
+					" order by party_id;");
+			String temp1 = "";
+			String temp2 = "";
+			while(rs.next()) {
+				temp1 = rs.getString("type1");
+				result.add(temp1);
+				temp2 = rs.getString("type2");
+				result.add(temp2);
+			}
+		} catch(SQLException e) {
+			error = true;
+			displayError(e.getMessage(), SQLERROR);
+		}
+		return error ? new LinkedList<String>() : result;
 	}
 	
 	public void connectToRIT(String user, String pass) {

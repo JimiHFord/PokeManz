@@ -13,23 +13,40 @@ public class PokeUtils {
 	/*
 	 * All weaknesses of each type of Pokemon
 	 */
-	private static final Type normal[] = { Type.Fighting };
-	private static final Type fire[] = { Type.Water, Type.Ground, Type.Rock };
-	private static final Type water[] = { Type.Electric, Type.Grass };
-	private static final Type electric[] = { Type.Ground };
-	private static final Type grass[] = { Type.Fire, Type.Ice, Type.Poison, Type.Flying, Type.Bug };
-	private static final Type ice[] = { Type.Fire, Type.Fighting, Type.Rock, Type.Steel };
-	private static final Type fighting[] = { Type.Flying, Type.Psychic };
-	private static final Type poison[] = { Type.Ground, Type.Psychic };
-	private static final Type ground[] = { Type.Water, Type.Grass, Type.Ice };
-	private static final Type flying[] = { Type.Electric, Type.Ice, Type.Rock };
-	private static final Type psychic[] = { Type.Bug, Type.Ghost, Type.Dark };
-	private static final Type bug[] = { Type.Fire, Type.Flying, Type.Rock };
-	private static final Type rock[] = { Type.Water, Type.Grass, Type.Fighting, Type.Ground, Type.Steel };
-	private static final Type ghost[] = { Type.Ghost, Type.Dark };
-	private static final Type dragon[] = { Type.Ice, Type.Dragon };
-	private static final Type dark[] = { Type.Fighting, Type.Bug };
-	private static final Type steel[] = { Type.Fire, Type.Fighting, Type.Ground };
+	public static final String NORMAL = "Normal";
+	public static final String FIRE = "Fire";
+	public static final String WATER = "Water";
+	public static final String ELECTRIC = "Electric";
+	public static final String GRASS = "Grass";
+	public static final String ICE = "Ice";
+	public static final String FIGHTING = "Fighting";
+	public static final String POISON = "Poison";
+	public static final String GROUND = "Ground";
+	public static final String FLYING = "Flying";
+	public static final String PSYCHIC = "Psychic";
+	public static final String BUG = "Bug";
+	public static final String ROCK = "Rock";
+	public static final String GHOST = "Ghost";
+	public static final String DRAGON = "Dragon";
+	public static final String DARK = "Dark";
+	public static final String STEEL = "Steel";
+	private static final String normal[] = { FIGHTING};
+	private static final String fire[] = { WATER, GROUND, ROCK };
+	private static final String water[] = { ELECTRIC, GRASS };
+	private static final String electric[] = { GROUND };
+	private static final String grass[] = { FIRE, ICE, POISON, FLYING, BUG };
+	private static final String ice[] = { FIRE, FIGHTING, ROCK, GHOST };
+	private static final String fighting[] = { FLYING, PSYCHIC };
+	private static final String poison[] = { GROUND, PSYCHIC };
+	private static final String ground[] = { WATER, GRASS, ICE };
+	private static final String flying[] = { ELECTRIC, ICE, ROCK };
+	private static final String psychic[] = { BUG, GHOST, DARK };
+	private static final String bug[] = { FIRE, FLYING, ROCK };
+	private static final String rock[] = { WATER, GRASS, FIGHTING, GROUND, GHOST };
+	private static final String ghost[] = { GHOST, DARK };
+	private static final String dragon[] = { ICE, "Dragon" };
+	private static final String dark[] = { FIGHTING, BUG };
+	private static final String steel[] = { FIRE, FIGHTING, GROUND };
 
 	///////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
@@ -99,69 +116,69 @@ public class PokeUtils {
 		return encrypted;
 	}
 
-	/*
-	 * All the different types of Pokemon
-	 */
-	public enum Type {
-		Normal,
-		Fire,
-		Water,
-		Electric,
-		Grass,
-		Ice,
-		Fighting,
-		Poison,
-		Ground,
-		Flying,
-		Psychic,
-		Bug,
-		Rock,
-		Ghost,
-		Dragon,
-		Dark,
-		Steel
-	}
+//	/*
+//	 * All the different types of Pokemon
+//	 */
+//	public enum Type {
+//		Normal,
+//		Fire,
+//		Water,
+//		Electric,
+//		Grass,
+//		Ice,
+//		Fighting,
+//		Poison,
+//		Ground,
+//		Flying,
+//		Psychic,
+//		Bug,
+//		Rock,
+//		Ghost,
+//		Dragon,
+//		Dark,
+//		Steel
+//	}
 
 	/**
 	 * This returns all the weaknesses of the type that is passed into this function
 	 * @param t the type to calculate the weaknesses of
 	 * @return weaknesses associated with the type t
 	 */
-	public static Type[] getWeakness(Type t) {
+	public static String[] getWeakness(String t) {
 		switch(t) {
-		case Normal:
+		case NORMAL:
 			return normal;
-		case Fire:
+		case FIRE:
 			return fire;
-		case Water:
+		case WATER:
 			return water;
-		case Electric:
+		case ELECTRIC:
 			return electric;
-		case Grass:
+		case GRASS:
 			return grass;
-		case Ice:
+		case ICE:
 			return ice;
-		case Fighting:
+		case FIGHTING:
 			return fighting;
-		case Poison:
+		case POISON:
 			return poison;
-		case Ground:
+		case GROUND:
 			return ground;
-		case Flying:
+		case FLYING:
 			return flying;
-		case Psychic:
+		case PSYCHIC:
 			return psychic;
-		case Bug:
+		case BUG:
 			return bug;
-		case Rock:
+		case ROCK:
 			return rock;
-		case Ghost:
+		case GHOST:
 			return ghost;
-		case Dragon:
+		case DRAGON:
 			return dragon;
-		case Dark:
+		case DARK:
 			return dark;
-		case Steel:
+		case STEEL:
 			return steel;
 		default:
 			return null;
@@ -174,41 +191,41 @@ public class PokeUtils {
 	 * @param t	the type to count the weaknesses of
 	 * @return	the number of weaknesses associated with type t
 	 */
-	public static int countWeakness(Type t) {
+	public static int countWeakness(String t) {
 		switch(t) {
-		case Normal:
+		case NORMAL:
 			return normal.length;
-		case Fire:
+		case FIRE:
 			return fire.length;
-		case Water:
+		case WATER:
 			return water.length;
-		case Electric:
+		case ELECTRIC:
 			return electric.length;
-		case Grass:
+		case GRASS:
 			return grass.length;
-		case Ice:
+		case ICE:
 			return ice.length;
-		case Fighting:
+		case FIGHTING:
 			return fighting.length;
-		case Poison:
+		case POISON:
 			return poison.length;
-		case Ground:
+		case GROUND:
 			return ground.length;
-		case Flying:
+		case FLYING:
 			return flying.length;
-		case Psychic:
+		case PSYCHIC:
 			return psychic.length;
-		case Bug:
+		case BUG:
 			return bug.length;
-		case Rock:
+		case ROCK:
 			return rock.length;
-		case Ghost:
+		case GHOST:
 			return ghost.length;
-		case Dragon:
+		case DRAGON:
 			return dragon.length;
-		case Dark:
+		case DARK:
 			return dark.length;
-		case Steel:
+		case STEEL:
 			return steel.length;
 		default:
 			return 0;
@@ -221,10 +238,6 @@ public class PokeUtils {
 		System.out.println(PokeUtils.doPass(new char[]{'d'}));
 		System.out.println(PokeUtils.doPass(new char[]{'b'}));
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
-		System.out.println(PokeUtils.encrypt("p48501h"));
-		System.out.println(PokeUtils.encrypt("pikapikachu"));
-		System.out.println(PokeUtils.decrypt("s3:332e"));
-		System.out.println(PokeUtils.decrypt("shm_sjhcdev"));
 	}
 
 
