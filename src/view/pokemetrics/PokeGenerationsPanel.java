@@ -100,7 +100,12 @@ public class PokeGenerationsPanel extends JPanel {
 				String query = "select " + option + " from pokedex_description where national_id = '" + national_id + "';";
 				String result = "<html>" + df.getDexEntry(query) + "</html>";
 //				result = result.replaceAll(".", ".\n");
-				pokedexEntry.setText(result);
+				System.out.println(result);
+				if(!result.equalsIgnoreCase("<html>null</html>")){
+					pokedexEntry.setText(result);
+				}else{
+					pokedexEntry.setText("No Pokedex Entry for this Version.");
+				}
 			}
 		};
 		redblue.addActionListener(listener);
