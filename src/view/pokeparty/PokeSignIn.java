@@ -68,6 +68,10 @@ public class PokeSignIn extends JPanel {
 		this.userID = id;
 	}
 	
+	public void clearText() {
+		this.pass.setText("");
+	}
+	
 	private void initActions() {
 		this.back.addActionListener(new ActionListener() {
 			@Override

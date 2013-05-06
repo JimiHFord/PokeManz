@@ -15,7 +15,7 @@ public class CryButton extends JButton {
 	private int national_id;
 	
 	public CryButton(int national_id) {
-		super("Cry");
+		super("Play Sound");
 		setNationalID(national_id);
 	}
 	

@@ -28,8 +28,10 @@ import data.DataFetch;
 
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("serial")
 public class PokemetricsPanel extends JPanel {
 	private static final String DEFAULT =  "Search Pokemon...";
+	public static final String DEFAULT_POKEMON = "Bulbasaur";
 	private DataFetch df;
 	private JTextArea jta;
 	private JTable table;
@@ -56,10 +58,12 @@ public class PokemetricsPanel extends JPanel {
 		super(new MigLayout());
 		this.df = DataFetch.getInstance();
 		initComponents();
+		updatePokemoves(DEFAULT_POKEMON);
+		updatePokemetrics(DEFAULT_POKEMON);
 	}
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
-		jta.setPreferredSize(new Dimension(90,30));
+		jta.setPreferredSize(new Dimension(160,25));
 		table = new JTable();
 		metrics = new JTable();
 		moves = new JTable();
@@ -140,8 +144,8 @@ public class PokemetricsPanel extends JPanel {
 		}
 		
 		Image resizeImg = imgs != null ? 
-				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, 0) :
-				img.getScaledInstance(150, 150, 0);
+				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH) :
+				img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		id.setText(ID);
 		name.setText(metricsData.get(1));
@@ -224,6 +228,7 @@ public class PokemetricsPanel extends JPanel {
 			}
 			
 		});
+		
 	}
 	
 	private void updateTable(){

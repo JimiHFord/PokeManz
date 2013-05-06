@@ -32,13 +32,13 @@ public class PokeSearchPanel extends JPanel {
 
 	
 	private static final String DEFAULT = "Search Pokemon...";
+	public static final String SPLITTER = "_";
 	private boolean override;
 	private DataFetch df;
 	private JTextArea jta;
 	private JScrollPane jsp;
 	private JTable table;
 	private PokeListener listen;
-	private PokedexScreen PSpanel;
 	
 	
 	public PokeSearchPanel(PokeListener listen) {
@@ -53,7 +53,7 @@ public class PokeSearchPanel extends JPanel {
 		this.initActions();
 		this.add(jsp, BorderLayout.CENTER);
 		this.add(jta, BorderLayout.NORTH);
-		PSpanel = new PokedexScreen();
+
 		this.updateModel();
 	}
 	
@@ -62,9 +62,7 @@ public class PokeSearchPanel extends JPanel {
 	}
 	
 	public void updateModel() {
-		if(jta.getText().equals(DEFAULT)) {
-//			TableModel atm = df.getDefaultPokemonModel();
-			
+		if(jta.getText().equals(DEFAULT)) {			
 			this.table.setModel(df.getDefaultPokemonModel());
 		} else {
 			this.table.setModel(df.getSearchPokemonModel(jta.getText()));
@@ -105,7 +103,8 @@ public class PokeSearchPanel extends JPanel {
 				int index = table.getSelectedRow();
 				if(index != -1){		
 					String pokemon = (String) table.getValueAt(index, 1);
-					// TODO call the setPokedexEntry(pokemon) method in PokedexScreen and switch views
+					int national_id = (int) table.getValueAt(index, 0);
+					listen.act(GUIEntryPoint.POKEDEX, national_id + SPLITTER+ pokemon);
 				}				
 			}
 
