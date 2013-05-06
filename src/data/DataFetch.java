@@ -405,7 +405,7 @@ public class DataFetch {
 	public ArrayList<String> getExpQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
-			ResultSet rs = stmt.executeQuery("select * from v_exp_group where english ilike '%" + search + "%';");
+			ResultSet rs = stmt.executeQuery("select * from v_exp_group where english ilike '" + search + "';");
 			while(rs.next()){
 				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
 					queryData.add(rs.getString(i));
@@ -420,7 +420,7 @@ public class DataFetch {
 	public ArrayList<String> getMetricsQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
-			ResultSet rs = stmt.executeQuery("select * from v_base_stats where name ilike '%" + search + "%';");
+			ResultSet rs = stmt.executeQuery("select * from v_base_stats where name ilike '" + search + "';");
 			while(rs.next()){
 				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
 					queryData.add(rs.getString(i));
@@ -434,7 +434,7 @@ public class DataFetch {
 	public ArrayList<String> getPokedexQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
-			ResultSet rs = stmt.executeQuery("select * from v_pokedex where name ilike '%" + search + "%';");
+			ResultSet rs = stmt.executeQuery("select * from v_pokedex where name ilike '" + search + "';");
 			while(rs.next()){
 				for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
 					queryData.add(rs.getString(i));
@@ -526,7 +526,7 @@ public class DataFetch {
 		boolean error = false;
 		ResultSet rs = null;
 		try{
-			rs = stmt.executeQuery("select level, move from v_level_moves where name ilike '%" + search + "%';");
+			rs = stmt.executeQuery("select level, move from v_level_moves where name ilike '" + search + "';");
 		}catch (SQLException e){
 			error = true;
 //			System.err.println(e.getMessage());
@@ -538,7 +538,7 @@ public class DataFetch {
 		boolean error = false;
 		ResultSet rs = null;
 		try{
-			rs = stmt.executeQuery("select hp, atk, def, spatk, spdef, spd from v_base_stats where name ilike '%" + search + "%';");
+			rs = stmt.executeQuery("select hp, atk, def, spatk, spdef, spd from v_base_stats where name ilike '" + search + "';");
 		}catch (SQLException e){
 			error = true;
 //			System.err.println(e.getMessage());
