@@ -1,6 +1,7 @@
 package view.pokemetrics;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -97,7 +98,7 @@ public class PokeGenerationsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e){
 				String option = e.getActionCommand().replaceAll("/", "_").replaceAll(" ", "_");
 				String query = "select " + option + " from pokedex_description where national_id = '" + national_id + "';";
-				String result = df.getDexEntry(query);
+				String result = "<html>" + df.getDexEntry(query) + "</html>";
 //				result = result.replaceAll(".", ".\n");
 				pokedexEntry.setText(result);
 			}
@@ -133,6 +134,8 @@ public class PokeGenerationsPanel extends JPanel {
 		name = new JLabel("");
 		imageLbl = new JLabel("");
 		pokedexEntry = new JLabel("");
+		pokedexEntry.setPreferredSize(new Dimension(400,200));
+		pokedexEntry.setFont(new Font("Serif", Font.PLAIN, 24));
 		
 		JPanel western = new JPanel(new MigLayout());
 		western.add(jta, "wrap");
