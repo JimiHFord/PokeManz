@@ -52,16 +52,21 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static final String POKEVOLVE = "Pokevolve";
 	public static final String POKEPARTY = "Pokeparty";
 	public static final String POKEHELP = "PokeHelp";
+	public static final String ENTER = "ENTER";
+	public static final String WELCOME = "WELCOME";
 	private static final String DEFAULT = PokemetricsPanel.DEFAULT_POKEMON;
 	private static final int eUnsElo = 5;
 	private final DataFetch df;
 	private JTabbedPane jtp;
-
+	private CardLayout layout;
+	private JPanel cards;
+	private JPanel tabs;
 	private PokeSearchPanel psp;
 	private PokedexScreen ps;
 	private PokePartyPanel ppp;
 	private PokeCardPanel pcp;
 	private PokevolvePanel pep;
+	private PokeWelcome pw;
 
 
 	public GUIEntryPoint(String title) throws SQLException {
@@ -79,6 +84,9 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private void initComponents() {
 		jtp = new JTabbedPane();
 		pcp = new PokeCardPanel();
+		pw = new PokeWelcome(this);
+		tabs = new JPanel(new BorderLayout());
+		cards = new JPanel(layout = new CardLayout());
 		pcp.pgp.metricsBtn.addActionListener(this);
 		pcp.pmp.thruBtn.addActionListener(this);
 	}
@@ -102,13 +110,20 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		jtp.setMnemonicAt(3, KeyEvent.VK_4);
 		jtp.setMnemonicAt(4, KeyEvent.VK_5);
 		jtp.setMnemonicAt(5, KeyEvent.VK_6);
-		this.add(jtp, BorderLayout.CENTER);
+		tabs.add(jtp, BorderLayout.CENTER);
+		cards.add(tabs, ENTER);
+		cards.add(pw, WELCOME);
+		layout.show(cards, WELCOME);
+		this.add(cards);
 	}
 
 
 
 	public void act(String command, String argument) {
 		switch(command) {
+		case ENTER:
+			layout.show(cards, ENTER);
+			break;
 		case POKEHOME:
 			jtp.setSelectedIndex(0);
 			break;
