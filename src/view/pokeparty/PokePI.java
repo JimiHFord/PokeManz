@@ -4,6 +4,7 @@
 package view.pokeparty;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.HashMap;
@@ -83,6 +84,8 @@ public class PokePI extends JPanel {
 		weakChartPanel.setPreferredSize(new Dimension(200,200));
 		typeChartPanel.setMaximumSize(new Dimension(200,200));
 		weakChartPanel.setMaximumSize(new Dimension(200,200));
+//		typeChartPanel.setBackground(Color.white);
+//		weakChartPanel.setBackground(Color.white);
 		this.add(typeChartPanel);
 		this.add(weakChartPanel);
 	}

@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -58,8 +59,10 @@ public class PokeSignIn extends JPanel {
 	private void fillComponents() {
 		this.pass.setSize(new Dimension(110, 25));
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 3, 1);
+		this.center.add(new JLabel("Password:"),c);
+		this.setGridBagConstraints(1, 0, 0, 0, 0, 3, 1);
 		this.center.add(pass, c);
-		this.setGridBagConstraints(1, 1, 0, 0, 0, 1, 1);
+		this.setGridBagConstraints(2, 1, 0, 0, 0, 1, 1);
 		this.center.add(back, c);
 		this.add(center, BorderLayout.CENTER);
 	}

@@ -53,7 +53,8 @@ public class PokeWelcome extends JPanel {
 		} catch (IOException e) {
 			System.err.println("error loading welcome image");
 		}
-		temp = temp.getScaledInstance(temp.getWidth(null)*3/4, temp.getHeight(null)*3/4, Image.SCALE_SMOOTH);
+		temp = temp == null? null : temp.getScaledInstance(temp.getWidth(null)*3/4, 
+				temp.getHeight(null)*3/4, Image.SCALE_SMOOTH);
 		img = new ImageIcon(temp);
 	}
 	
