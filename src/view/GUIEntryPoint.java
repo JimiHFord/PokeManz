@@ -103,13 +103,13 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		jtp.addTab(POKEMETRICS, pcp);
 		jtp.addTab(POKEVOLVE, pep = new PokevolvePanel());
 		jtp.addTab(POKEPARTY, ppp = new PokePartyPanel());
-		jtp.addTab(POKEHELP, new JPanel());
+//		jtp.addTab(POKEHELP, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
 		jtp.setMnemonicAt(2, KeyEvent.VK_3);
 		jtp.setMnemonicAt(3, KeyEvent.VK_4);
 		jtp.setMnemonicAt(4, KeyEvent.VK_5);
-		jtp.setMnemonicAt(5, KeyEvent.VK_6);
+//		jtp.setMnemonicAt(5, KeyEvent.VK_6);
 		tabs.add(jtp, BorderLayout.CENTER);
 		cards.add(tabs, ENTER);
 		cards.add(pw, WELCOME);
