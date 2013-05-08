@@ -89,6 +89,9 @@ public class ManageTrainersPanel extends JPanel {
 	
 	public void updateTable() {
 		this.table.setModel(df.getMainTrainerTableModel());
+
+		table.getColumnModel().getColumn(0).setHeaderValue("Trainer ID");
+		table.getColumnModel().getColumn(1).setHeaderValue("Trainer Name");
 	}
 	
 	private void setGridBagConstraints(int row, int col, int fill
