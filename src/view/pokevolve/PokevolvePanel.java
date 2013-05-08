@@ -30,6 +30,7 @@ import data.DataFetch;
 @SuppressWarnings("serial")
 public class PokevolvePanel extends JPanel{
 	private static final String DEFAULT = "Search Pokemon...";
+	private static final int MAX_HEIGHT = 250;
 	private DataFetch df;
 	private JTextArea jta;
 	private JTable table;
@@ -243,7 +244,7 @@ public class PokevolvePanel extends JPanel{
 			String ID = temp.get(0);
 			addImage(ID);
 			if(evoData.get(i*7+3).endsWith("at level")){
-				dataLbls.add(new JLabel("Evolves " + evoData.get(i*7+3)));
+				dataLbls.add(new JLabel("Evolves into " + evoData.get(i*7+3)+" "+evoData.get(i*7+4)));
 			}
 		}
 		updateComponents();
@@ -261,9 +262,9 @@ public class PokevolvePanel extends JPanel{
 			String ID = temp.get(0);
 			addImage(ID);
 			if(evoData.get(i*7+3).equals("when exposed to")){
-				dataLbls.add(new JLabel("Evolves " + evoData.get(i*7+3) + " " + evoData.get(i*7+5)));
+				dataLbls.add(new JLabel("Evolves into " + evoData.get(i*7+3) + " " + evoData.get(i*7+5)));
 			}else if(evoData.get(i*7+3).startsWith("when leveled up")){
-				dataLbls.add(new JLabel("Evolves " + evoData.get(i*7+3)));
+				dataLbls.add(new JLabel("Evolves into " + evoData.get(i*7+3)));
 			}
 		}
 		updateComponents();
@@ -284,8 +285,9 @@ public class PokevolvePanel extends JPanel{
 		try {
 			imgs = ImageIO.read(new File(path));
 		} catch (IOException e) { }
+		int newWidth = MAX_HEIGHT*imgs.getWidth()/imgs.getHeight();
 		Image resizeImg = img.getScaledInstance(
-				imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH);
+				newWidth, MAX_HEIGHT, Image.SCALE_SMOOTH);
 		dataLbls.add(new JLabel(""));
 		dataLbls.get(dataLbls.size()-1).setIcon(new ImageIcon(resizeImg));
 	}
