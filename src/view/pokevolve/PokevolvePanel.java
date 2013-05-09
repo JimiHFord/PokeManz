@@ -1,3 +1,6 @@
+/**
+ * PokevolvePanel.java
+ */
 package view.pokevolve;
 
 import java.awt.Dimension;
@@ -7,15 +10,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -27,6 +28,16 @@ import net.miginfocom.swing.MigLayout;
 
 import data.DataFetch;
 
+/**
+ * This class represents the Pokevolve Panel and contains the algorithms
+ * for searching through the result set and extracting data to then add
+ * it to its panel.
+ * 
+ * @author Ryan Castner rrc9704
+ * @contributor Jimi Ford jhf3617
+ * @contributor Felipe Cossa fmc3147
+ */
+
 @SuppressWarnings("serial")
 public class PokevolvePanel extends JPanel{
 	private static final String DEFAULT = "Search Pokemon...";
@@ -35,33 +46,31 @@ public class PokevolvePanel extends JPanel{
 	private JTextArea jta;
 	private JTable table;
 	private JScrollPane jsp;
-//	private JLabel levelLbl;
-//	private JLabel itemLbl;
-//	private JLabel moveLbl;
-	private int size;
 	private ArrayList<JLabel> dataLbls;
 	private ArrayList<String> evoData;
 	private JScrollPane pictureScroller;
 	private JPanel picturePanel;
 	private JPanel westPanel;
-//	private JPanel centerPanel;
-//	private JTable eggMoves;
-	//private int records;
 	private boolean branching = false;
 
+	/**
+	 * Constructor for the class
+	 */
 	public PokevolvePanel(){
-		super(new MigLayout());
+		super(new MigLayout());				// using MigLayout
 		this.df = DataFetch.getInstance();
-		dataLbls = new ArrayList<JLabel>();
+		dataLbls = new ArrayList<JLabel>();	// Array List for data to be parsed into panels
 		initComponents();
 		fillComponents();
 		updateTable();
 	}
 
+	/**
+	 * Initializes components
+	 */
 	private void initComponents() {
 		jta = new JTextArea(DEFAULT);
 		jta.setPreferredSize(new Dimension(160,25));
-//		jta.setMinimumSize(new Dimension(160,25));
 		table = new JTable();
 		picturePanel = new JPanel(new MigLayout());
 		pictureScroller = new JScrollPane(picturePanel);
@@ -73,6 +82,10 @@ public class PokevolvePanel extends JPanel{
 		westPanel = new JPanel(new MigLayout());
 	}
 	
+	/**
+	 * Fills west panel with search panel which is persistent through
+	 * the entire panel life time
+	 */
 	private void fillComponents() {
 		westPanel.add(jta, "wrap");
 		westPanel.add(jsp);
@@ -80,19 +93,20 @@ public class PokevolvePanel extends JPanel{
 		this.add(pictureScroller);
 	}
 
+	/**
+	 * Updates the evolution display panel based on the new data inserted
+	 * into the dataLbls ArrayList.
+	 */
 	private void updateComponents(){
-		this.picturePanel.removeAll();
-//		this.remove(picturePanel);
-//		initComponents();
-		int j = 0;
-		//System.out.println(dataLbls.size());
-		for(int i = 0; i < (dataLbls.size()/3); i++){
-			JPanel panel = new JPanel(new MigLayout());
-			panel.add(dataLbls.get(j++), "center, wrap");
-			panel.add(dataLbls.get(j++), "center, wrap");
-			panel.add(dataLbls.get(j++), "center");
-			if(dataLbls.size()/3 == 5){
-				if((i+1)%3 == 0){
+		this.picturePanel.removeAll();	// remove old pictures and labels
+		int j = 0;	// counter
+		for(int i = 0; i < (dataLbls.size()/3); i++){	// go through ArrayList
+			JPanel panel = new JPanel(new MigLayout());	// anonymous jpanel using mig layout
+			panel.add(dataLbls.get(j++), "center, wrap");	// get the next 3 components 
+			panel.add(dataLbls.get(j++), "center, wrap");	// data lbl contains sets of 3 pieces
+			panel.add(dataLbls.get(j++), "center");			// the name, the picture, and how it evolves
+			if(dataLbls.size()/3 == 5){		// these next if statements deal with wrapping components around
+				if((i+1)%3 == 0){			// to correctly display evolution chains of pokemon
 					this.picturePanel.add(panel, "wrap");
 				}else{
 					this.picturePanel.add(panel);
@@ -119,36 +133,42 @@ public class PokevolvePanel extends JPanel{
 				this.picturePanel.add(panel);
 			}
 		}
-//		this.add(picturePanel);
-		this.revalidate();
-		this.repaint();
-		if(!dataLbls.isEmpty()){
+		this.revalidate();	// updates gui
+		this.repaint();	
+		if(!dataLbls.isEmpty()){	// clear datalbls to ready for the next selection
 			dataLbls.clear();
 		}
 	}
+	
+	/**
+	 * Updates the Pokevolve panel by getting result data from DataFetch
+	 * class and then correctly populating dataLbls array list fields
+	 * with a recursive algorithm that searches through pokemon evolutions.
+	 * This is due to some pokemon having divergent evolution paths.
+	 * @param pokemon - the name of the pokemon to search for
+	 * @param branchNo - the ith branch of a pokemon's evolution chain, counted by 7's
+	 */
 	public void updatePokevolve(String pokemon, int branchNo){
 		evoData = df.getPokevolveQuery(pokemon);
-		if(evoData.size() == 0) {
+		if(evoData.size() == 0) {		// base case
 			return;
 		}
-		if(evoData.get(0).equals("133")){
+		if(evoData.get(0).equals("133")){	// special handling for eevee
 			updateEevee();
 			return;
 		}
-		if(evoData.get(0).equals("236")){
+		if(evoData.get(0).equals("236")){	// special handling for tyrogue
 			updateTyrogue();
 			return;
 		}
-		int records = evoData.size()/7;
-		if(records > 1){
+		int records = evoData.size()/7;		// determines number of records returned by DF
+		if(records > 1){					// if more than 1 record this pokemon has branching evolutions
 			branching = true;
 		}
-		for(int i = 0; i < records; i++){
+		for(int i = 0; i < records; i++){	// iterate through each record and go down its evolution branch
 			if(i > 0){
-				//branchNo = branchNo + (i*7);
 				branchNo += 7;
 			}
-			//System.out.println(evoData);
 			dataLbls.add(new JLabel(evoData.get(branchNo+1)));
 			String ID = evoData.get(branchNo);
 			addImage(ID);
@@ -233,6 +253,10 @@ public class PokevolvePanel extends JPanel{
 		}
 	}
 
+	/**
+	 * The normal evolution algorithm can't represent this pokemon
+	 * correctly so this function deals with this special case
+	 */
 	private void updateTyrogue() {
 		evoData = df.getPokevolveQuery("236");
 		dataLbls.add(new JLabel(evoData.get(1)));
@@ -248,9 +272,12 @@ public class PokevolvePanel extends JPanel{
 			}
 		}
 		updateComponents();
-
 	}
 
+	/**
+	 * The normal evolution algorithm can't represent this pokemon
+	 * correctly so this function deals with this special case
+	 */
 	private void updateEevee() {
 		evoData = df.getPokevolveQuery("133");
 		dataLbls.add(new JLabel(evoData.get(1)));
@@ -270,6 +297,11 @@ public class PokevolvePanel extends JPanel{
 		updateComponents();
 	}
 
+	/**
+	 * Method deals with extracting the image based on the
+	 * supplied pokemon id from the local directory
+	 * @param ID - the National ID of the pokemon
+	 */
 	private void addImage(String ID){
 		if(ID.length() < 3){
 			if(ID.length() == 1){
@@ -292,6 +324,10 @@ public class PokevolvePanel extends JPanel{
 		dataLbls.add(new JLabel(""));
 		dataLbls.get(dataLbls.size()-1).setIcon(new ImageIcon(resizeImg));
 	}
+	
+	/**
+	 * Method deals with updating the search panel
+	 */
 	private void updateTable(){
 		if(jta.getText().equals(DEFAULT)){
 			this.table.setModel(df.getSimplifiedDefaultPokemonModel());
@@ -308,6 +344,10 @@ public class PokevolvePanel extends JPanel{
 		}
 	}
 
+	/**
+	 * Initializes action listeners and implements actionPerformed methods
+	 * for the different components of the panel
+	 */
 	private void initializeActions() {
 		this.jta.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e){
@@ -333,7 +373,7 @@ public class PokevolvePanel extends JPanel{
 			}
 
 		});
-		this.table.addMouseListener(new MouseListener(){
+		this.table.addMouseListener(new MouseAdapter(){
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -342,30 +382,6 @@ public class PokevolvePanel extends JPanel{
 					String pokemon = (String) table.getValueAt(index, 1);
 					updatePokevolve(pokemon, 0);
 				}				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 		});
