@@ -39,7 +39,6 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 		this.cardlayout = new CardLayout();
 		this.cards = new JPanel(cardlayout);
 		fillComponents();
-		initializeActions();
 		act(MANAGE_TRAINERS_PANEL, MANAGE_TRAINERS_PANEL);
 	}
 
