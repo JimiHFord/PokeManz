@@ -80,7 +80,10 @@ public class DataFetch {
 		}
 	}
 
-	
+	/**
+	 * returns the main trainer model for the poke party panel
+	 * @return
+	 */
 	public DefaultTableModel getMainTrainerTableModel() {
 		boolean error = false;
 		ResultSet rs = null;
@@ -93,6 +96,10 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * removes the trainer from the database
+	 * @param trainerNumber the unique trainer ID to remove from database
+	 */
 	public void removeTrainer(String trainerNumber) {
 		try {
 			stmt.execute("delete from trainer where t_id = " + trainerNumber);
@@ -101,6 +108,10 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * adds a trainer to the database
+	 * @param user name of trainer to add
+	 */
 	public void addTrainer(String user) {
 		try {
 			stmt.execute("insert into trainer (t_name) values ('" +
@@ -110,6 +121,11 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param user
+	 * @param hash
+	 */
 	public void addTrainer(String user, int hash) {
 		try {
 			stmt.execute("insert into trainer (t_name, hash) values ('" +
@@ -119,6 +135,11 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param id id of trainer
+	 * @return trainer name associated with that id
+	 */
 	public String getTrainerNameFromID(Integer id) {
 		ResultSet rs = null;
 		String userName = new String();
@@ -134,6 +155,11 @@ public class DataFetch {
 		return userName;
 	}
 	
+	/**
+	 * 
+	 * @param id id of trainer whose name is to be updated
+	 * @param newName new name of the trainer
+	 */
 	public void updateTrainerNameWithID(Integer id, String newName) {
 		try {
 			stmt.execute("update trainer set t_name = '" + 
@@ -143,6 +169,10 @@ public class DataFetch {
 		}
 	}
 
+	/**
+	 * 
+	 * @param party_id id of party to be removed
+	 */
 	public void removePartyEntry(Integer party_id) {
 		try {
 			stmt.execute("delete from party where party_id = " + party_id + ";");
@@ -151,6 +181,11 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param national_id national id of Pokemon to add
+	 * @param user id of trainer whose party the Pokemon is to be added to
+	 */
 	public void addPokemonToTrainer(Integer national_id, Integer user) {
 		try {
 			stmt.execute("insert into party (t_id, national_id)" +
@@ -160,6 +195,11 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param user id of the trainer
+	 * @return the model for the JTable
+	 */
 	public DefaultTableModel getTeamPanelModel(Integer user) {
 		boolean error = false;
 		ResultSet rs = null;
@@ -177,6 +217,11 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * 
+	 * @param user id of trainer
+	 * @return linked list of all the types of the Pokemon on the team
+	 */
 	public LinkedList<String> getTypesOnTeam(int user) {
 		boolean error = false;
 		ResultSet rs = null;
@@ -203,6 +248,11 @@ public class DataFetch {
 		return error ? new LinkedList<String>() : result;
 	}
 	
+	/**
+	 * 
+	 * @param user username
+	 * @param pass password
+	 */
 	public void connectToRIT(String user, String pass) {
 		try {
 			this.establishConnection(url, user, pass);
@@ -212,6 +262,12 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param t_id id of trainer who is logging in
+	 * @param hash password of said trainer
+	 * @return
+	 */
 	public boolean login(Integer t_id, Integer hash) {
 		boolean loginSuccess = false;
 		ResultSet rs = null;
@@ -227,7 +283,11 @@ public class DataFetch {
 		return loginSuccess;
 	}
 	
-	
+	/**
+	 * 
+	 * @param rs 
+	 * @return
+	 */
 	public ArrayList<ArrayList<Object>> iterate(ResultSet rs) {
 		ArrayList<Object> columnNames = new ArrayList<Object>();
 		ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
@@ -251,7 +311,6 @@ public class DataFetch {
 				data.add(vector);
 			}
 		} catch (SQLException e) {
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
 			displayError(e.getMessage(), SQLERROR);
@@ -361,6 +420,11 @@ public class DataFetch {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param query
+	 * @return
+	 */
 	public String getDexEntry(String query){
 		String result = "";
 		try{
@@ -374,6 +438,11 @@ public class DataFetch {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public ArrayList<String> getPokevolveQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		if(search.matches("[a-zA-Z. 2-]+") == false){
@@ -402,6 +471,11 @@ public class DataFetch {
 		return queryData;
 	}
 	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public ArrayList<String> getExpQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
@@ -417,6 +491,11 @@ public class DataFetch {
 		return queryData;
 	}
 	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public ArrayList<String> getMetricsQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
@@ -431,6 +510,12 @@ public class DataFetch {
 		}
 		return queryData;
 	}
+	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public ArrayList<String> getPokedexQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
 		try{
@@ -484,7 +569,12 @@ public class DataFetch {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public TableModel getSearchPokemonModel(String search) {
 		boolean error = false;
 		ResultSet rs = null;
@@ -506,6 +596,11 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public TableModel getSimplifiedSearchPokemonModel(String search) {
 		boolean error = false;
 		ResultSet rs = null;
@@ -522,6 +617,11 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public TableModel getMovesPokemonModel(String search){
 		boolean error = false;
 		ResultSet rs = null;
@@ -529,11 +629,16 @@ public class DataFetch {
 			rs = stmt.executeQuery("select level, move from v_level_moves where name ilike '" + search + "';");
 		}catch (SQLException e){
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
+	
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 */
 	public TableModel getMetricsPokemonModel(String search){
 		boolean error = false;
 		ResultSet rs = null;
@@ -541,12 +646,15 @@ public class DataFetch {
 			rs = stmt.executeQuery("select hp, atk, def, spatk, spdef, spd from v_base_stats where name ilike '" + search + "';");
 		}catch (SQLException e){
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public TableModel getSimplifiedDefaultPokemonModel(){
 		boolean error = false;
 		ResultSet rs = null;
@@ -554,12 +662,15 @@ public class DataFetch {
 			rs = stmt.executeQuery("select national_id, english from name_both_types order by national_id;");
 		} catch (SQLException e) {
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public TableModel getDefaultPokemonModel() {
 		boolean error = false;
 		ResultSet rs = null;
@@ -567,7 +678,6 @@ public class DataFetch {
 			rs = stmt.executeQuery("select * from name_both_types order by national_id;");
 		} catch (SQLException e) {
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);

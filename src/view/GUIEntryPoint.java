@@ -120,6 +120,7 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 
 
 
+	
 	public void act(String command, String argument) {
 		switch(command) {
 		case ENTER:
