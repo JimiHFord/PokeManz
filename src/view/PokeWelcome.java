@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Welcome panel for the view
  * @author James
  *
  */
@@ -34,6 +35,10 @@ public class PokeWelcome extends JPanel {
 	private JLabel imageLabel;
 	private ImageIcon img;
 	
+	/**
+	 * constructor
+	 * @param listen the parent component to report back to
+	 */
 	public PokeWelcome(PokeListener listen) {
 		super(new BorderLayout());
 		this.listen = listen;
@@ -43,6 +48,9 @@ public class PokeWelcome extends JPanel {
 		this.initActions();
 	}
 	
+	/**
+	 * instatiates components to add to panel
+	 */
 	private void createComponents() {
 		enter = new JButton("Enter");
 		buttonPanel = new JPanel(new GridBagLayout());
@@ -58,6 +66,9 @@ public class PokeWelcome extends JPanel {
 		img = new ImageIcon(temp);
 	}
 	
+	/**
+	 * adds all components to this panel
+	 */
 	private void fillComponents() {
 		this.setGridBagConstraints(5, 0, 0, 0, 0, 1, 1);
 		buttonPanel.add(enter, c);
@@ -66,6 +77,9 @@ public class PokeWelcome extends JPanel {
 		this.add(imageLabel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * initializes actions of all "action components"
+	 */
 	private void initActions() {
 		enter.addActionListener(new ActionListener() {
 			@Override
@@ -76,6 +90,10 @@ public class PokeWelcome extends JPanel {
 		});
 	}
 	
+	/**
+	 * GridBag helper function sets the constraints for the
+	 * GridBagLayout
+	 */
 	private void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
 		c.weightx = weightx;
