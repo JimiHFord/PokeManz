@@ -1,5 +1,5 @@
 /**
- * 
+ * PokeSignIn.java
  */
 package view.pokeparty;
 
@@ -25,7 +25,7 @@ import data.DataFetch;
 import data.PokeUtils;
 
 /**
- * @author James
+ * @author James Ford
  *
  */
 @SuppressWarnings("serial")
@@ -42,7 +42,10 @@ public class PokeSignIn extends JPanel {
 	private JPanel center;
 	private GridBagConstraints c;
 	
-	
+	/**
+	 * constructor
+	 * @param listener parent component to report back to
+	 */
 	public PokeSignIn(PokeListener listener) {
 		super(new BorderLayout());
 		this.listener = listener;
@@ -56,6 +59,9 @@ public class PokeSignIn extends JPanel {
 		initActions();
 	}
 	
+	/**
+	 * adds components to this panel
+	 */
 	private void fillComponents() {
 		this.pass.setSize(new Dimension(110, 25));
 		this.setGridBagConstraints(0, 0, 0, 0, 0, 3, 1);
@@ -67,14 +73,23 @@ public class PokeSignIn extends JPanel {
 		this.add(center, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * sets current user
+	 */
 	public void setID(Integer id) {
 		this.userID = id;
 	}
 	
+	/**
+	 * clears text of the password field
+	 */
 	public void clearText() {
 		this.pass.setText("");
 	}
 	
+	/**
+	 * initializes action listeners on components
+	 */
 	private void initActions() {
 		this.back.addActionListener(new ActionListener() {
 			@Override
@@ -113,6 +128,10 @@ public class PokeSignIn extends JPanel {
 		});
 	}
 	
+	/**
+	 * private method to set grid bag constraints for the 
+	 * grid bag layout
+	 */
 	private void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
 		c.weightx = weightx;
