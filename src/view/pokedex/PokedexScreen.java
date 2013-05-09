@@ -60,6 +60,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 	private static final String IMG_PATH = RESOURCE_DIR + "images/";
 	public static final String DISABLE = "DISABLE";
 	public static final String ENABLE = "ENABLE";
+	private static final int MAX_HEIGHT = 250;
 
 	private String pokemon;	
 	private DataFetch df;
@@ -202,10 +203,10 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		try {
 			imgs = ImageIO.read(url);
 		} catch (IOException e) {	}
-
+		int newWidth = MAX_HEIGHT*imgs.getWidth()/imgs.getHeight();
 		Image resizeImg = imgs == null ? 
 				img.getScaledInstance(200, 200, Image.SCALE_SMOOTH) :
-					img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH);
+					img.getScaledInstance(newWidth, MAX_HEIGHT, Image.SCALE_SMOOTH);
 				imageLbl.setIcon(new ImageIcon(resizeImg));
 				nameLbl.setText(dexData.get(1));
 				nameLbl.setFont(new Font("Dialog", Font.BOLD, 26));
@@ -325,7 +326,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		this.cry.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SoundJLayer(SOUND_DIR + cry.getNationalID() + EXT, thisListener).play();
+				new SoundJLayer(cry.getNationalID() + EXT, thisListener).play();
 			}
 		});
 		this.volume.addChangeListener(new ChangeListener() {

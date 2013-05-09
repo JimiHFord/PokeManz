@@ -32,6 +32,7 @@ import net.miginfocom.swing.MigLayout;
 public class PokemetricsPanel extends JPanel {
 	private static final String DEFAULT =  "Search Pokemon...";
 	public static final String DEFAULT_POKEMON = "Bulbasaur";
+	private static final int MAX_HEIGHT = 250;
 	private DataFetch df;
 	private JTextArea jta;
 	private JTable table;
@@ -143,9 +144,9 @@ public class PokemetricsPanel extends JPanel {
 			imgs = ImageIO.read(path);
 		} catch (IOException e) {
 		}
-		
+		int newWidth = MAX_HEIGHT*imgs.getWidth()/imgs.getHeight();
 		Image resizeImg = imgs != null ? 
-				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, Image.SCALE_SMOOTH) :
+				img.getScaledInstance(newWidth, MAX_HEIGHT, Image.SCALE_SMOOTH) :
 				img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		id.setText(ID);
