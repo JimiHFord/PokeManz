@@ -1,5 +1,5 @@
 /**
- * 
+ * ManageTrainersPanel.java
  */
 package view.pokeparty;
 
