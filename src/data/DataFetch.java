@@ -109,22 +109,9 @@ public class DataFetch {
 	}
 	
 	/**
-	 * adds a trainer to the database
-	 * @param user name of trainer to add
-	 */
-	public void addTrainer(String user) {
-		try {
-			stmt.execute("insert into trainer (t_name) values ('" +
-					user + "');");
-		} catch (SQLException e) {
-			displayError(e.getMessage(), SQLERROR);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param user
-	 * @param hash
+	 * adds trainer to the database
+	 * @param user username
+	 * @param hash password
 	 */
 	public void addTrainer(String user, int hash) {
 		try {
@@ -266,7 +253,7 @@ public class DataFetch {
 	 * 
 	 * @param t_id id of trainer who is logging in
 	 * @param hash password of said trainer
-	 * @return
+	 * @return true if the trainer logged in successfully
 	 */
 	public boolean login(Integer t_id, Integer hash) {
 		boolean loginSuccess = false;
@@ -285,43 +272,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param rs 
-	 * @return
-	 */
-	public ArrayList<ArrayList<Object>> iterate(ResultSet rs) {
-		ArrayList<Object> columnNames = new ArrayList<Object>();
-		ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
-		try {
-			ResultSetMetaData metaData = rs.getMetaData();
-
-			// names of columns
-
-			int columnCount = metaData.getColumnCount();
-			for (int column = 1; column <= columnCount; column++) {
-				columnNames.add(metaData.getColumnName(column));
-			}
-
-			// data of the table
-
-			while (rs.next()) {
-				ArrayList<Object> vector = new ArrayList<Object>();
-				for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-					vector.add(rs.getObject(columnIndex));
-				}
-				data.add(vector);
-			}
-		} catch (SQLException e) {
-			displayError(e.getMessage(), SQLERROR);
-		} catch (NullPointerException e) {
-			displayError(e.getMessage(), SQLERROR);
-		}
-		return data;
-	}
-	
-	/**
-	 * 
-	 * @param rs
-	 * @return
+	 * @param rs result set to make table model of
+	 * @return table model of the result set
 	 */
 	public DefaultTableModel buildTableModel(ResultSet rs) {
 		boolean error = false;
@@ -348,7 +300,6 @@ public class DataFetch {
 			}
 		} catch (SQLException e) {
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		} catch (NullPointerException e) {
 			error = true;
@@ -422,8 +373,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param query
-	 * @return
+	 * @param query query to execute to get the Pokedex data
+	 * @return Pokedex data requested by the query
 	 */
 	public String getDexEntry(String query){
 		String result = "";
@@ -440,8 +391,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search national id of Pokemon whose evolution data is to be returned
+	 * @return evolution data of a Pokemon
 	 */
 	public ArrayList<String> getPokevolveQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
@@ -473,8 +424,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name of Pokemon to get ExpGroup of
+	 * @return Exp Group data of Pokemon
 	 */
 	public ArrayList<String> getExpQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
@@ -493,8 +444,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name of Pokemon to search
+	 * @return base stats and other metrics of the Pokemon
 	 */
 	public ArrayList<String> getMetricsQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
@@ -513,8 +464,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name of Pokemon to search 
+	 * @return Pokedex entries of Pokemon
 	 */
 	public ArrayList<String> getPokedexQuery(String search){
 		ArrayList<String> queryData = new ArrayList<String>();
@@ -530,50 +481,11 @@ public class DataFetch {
 		}
 		return queryData;
 	}
-
-	/**
-	 * tests queries
-	 * @param args	command line arguments
-	 * 		args[0]	username
-	 * 		args[1] password
-	 */
-	public static void main(String[] args) {
-		String user = "";
-		String pass = "";
-
-		try {
-			if(args.length < 2) {	
-				InputStreamReader inReader = new InputStreamReader(System.in);
-				BufferedReader br = new BufferedReader(inReader);
-				System.out.print("Enter user id: ");
-				user = br.readLine();
-				System.out.print("This is bad, but may I have your password? - ");
-				pass = br.readLine();
-
-			} else {
-				user = args[0];
-				pass = args[1];
-			}
-		} catch(IOException e) {
-			System.err.println(e.getMessage());
-			return;
-		}
-
-		DataFetch df = DataFetch.getInstance();
-		try {
-			df.establishConnection(url, user, pass);
-			df.createStatement();
-			df.executeAndPrintTestQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name/type/id number to search
+	 * @return table of search results for the home screen
 	 */
 	public TableModel getSearchPokemonModel(String search) {
 		boolean error = false;
@@ -598,8 +510,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name/id of Pokemon to search
+	 * @return table of search results for all screens aside from the home screen
 	 */
 	public TableModel getSimplifiedSearchPokemonModel(String search) {
 		boolean error = false;
@@ -619,8 +531,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name of Pokemon to search
+	 * @return table of Pokemon's moveset
 	 */
 	public TableModel getMovesPokemonModel(String search){
 		boolean error = false;
@@ -636,8 +548,8 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @param search
-	 * @return
+	 * @param search name of Pokemon to search
+	 * @return table of base stats of Pokemon
 	 */
 	public TableModel getMetricsPokemonModel(String search){
 		boolean error = false;
@@ -653,7 +565,7 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @return
+	 * @return table of national id and name of all Pokemon
 	 */
 	public TableModel getSimplifiedDefaultPokemonModel(){
 		boolean error = false;
@@ -669,7 +581,7 @@ public class DataFetch {
 	
 	/**
 	 * 
-	 * @return
+	 * @return table of national id, name, and both types of all Pokemon
 	 */
 	public TableModel getDefaultPokemonModel() {
 		boolean error = false;
@@ -683,6 +595,4 @@ public class DataFetch {
 		return error ? new DefaultTableModel() : buildTableModel(rs);
 	}
 
-
-	
 }
