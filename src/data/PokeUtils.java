@@ -64,8 +64,8 @@ public class PokeUtils {
 	/**
 	 * Hashes password
 	 *
-	 * @param pass
-	 * @return integer
+	 * @param pass the password to be hashed
+	 * @return integer representing the password in hash form
 	 */
 	public static int doPass(char[] pass) {
 		int hashed = 0;
