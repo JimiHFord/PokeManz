@@ -1,5 +1,5 @@
 /**
- * 
+ * SoundJLayer.java
  */
 package view.pokedex;
 
@@ -15,7 +15,8 @@ import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 /**
- * @author jimiford
+ * Implements a Sound Layer for the Pokedex panel
+ * @author Jimi Ford
  *
  * @source http://thiscouldbebetter.wordpress.com/2011/06/14/playing-an-mp3-from-java-using-jlayer/
  */
