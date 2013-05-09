@@ -24,7 +24,8 @@ import view.pokedex.PokedexScreen;
 import data.DataFetch;
 
 /**
- * @author jimiford
+ * The front page search screen for view
+ * @author James Ford
  *
  */
 @SuppressWarnings("serial")
@@ -40,7 +41,10 @@ public class PokeSearchPanel extends JPanel {
 	private JTable table;
 	private PokeListener listen;
 	
-	
+	/**
+	 * constructor
+	 * @param listen the parent component to report back to
+	 */
 	public PokeSearchPanel(PokeListener listen) {
 		super(new BorderLayout());
 		this.setFocusable(true);
@@ -61,6 +65,9 @@ public class PokeSearchPanel extends JPanel {
 		return this.table;
 	}
 	
+	/**
+	 * updates the table model with either search data or every row in the database
+	 */
 	public void updateModel() {
 		if(jta.getText().equals(DEFAULT)) {			
 			this.table.setModel(df.getDefaultPokemonModel());
@@ -75,6 +82,9 @@ public class PokeSearchPanel extends JPanel {
 		table.getColumnModel().getColumn(3).setHeaderValue("Type 2");
 	}
 	
+	/**
+	 * initializes actions of action components
+	 */
 	private void initActions() {
 		this.jta.addFocusListener(new FocusListener() {
 			@Override
