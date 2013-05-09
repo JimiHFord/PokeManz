@@ -33,7 +33,7 @@ import data.DataFetch;
 import data.PokeUtils;
 
 /**
- * @author jimiford
+ * @author James Ford
  *
  */
 @SuppressWarnings("serial")
@@ -58,7 +58,10 @@ public class ManageTrainersPanel extends JPanel {
 	private PokeListener listener;
 
 		
-	
+	/**
+	 * constructor
+	 * @param p the parent component to report back to
+	 */
 	public ManageTrainersPanel(PokeListener p) {
 		super(new GridLayout(1,2));
 		this.listener = p;
@@ -70,7 +73,9 @@ public class ManageTrainersPanel extends JPanel {
 		fillComponents();
 	}
 	
-	
+	/**
+	 * instatiates the GUI components
+	 */
 	private void createComponents() {
 		this.left = new JPanel(new BorderLayout());
 		this.right = new JPanel(new GridBagLayout());
@@ -87,6 +92,9 @@ public class ManageTrainersPanel extends JPanel {
 //		this.remove = new JButton("Remove Trainer #");
 	}
 	
+	/**
+	 * updates the JTable's table model that contains all trainers in database
+	 */
 	public void updateTable() {
 		this.table.setModel(df.getMainTrainerTableModel());
 
@@ -94,6 +102,9 @@ public class ManageTrainersPanel extends JPanel {
 		table.getColumnModel().getColumn(1).setHeaderValue("Trainer Name");
 	}
 	
+	/**
+	 * 
+	 */
 	private void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
 		c.weightx = weightx;
