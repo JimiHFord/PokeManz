@@ -1,13 +1,13 @@
 /**
- * 
+ * CryButton.java
  */
 package view.pokedex;
 
 import javax.swing.JButton;
 
 /**
+ * Implements a custom cry button for the pokedex panel
  * @author jimiford
- *
  */
 @SuppressWarnings("serial")
 public class CryButton extends JButton {
