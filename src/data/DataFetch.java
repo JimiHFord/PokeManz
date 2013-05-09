@@ -198,7 +198,6 @@ public class DataFetch {
 					+ user + " order by party_id;");
 		} catch (SQLException e) {
 			error = true;
-//			System.err.println(e.getMessage());
 			displayError(e.getMessage(), SQLERROR);
 		}
 		return error ? new DefaultTableModel() : buildTableModel(rs);
