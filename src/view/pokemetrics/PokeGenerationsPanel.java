@@ -53,6 +53,7 @@ public class PokeGenerationsPanel extends JPanel {
 	public JButton genBtn;
 	public JLabel name;
 	protected static final String DEFAULT = "Search Pokemon...";
+	private static final int MAX_HEIGHT = 250;
 	private ButtonGroup group;
 	private DataFetch df;
 	private JTextArea jta;
@@ -231,7 +232,6 @@ public class PokeGenerationsPanel extends JPanel {
 				ID = "0" + ID;
 			}
 		}
-		String path = "resources/images/" + ID + ".png";
 		java.net.URL url = this.getClass().getResource("/data/resources/images/" + ID + ".png");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(url);
@@ -239,10 +239,11 @@ public class PokeGenerationsPanel extends JPanel {
 		try {
 			imgs = ImageIO.read(url);
 		} catch (IOException e) {}
+		int newwidth = MAX_HEIGHT * imgs.getWidth()/imgs.getHeight();
 		Image resizeImg = 
 				imgs == null ?
 				img.getScaledInstance(150, 150, 0) :
-				img.getScaledInstance(imgs.getWidth()/2, imgs.getHeight()/2, 0);
+				img.getScaledInstance(newwidth, MAX_HEIGHT, Image.SCALE_SMOOTH);
 		imageLbl.setIcon(new ImageIcon(resizeImg));
 		
 		id.setText(ID);
