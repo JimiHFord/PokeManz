@@ -1,3 +1,6 @@
+/**
+ * PokemetricsPanel.java
+ */
 package view.pokemetrics;
 
 import java.awt.Dimension;
@@ -7,10 +10,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -28,6 +30,12 @@ import data.DataFetch;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Class represents a panel object for the pokemetrics view.
+ * 
+ * @author Ryan Castner rrc9704
+ * @contributor Jimi Ford jhf3617
+ */
 @SuppressWarnings("serial")
 public class PokemetricsPanel extends JPanel {
 	private static final String DEFAULT =  "Search Pokemon...";
@@ -55,13 +63,20 @@ public class PokemetricsPanel extends JPanel {
 	private ArrayList<String> metricsData;
 	private ArrayList<String> expData;
 	
+	/**
+	 * Constructor
+	 */
 	public PokemetricsPanel(){
-		super(new MigLayout());
+		super(new MigLayout());		// uses MigLayout
 		this.df = DataFetch.getInstance();
 		initComponents();
-		updatePokemoves(DEFAULT_POKEMON);
-		updatePokemetrics(DEFAULT_POKEMON);
+		updatePokemoves(DEFAULT_POKEMON);	// updates panel with the default
+		updatePokemetrics(DEFAULT_POKEMON);	// updates panel with the default
 	}
+	
+	/**
+	 * Initializes GUI components
+	 */
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
 		jta.setPreferredSize(new Dimension(160,25));
@@ -118,24 +133,38 @@ public class PokemetricsPanel extends JPanel {
 		updateTable();
 	}
 	
+	/**
+	 * Updates the pokemoves table based off
+	 * a table model in DataFetch and the data
+	 * in the result set.
+	 * @param pokemon - the name of the pokemon
+	 */
 	public void updatePokemoves(String pokemon){
 		moves.setModel(df.getMovesPokemonModel(pokemon));
 		moves.getColumnModel().getColumn(0).setHeaderValue("Level");
 		moves.getColumnModel().getColumn(1).setHeaderValue("Move Learned");
 	}
 	
+	/**
+	 * Updates the metrics panel based off the table model
+	 * provided by DataFetch. Also deals with image processing
+	 * based on data provided by teh result set.
+	 * 
+	 * @param pokemon - the name of the pokemon
+	 */
 	public void updatePokemetrics(String pokemon){
 		metricsData = df.getMetricsQuery(pokemon);
 		expData = df.getExpQuery(pokemon);
+		// Below deals with image processing
 		String ID = metricsData.get(0);
-		if(ID.length() < 3){
+		if(ID.length() < 3){	// pads ID number so 3 becomes 003
 			if(ID.length() == 1){
 				ID = "00" + ID;
 			}else{
 				ID = "0" + ID;
 			}
 		}
-//		String path = "resources/images/" + ID + ".png";
+		//absolute url to work universally
 		java.net.URL path = this.getClass().getResource("/data/resources/images/"+ID+".png");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
@@ -168,6 +197,9 @@ public class PokemetricsPanel extends JPanel {
 		nameLbl.setText("Name:");		
 	}
 	
+	/**
+	 * Adds action listeners and defines action performed methos
+	 */
 	private void initializeActions(){
 		this.jta.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e){
@@ -193,7 +225,7 @@ public class PokemetricsPanel extends JPanel {
 			}
 			
 		});
-		this.table.addMouseListener(new MouseListener(){
+		this.table.addMouseListener(new MouseAdapter(){
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -204,35 +236,13 @@ public class PokemetricsPanel extends JPanel {
 					updatePokemoves(pokemon);
 				}				
 			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
 		});
 		
 	}
 	
+	/**
+	 * Update search table based on input
+	 */
 	private void updateTable(){
 		if(jta.getText().equals(DEFAULT)){
 			this.table.setModel(df.getSimplifiedDefaultPokemonModel());
