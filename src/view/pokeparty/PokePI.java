@@ -1,5 +1,5 @@
 /**
- * 
+ * PokePI.java
  */
 package view.pokeparty;
 
@@ -25,6 +25,7 @@ import data.PokeUtils;
 import view.PokeListener;
 
 /**
+ * Panel containing the pie charts
  * @author Jimi Ford
  *
  */
@@ -40,12 +41,19 @@ public class PokePI extends JPanel {
 	private ChartPanel weakChartPanel;
 	private Integer current;
 	
+	/**
+	 * constructor
+	 * @param listen parent component to report back to
+	 */
 	public PokePI(PokeListener listen) {
 		super(new GridLayout(1,2));
 		this.listen = listen;
 		current = null;
 	}
 	
+	/**
+	 * sets the data to represent in the pie chart
+	 */
 	public void setTypeDataSet(List<String> data) {
 		if(typeChartPanel != null) {
 			this.remove(typeChartPanel);
@@ -79,6 +87,9 @@ public class PokePI extends JPanel {
 		this.fillComponents();
 	}
 	
+	/**
+	 * adds components to this panel
+	 */
 	private void fillComponents() {
 		typeChartPanel.setPreferredSize(new Dimension(200,200));
 		weakChartPanel.setPreferredSize(new Dimension(200,200));
@@ -90,6 +101,9 @@ public class PokePI extends JPanel {
 		this.add(weakChartPanel);
 	}
 
+	/**
+	 * private method calculates and sets weakness pie chart
+	 */
 	private void setWeakDataSetFrom(List<String> data) {
 		if(weakChartPanel != null) {
 			this.remove(weakChartPanel);
@@ -130,7 +144,4 @@ public class PokePI extends JPanel {
 		weakChartPanel = new ChartPanel(weakChart);
 	}
 	
-	private void updateCharts() {
-		
-	}
 }
