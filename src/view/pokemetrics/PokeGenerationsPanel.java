@@ -1,3 +1,7 @@
+/**
+ * PokeGenerationsPanel.java
+ */
+
 package view.pokemetrics;
 
 import java.awt.Dimension;
@@ -10,8 +14,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,18 +29,24 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import data.DataFetch;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Class represents Through the Generations Panel
+ * in the Pokemetrics utility. Displays information
+ * about a given pokemon through their generations.
+ * 
+ * @author Ryan Castner rrc9704
+ * @contributor Jimi Ford jhf3617
+ */
 @SuppressWarnings("serial")
 public class PokeGenerationsPanel extends JPanel {
 	public JButton metricsBtn;
@@ -66,12 +76,19 @@ public class PokeGenerationsPanel extends JPanel {
 	private JLabel imageLbl;
 	private JLabel pokedexEntry;
 	private int national_id;
+	
+	/**
+	 * Constructor
+	 */
 	public PokeGenerationsPanel(){
 		super(new MigLayout());
 		this.df = DataFetch.getInstance();
 		initComponents();
 	}
 	
+	/**
+	 * Initializes components
+	 */
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
 		jta.setPreferredSize(new Dimension(90,30));
@@ -94,13 +111,12 @@ public class PokeGenerationsPanel extends JPanel {
 		diamond = new JRadioButton("Diamond");
 		pearl = new JRadioButton("Pearl");
 		
+		//Anonymous class for radio buttons
 		ActionListener listener = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String option = e.getActionCommand().replaceAll("/", "_").replaceAll(" ", "_");
 				String query = "select " + option + " from pokedex_description where national_id = '" + national_id + "';";
 				String result = "<html>" + df.getDexEntry(query) + "</html>";
-//				result = result.replaceAll(".", ".\n");
-				System.out.println(result);
 				if(!result.equalsIgnoreCase("<html>null</html>")){
 					pokedexEntry.setText(result);
 				}else{
@@ -120,7 +136,7 @@ public class PokeGenerationsPanel extends JPanel {
 		leafgreen.addActionListener(listener);
 		diamond.addActionListener(listener);
 		pearl.addActionListener(listener);
-		group = new ButtonGroup();
+		group = new ButtonGroup();	// add buttons to a group
 		group.add(redblue);
 		group.add(yellow);
 		group.add(gold);
@@ -184,6 +200,13 @@ public class PokeGenerationsPanel extends JPanel {
 		updateTable();
 	}
 	
+	/**
+	 * Updates the pokedex entry based on the pokemon selected. Does so by
+	 * reclicking the radio button that was previously selected to get the
+	 * new entry for the updated pokemon for the same version
+	 * 
+	 * @param pokemon - the name of the pokemon
+	 */
 	private void updatePokedexEntry(String pokemon){
 		for(Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();){
 			AbstractButton button = buttons.nextElement();
@@ -193,14 +216,18 @@ public class PokeGenerationsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Updates the pokemon name and images
+	 * @param pokemon - the name of the pokemon
+	 */
 	public void updatePokeGenerations(String pokemon){
 		ArrayList<String> metricsData = df.getMetricsQuery(pokemon);
 		national_id = Integer.parseInt(metricsData.get(0));
-		String ID = metricsData.get(0);
-		if(ID.length() < 3){
+		String ID = metricsData.get(0);	// deals with image processing
+		if(ID.length() < 3){	// pads ID with zeros so 3 becomes 003 
 			if(ID.length() == 1){
 				ID = "00" + ID;
-			}else{
+			}else{				// or 33 becomes 033
 				ID = "0" + ID;
 			}
 		}
@@ -210,10 +237,7 @@ public class PokeGenerationsPanel extends JPanel {
 		BufferedImage imgs = null;
 		try {
 			imgs = ImageIO.read(new File(path));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException e) {}
 		Image resizeImg = 
 				imgs == null ?
 				img.getScaledInstance(150, 150, 0) :
@@ -225,6 +249,10 @@ public class PokeGenerationsPanel extends JPanel {
 		idLbl.setText("ID:");
 		nameLbl.setText("Name:");
 	}
+	
+	/**
+	 * Add action listeners and implement action performed methods
+	 */
 	private void initializeActions(){
 		this.jta.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e){
@@ -250,7 +278,7 @@ public class PokeGenerationsPanel extends JPanel {
 			}
 			
 		});
-		this.table.addMouseListener(new MouseListener(){
+		this.table.addMouseListener(new MouseAdapter(){
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -261,34 +289,12 @@ public class PokeGenerationsPanel extends JPanel {
 					updatePokedexEntry(pokemon);
 				}				
 			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
 		});
 	}
 	
+	/**
+	 * Update search table based on user input
+	 */
 	private void updateTable(){
 		if(jta.getText().equals(DEFAULT)){
 			this.table.setModel(df.getSimplifiedDefaultPokemonModel());
