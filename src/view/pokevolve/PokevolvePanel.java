@@ -278,12 +278,13 @@ public class PokevolvePanel extends JPanel{
 				ID = "0" + ID;
 			}
 		}
-		String path = "resources/images/" + ID + ".png";
+//		String path = "resources/images/" + ID + ".png";
+		java.net.URL path = this.getClass().getResource("/data/resources/images/"+ID+".png");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.createImage(path);
 		BufferedImage imgs = null;
 		try {
-			imgs = ImageIO.read(new File(path));
+			imgs = ImageIO.read(path);
 		} catch (IOException e) { }
 		int newWidth = MAX_HEIGHT*imgs.getWidth()/imgs.getHeight();
 		Image resizeImg = img.getScaledInstance(

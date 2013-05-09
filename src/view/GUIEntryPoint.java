@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.sql.SQLException;
 
 
@@ -43,7 +45,6 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 
 	private static String enk24GGn;
 	private static String EENKww90;
-
 	public static final String PROPS = "resources/props";
 	public static final String TITLE = "PokeMonitor";
 	public static final String POKEHOME = "PokeHome";
@@ -177,11 +178,13 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		java.io.BufferedReader br = null;
+		java.io.InputStreamReader ins = null;
 		boolean ioError = false;
 		String temp = "";
+		InputStream is = GUIEntryPoint.class.getResourceAsStream("/data/resources/props");
 		try {
-			br = new java.io.BufferedReader(new java.io.FileReader(new java.io.File(PROPS)));
+			ins = new java.io.InputStreamReader(is);
+			java.io.BufferedReader br = new java.io.BufferedReader(ins);
 			for(int i = 0; i < eUnsElo; i++) {
 				br.readLine();
 			}
