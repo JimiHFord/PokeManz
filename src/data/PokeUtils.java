@@ -4,7 +4,8 @@
 package data;
 
 /**
- * This class 
+ * This class provides basic utility functions for the GUI
+ * so that some post processing can be separated
  * @author jimiford
  *
  */
@@ -44,7 +45,7 @@ public class PokeUtils {
 	private static final String bug[] = { FIRE, FLYING, ROCK };
 	private static final String rock[] = { WATER, GRASS, FIGHTING, GROUND, GHOST };
 	private static final String ghost[] = { GHOST, DARK };
-	private static final String dragon[] = { ICE, "Dragon" };
+	private static final String dragon[] = { ICE, DRAGON };
 	private static final String dark[] = { FIGHTING, BUG };
 	private static final String steel[] = { FIRE, FIGHTING, GROUND };
 
@@ -74,7 +75,10 @@ public class PokeUtils {
 		return hashed % MODLENGTH;
 	}
 
-
+	/**
+	 * @param str the string to be encrypted
+	 * @return an encryped version of the passed in string
+	 */
 	public static String encrypt(String str) {
 		String encrypted = ""; 
 		str = str.trim().replaceAll("( )+", " ");
@@ -96,6 +100,10 @@ public class PokeUtils {
 		return encrypted;
 	}
 
+	/**
+	 * @param str the string to be "decrypted"
+	 * @return the "decrypted" version of the string
+	 */
 	public static String decrypt(String str) {
 		String encrypted = "";
 		int length = str.length();
@@ -233,7 +241,7 @@ public class PokeUtils {
 			return 0;
 		}
 	}
-
+	//for testing
 	public static void main(String[] args) {
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
 		System.out.println(PokeUtils.doPass(new char[]{'j'}));
@@ -242,7 +250,10 @@ public class PokeUtils {
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
 	}
 
-
+	/**
+	 * @param password one of the char[] to be compared
+	 * @param password2 the other char[] to be compared
+	 */
 	public static boolean equals(char[] password, char[] password2) {
 		boolean same = true;
 		if(password.length == password2.length) {
