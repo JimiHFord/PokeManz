@@ -83,7 +83,6 @@ public class PokePI extends JPanel {
 		plot.setForegroundAlpha(0.8f);
 		typeChartPanel = new ChartPanel(typeChart);
 		this.setWeakDataSetFrom(data);
-		this.updateCharts();
 		this.fillComponents();
 	}
 	
