@@ -1,7 +1,8 @@
+/**
+ * PokedexScreen.java
+ */
 package view.pokedex;
 
-
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -12,8 +13,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
 
@@ -46,8 +47,11 @@ import net.miginfocom.swing.MigLayout;
 import data.DataFetch;
 
 /**
+ * Class represents the PokedexScreen panel and
+ * transitions to Pokemetrics and Pokevolve panel
+ * 
  * @author Ryan Castner, Felipe Cossa
- *
+ * @contributor Jimi Ford
  */
 @SuppressWarnings("serial")
 public class PokedexScreen extends JPanel implements PokeListener {
@@ -93,6 +97,11 @@ public class PokedexScreen extends JPanel implements PokeListener {
 	private PokeListener listener;
 	private PokeListener thisListener = this;
 
+	/**
+	 * Constructor adds a PokeListener to be able to
+	 * transition to other tabs
+	 * @param listener - a PokeListener
+	 */
 	public PokedexScreen(PokeListener listener){
 		super(new MigLayout());
 		this.listener = listener;
@@ -100,6 +109,9 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		initComponents();
 	}
 
+	/**
+	 * Initializes Components
+	 */
 	private void initComponents(){
 		jta = new JTextArea(DEFAULT);
 		jta.setPreferredSize(new Dimension(160,25));
@@ -167,6 +179,9 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		this.setPokedexEntry("Bulbasaur", 1);
 	}
 
+	/**
+	 * Updates table based on search input by users
+	 */
 	private void updateTable(){
 		if(jta.getText().equals(DEFAULT)){
 			this.table.setModel(df.getSimplifiedDefaultPokemonModel());
@@ -183,11 +198,15 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		}
 	}
 
+	/**
+	 * Processes updating the pokedex panel names and data
+	 * based on new pokedex entry selections.
+	 */
 	private void updatePokedexName(){
 		String search = "" + pokemon;
 		dexData = df.getPokedexQuery(search);
 		String path = dexData.get(0);
-		if(path.length() < 3){
+		if(path.length() < 3){	// pad ID
 			if(path.length() == 1){
 				path = IMG_PATH + "00" + path + ".png";
 			}else{
@@ -196,7 +215,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		}else{
 			path = IMG_PATH + path + ".png";
 		}
-		Toolkit tk = Toolkit.getDefaultToolkit();
+		Toolkit tk = Toolkit.getDefaultToolkit();	// process image
 		URL url = this.getClass().getResource(path);
 		Image img = tk.createImage(url);
 		java.awt.image.BufferedImage imgs = null;
@@ -207,47 +226,56 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		Image resizeImg = imgs == null ? 
 				img.getScaledInstance(200, 200, Image.SCALE_SMOOTH) :
 					img.getScaledInstance(newWidth, MAX_HEIGHT, Image.SCALE_SMOOTH);
-				imageLbl.setIcon(new ImageIcon(resizeImg));
-				nameLbl.setText(dexData.get(1));
-				nameLbl.setFont(new Font("Dialog", Font.BOLD, 26));
-				height.setText(dexData.get(2) + " m");
-				weight.setText(dexData.get(3) + " kg");
-				species.setText(dexData.get(4));
-				color.setText(dexData.get(5));
-				type1.setText(dexData.get(6));
-				type2.setText(dexData.get(7));
-				ability1.setText(dexData.get(8));
-				ability2.setText(dexData.get(9));
-				htLbl.setText("Height:");
-				wtLbl.setText("Weight:");
-				spcsLbl.setText("Species:");
-				colorLbl.setText("Color:");
-				if(type1.getText().equals(type2.getText())){
-					type2.setText("");
-					typesLbl.setText("Type:");
-				}else{
-					typesLbl.setText("Types:");
-				}
-				if(ability2.getText().equals("None")){
-					ability2.setText("");
-					abilitiesLbl.setText("Ability:");
-				}else{
-					abilitiesLbl.setText("Abilities:");
-				}
-				pokemetricsBtn.setText("Pokemetrics");
-				pokemetricsBtn.setVisible(true);
-				pokevolveBtn.setText("Pokevolve");
-				pokevolveBtn.setVisible(true);
-				southPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-				this.revalidate();
+		imageLbl.setIcon(new ImageIcon(resizeImg));
+		nameLbl.setText(dexData.get(1));
+		nameLbl.setFont(new Font("Dialog", Font.BOLD, 26));
+		height.setText(dexData.get(2) + " m");
+		weight.setText(dexData.get(3) + " kg");
+		species.setText(dexData.get(4));
+		color.setText(dexData.get(5));
+		type1.setText(dexData.get(6));
+		type2.setText(dexData.get(7));
+		ability1.setText(dexData.get(8));
+		ability2.setText(dexData.get(9));
+		htLbl.setText("Height:");
+		wtLbl.setText("Weight:");
+		spcsLbl.setText("Species:");
+		colorLbl.setText("Color:");
+		if(type1.getText().equals(type2.getText())){
+			type2.setText("");
+			typesLbl.setText("Type:");
+		}else{
+			typesLbl.setText("Types:");
+		}
+		if(ability2.getText().equals("None")){
+			ability2.setText("");
+			abilitiesLbl.setText("Ability:");
+		}else{
+			abilitiesLbl.setText("Abilities:");
+		}
+		pokemetricsBtn.setText("Pokemetrics");
+		pokemetricsBtn.setVisible(true);
+		pokevolveBtn.setText("Pokevolve");
+		pokevolveBtn.setVisible(true);
+		southPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		this.revalidate();
 	}
 
+	/**
+	 * Allows other classes to setup the pokedex entry before this panel
+	 * is navigated to.
+	 * @param pokemon - name of the pokemon
+	 * @param national_id - national id of the pokemon
+	 */
 	public void setPokedexEntry(String pokemon, int national_id) {
 		this.pokemon = pokemon;
 		this.cry.setNationalID(national_id);
 		updatePokedexName();
 	}
 
+	/**
+	 * Add actionlisteners and action performed methods
+	 */
 	private void initializeActions(){
 		this.jta.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e){
@@ -288,7 +316,7 @@ public class PokedexScreen extends JPanel implements PokeListener {
 			}
 
 		});
-		this.table.addMouseListener(new MouseListener(){
+		this.table.addMouseListener(new MouseAdapter(){
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -298,29 +326,6 @@ public class PokedexScreen extends JPanel implements PokeListener {
 					int national_id = (int) table.getValueAt(index, 0);
 					setPokedexEntry(pokemon, national_id);
 				}				
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 		this.cry.addActionListener(new ActionListener() {
@@ -339,10 +344,8 @@ public class PokedexScreen extends JPanel implements PokeListener {
 							Port outline = (Port) AudioSystem.getLine(source);
 							outline.open();                
 							FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);                
-//							System.out.println("       volume: " + volumeControl.getValue() );
 							float v = volume.getValue()/100f;
 							volumeControl.setValue(v);
-//							System.out.println("   new volume: " + volumeControl.getValue() );
 							outline.close();
 						} catch (LineUnavailableException ex) {
 							System.err.println("Audio system not supported.");
@@ -354,7 +357,11 @@ public class PokedexScreen extends JPanel implements PokeListener {
 		});
 	}
 
-
+	/**
+	 * Deals with the cry button and sound actions
+	 * @param command - the command to do
+	 * @param argument - the volume control argument
+	 */
 	@Override
 	public void act(String command, String argument) {
 		switch(command) {
@@ -372,6 +379,4 @@ public class PokedexScreen extends JPanel implements PokeListener {
 	public static void main(String[] args) {
 		new SoundJLayer(SOUND_DIR + 490 + EXT).play();
 	}
-
-
 }
