@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.net.URL;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,8 @@ public class PokedexScreen extends JPanel implements PokeListener {
 
 	private static final String DEFAULT = "Search Pokemon...";
 	private static final String EXT = ".mp3";
-	private static final String RESOURCE_DIR = "resources/";
+	
+	private static final String RESOURCE_DIR = "/data/resources/";
 	private static final String SOUND_DIR = RESOURCE_DIR + "sounds/";
 	private static final String IMG_PATH = RESOURCE_DIR + "images/";
 	public static final String DISABLE = "DISABLE";
@@ -194,10 +196,11 @@ public class PokedexScreen extends JPanel implements PokeListener {
 			path = IMG_PATH + path + ".png";
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image img = tk.createImage(path);
+		URL url = this.getClass().getResource(path);
+		Image img = tk.createImage(url);
 		java.awt.image.BufferedImage imgs = null;
 		try {
-			imgs = ImageIO.read(new java.io.File(path));
+			imgs = ImageIO.read(url);
 		} catch (IOException e) {	}
 
 		Image resizeImg = imgs == null ? 
