@@ -1,5 +1,5 @@
 /**
- * 
+ * TeamPanel.java
  */
 package view.pokeparty;
 
@@ -30,7 +30,8 @@ import view.PokeSearchPanel;
 import data.DataFetch;
 
 /**
- * @author jimiford
+ * panel for trainers to modify their dream team
+ * @author James Ford
  *
  */
 @SuppressWarnings("serial")
@@ -57,7 +58,10 @@ public class TeamPanel extends JPanel implements PokeListener {
 	private JScrollPane jsp;
 	private GridBagConstraints c;
 	
-	
+	/**
+	 * constructor
+	 * @param p parent component to report back to
+	 */
 	public TeamPanel(PokeListener p) {
 		super(new GridLayout(1,2));
 		this.setFocusable(true);
@@ -81,6 +85,9 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.fillComponents();
 	}
 
+	/**
+	 * initializes actions on action components
+	 */
 	private void initActions() {
 		this.back.addActionListener(new ActionListener() {
 			@Override
@@ -163,6 +170,9 @@ public class TeamPanel extends JPanel implements PokeListener {
 		});
 	}
 	
+	/**
+	 * adds components to this panel
+	 */
 	private void fillComponents() {
 
 		this.nameArea.setPreferredSize(new Dimension(110, 25));
@@ -185,6 +195,10 @@ public class TeamPanel extends JPanel implements PokeListener {
 		
 	}
 	
+	/**
+	 * sets the current signed in user
+	 * @param user the user to be signed in
+	 */
 	public void setUser(Integer user) {
 		this.ID = user;
 		this.table.setModel(df.getTeamPanelModel(user));
@@ -198,7 +212,11 @@ public class TeamPanel extends JPanel implements PokeListener {
 		this.pi.setTypeDataSet(df.getTypesOnTeam(user));
 	}
 
-	public void setGridBagConstraints(int row, int col, int fill
+	/**
+	 * private method to set grid bag constraints for the 
+	 * grid bag layout
+	 */
+	private void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
 		c.weightx = weightx;
 		c.weighty = weighty;
