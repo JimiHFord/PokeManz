@@ -103,7 +103,7 @@ public class ManageTrainersPanel extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * private helper function sets grid bag constraints for the grid bag layout
 	 */
 	private void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
@@ -119,6 +119,9 @@ public class ManageTrainersPanel extends JPanel {
 		c.insets = new Insets(0, 0, 0, 0);
 	}
 	
+	/**
+	 * initializes action components
+	 */
 	private void actionInitialization() {
 		this.table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -206,6 +209,9 @@ public class ManageTrainersPanel extends JPanel {
 		});
 	}
 
+	/**
+	 * private method that gets called to create a new user in the database
+	 */
 	private void createUser() {
 		if(PokeUtils.equals(passOne.getPassword(),passTwo.getPassword())) {
 			df.addTrainer(trainerName.getText(), PokeUtils.doPass(passOne.getPassword()));
@@ -221,6 +227,9 @@ public class ManageTrainersPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * adds the actual components to the panel
+	 */
 	private void fillComponents() {
 		this.setGridBagConstraints(0, 1, 0, 0, 0, 3, 1);
 		this.right.add(trainerName, c);
@@ -241,8 +250,4 @@ public class ManageTrainersPanel extends JPanel {
 		this.left.add(jsp, BorderLayout.CENTER);
 	}
 	
-	public static void main(String[] args) {
-		char[] j = {'j'};
-		System.out.println(j.hashCode());
-	}
 }
