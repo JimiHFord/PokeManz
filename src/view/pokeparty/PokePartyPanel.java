@@ -1,5 +1,5 @@
 /**
- * 
+ * PokePartyPanel.java
  */
 package view.pokeparty;
 
@@ -14,7 +14,7 @@ import view.PokeListener;
 import data.DataFetch;
 
 /**
- * @author jimiford
+ * @author James Ford
  *
  */
 @SuppressWarnings({ "serial", "unused" })
@@ -23,8 +23,6 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	public static final String TEAM_PANEL = "team";
 	public static final String MANAGE_TRAINERS_PANEL = "manage trainers";
 	public static final String PASS_PANEL = "authenticate";
-	
-//	private DataFetch df;
 
 	private GridBagConstraints c;
 	private JPanel cards;
@@ -33,9 +31,11 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 	private PokeSignIn pass;
 	private CardLayout cardlayout;
 	
+	/**
+	 * constructor
+	 */
 	public PokePartyPanel() {
 		super(new BorderLayout());
-//		this.df = DataFetch.getInstance();
 		this.cardlayout = new CardLayout();
 		this.cards = new JPanel(cardlayout);
 		fillComponents();
@@ -43,23 +43,20 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 		act(MANAGE_TRAINERS_PANEL, MANAGE_TRAINERS_PANEL);
 	}
 
-//	public void showTeamPanel(Integer user) {
-//		this.teamPanel.setUser(user);
-//		showView(TEAM_PANEL);
-//	}
-
+	/**
+	 * adds all components into this panel
+	 */
 	private void fillComponents() {
-//		this.setBorder(new CompoundBorder(new EmptyBorder(4,0,0,0),BorderFactory.createLineBorder(Color.white)));
 		cards.add(teamPanel = new TeamPanel(this), TEAM_PANEL);
 		cards.add(manageTrainersPanel = new ManageTrainersPanel(this), MANAGE_TRAINERS_PANEL);
 		cards.add(pass = new PokeSignIn(this), PASS_PANEL);
 		this.add(cards, BorderLayout.CENTER);
 	}
-
-	private void initializeActions() {
-		
-	}
 	
+	/**
+	 * private method that sets grid bag constraints for the
+	 * grid bag layout
+	 */
 	public void setGridBagConstraints(int row, int col, int fill
 			, double weightx, double weighty, int width, int height) {
 		c.weightx = weightx;
@@ -74,12 +71,20 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 		c.insets = new Insets(0, 0, 0, 0);
 	}
 
+	/**
+	 * changes the card to the individual trainer view
+	 * with the selected user
+	 * @param user the selected user
+	 */
 	public void showIndividualTrainerView(Integer user) {
 		this.teamPanel.setUser(user);
 		this.cardlayout.show(cards, TEAM_PANEL);
 	}
 	
-
+	/*
+	 * (non-Javadoc)
+	 * @see view.PokeListener.java
+	 */
 	public void act(String command, String argument) {
 		switch(command) {
 		case MANAGE_TRAINERS_PANEL:
@@ -102,8 +107,6 @@ public class PokePartyPanel extends JPanel implements PokeListener {
 		}
 		this.cardlayout.show(cards, command);
 	}
-	
-
 
 }
 
