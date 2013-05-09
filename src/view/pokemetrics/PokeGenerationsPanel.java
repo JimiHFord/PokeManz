@@ -232,11 +232,12 @@ public class PokeGenerationsPanel extends JPanel {
 			}
 		}
 		String path = "resources/images/" + ID + ".png";
+		java.net.URL url = this.getClass().getResource("/data/resources/images/" + ID + ".png");
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image img = tk.createImage(path);
+		Image img = tk.createImage(url);
 		BufferedImage imgs = null;
 		try {
-			imgs = ImageIO.read(new File(path));
+			imgs = ImageIO.read(url);
 		} catch (IOException e) {}
 		Image resizeImg = 
 				imgs == null ?
