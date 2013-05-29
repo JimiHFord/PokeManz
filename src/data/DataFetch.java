@@ -271,6 +271,7 @@ public class DataFetch {
 	 * @param rs result set to make table model of
 	 * @return table model of the result set
 	 */
+	@SuppressWarnings("serial")
 	public DefaultTableModel buildTableModel(ResultSet rs) {
 		boolean error = false;
 		Vector<String> columnNames = new Vector<String>();
@@ -301,6 +302,7 @@ public class DataFetch {
 			error = true;
 		}
 		return error ? new DefaultTableModel() : new DefaultTableModel(data, columnNames){
+
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;

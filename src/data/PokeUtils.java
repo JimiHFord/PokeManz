@@ -3,6 +3,8 @@
  */
 package data;
 
+//import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  * This class provides basic utility functions for the GUI
  * so that some post processing can be separated
@@ -248,6 +250,7 @@ public class PokeUtils {
 		System.out.println(PokeUtils.doPass(new char[]{'d'}));
 		System.out.println(PokeUtils.doPass(new char[]{'b'}));
 		System.out.println(PokeUtils.doPass(new char[]{'a'}));
+		
 	}
 
 	/**

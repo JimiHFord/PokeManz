@@ -40,9 +40,10 @@ import data.PokeUtils;
 @SuppressWarnings("serial")
 public class GUIEntryPoint extends JFrame implements PokeListener, ActionListener {
 
-	private static String enk24GGn;
-	private static String EENKww90;
-	public static final String PROPS = "resources/props";
+	private static String ARG1;
+	private static String ARG2;
+	public static final String PROPS_PRIVATE = "/data/resources/props_private";
+	public static final String PROPS_PUBLIC = "/data/resources/props_public";
 	public static final String TITLE = "PokeMonitor";
 	public static final String POKEHOME = "PokeHome";
 	public static final String POKEDEX = "Pokedex";
@@ -71,9 +72,9 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		super(title);
 		this.df = DataFetch.getInstance();
 		this.df.setListener(this);
-		this.df.connectToRIT(enk24GGn, EENKww90);
-		enk24GGn = null;
-		EENKww90 = null;
+		this.df.connectToRIT(ARG1, ARG2);
+		ARG1 = null;
+		ARG2 = null;
 		initComponents();
 		fillComponents();
 		this.pep.updatePokevolve(DEFAULT, 0);
@@ -178,12 +179,29 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		java.io.InputStreamReader ins = null;
 		boolean ioError = false;
+		boolean privateUser = true;
 		String temp = "";
-		InputStream is = GUIEntryPoint.class.getResourceAsStream("/data/resources/props");
+		InputStream is = GUIEntryPoint.class.getResourceAsStream(PROPS_PRIVATE);
+		if(is == null) {
+			is = GUIEntryPoint.class.getResourceAsStream(PROPS_PUBLIC);
+			privateUser = false;
+		}
+		if(is == null) {
+			String errMsg = 
+					"<html>\n" +
+					"There has been an error cloning the git repository.\n" +
+					"Please email " +
+					"<a href=\"mailto:jhf3617@g.rit.edu\">Jimi</a>," +
+					"<a href=\"mailto:rrc9704@g.rit.edu\">Ryan</a>," +
+					"or <a href=\"mailto:ironcosine@gmail.com\">Felipe</a>.\n" +
+					PROPS_PUBLIC + " file missing.";
+			showError(errMsg, "Error");
+			return;
+		}
 		try {
 			ins = new java.io.InputStreamReader(is);
 			java.io.BufferedReader br = new java.io.BufferedReader(ins);
-			for(int i = 0; i < eUnsElo; i++) {
+			for(int i = 0; i < eUnsElo && privateUser; i++) {
 				br.readLine();
 			}
 			temp = br.readLine();
@@ -209,13 +227,25 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		}
 
 		if(ioError){
-			showError(PROPS + " file missing", "Error");
+			String errMsg = "<html>\n" +
+					"There has been an error reading the props file.\n" +
+					"Please email " +
+					"<a href=\"mailto:jhf3617@g.rit.edu\">Jimi</a>," +
+					"<a href=\"mailto:rrc9704@g.rit.edu\">Ryan</a>," +
+					"or <a href=\"mailto:ironcosine@gmail.com\">Felipe</a>.\n";
+			showError(errMsg, "Error");
 			return;
 		} else {
 
 			String[] both = temp.split(" ");
-			enk24GGn = PokeUtils.decrypt(both[1]);
-			EENKww90 = PokeUtils.decrypt(both[2]);
+			if(privateUser) {
+				ARG1 = PokeUtils.decrypt(both[1]);
+				ARG2 = PokeUtils.decrypt(both[2]);
+			} else {
+				ARG1 = both[0];
+				ARG2 = both[1];
+			}
+				
 		}
 
 		Runnable doCreateAndShowGUI = new Runnable() {
