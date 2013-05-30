@@ -16,6 +16,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -40,8 +43,6 @@ import data.PokeUtils;
 @SuppressWarnings("serial")
 public class GUIEntryPoint extends JFrame implements PokeListener, ActionListener {
 
-	private static String ARG1;
-	private static String ARG2;
 	public static final String PROPS_PRIVATE = "/data/resources/props_private";
 	public static final String PROPS_PUBLIC = "/data/resources/props_public";
 	public static final String TITLE = "PokeMonitor";
@@ -52,6 +53,10 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	public static final String POKEPARTY = "Pokeparty";
 	public static final String POKEHELP = "PokeHelp";
 	public static final String ENTER = "ENTER";
+	public static final String EMAIL_LIST = "Please email " +
+			"<a href=\"mailto:jhf3617@g.rit.edu\">Jimi</a>," +
+			"<a href=\"mailto:rrc9704@g.rit.edu\">Ryan</a>," +
+			"or <a href=\"mailto:ironcosine@gmail.com\">Felipe</a>.\n";
 	public static final String WELCOME = "WELCOME";
 	private static final String DEFAULT = PokemetricsPanel.DEFAULT_POKEMON;
 	private static final int eUnsElo = 5;
@@ -60,6 +65,9 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	private CardLayout layout;
 	private JPanel cards;
 	private JPanel tabs;
+	private JMenuBar jmb;
+	private JMenuItem refreshConnectionOption;
+	private JMenuItem terminateConnection;
 	private PokeSearchPanel psp;
 	private PokedexScreen ps;
 	private PokePartyPanel ppp;
@@ -72,17 +80,75 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		super(title);
 		this.df = DataFetch.getInstance();
 		this.df.setListener(this);
+		establishConnection();
+		initComponents();
+		initActions();
+		fillComponents();
+		this.pep.updatePokevolve(DEFAULT, 0);
+	}
+
+	private void establishConnection(){
+		java.io.InputStreamReader ins = null;
+		boolean ioError = false;
+		boolean privateUser = true;
+		String temp = "";
+		InputStream is = GUIEntryPoint.class.getResourceAsStream(PROPS_PRIVATE);
+		if(is == null) {
+			is = GUIEntryPoint.class.getResourceAsStream(PROPS_PUBLIC);
+			privateUser = false;
+		}
+		if(is == null) {
+			String errMsg = 
+					"<html>\n" +
+							"There has been an error cloning the git repository.\n" + EMAIL_LIST +
+							PROPS_PUBLIC + " file missing.";
+			showError(errMsg, "Error");
+			return;
+		}
+		try {
+			ins = new java.io.InputStreamReader(is);
+			java.io.BufferedReader br = new java.io.BufferedReader(ins);
+			for(int i = 0; i < eUnsElo && privateUser; i++) {
+				br.readLine();
+			}
+			temp = br.readLine();
+			br.close();
+		} catch (IOException e1) {
+			ioError = true;
+		}
+		if (!System.getProperty("java.version").startsWith("1.7")) {
+			showError("Please install Java version 7", "Error");
+			return;
+		}
+
+		String ARG1,ARG2 = null;
+		if(ioError){
+			String errMsg = "<html>\n" +
+					"There has been an error reading the props file.\n" + EMAIL_LIST;
+			showError(errMsg, "Error");
+			return;
+		} else {
+			String[] both = temp.split(" ");
+			if(privateUser) {
+				ARG1 = PokeUtils.decrypt(both[1]);
+				ARG2 = PokeUtils.decrypt(both[2]);
+			} else {
+				ARG1 = both[0];
+				ARG2 = both[1];
+			}
+			both = null;
+		}
 		this.df.connectToRIT(ARG1, ARG2);
 		ARG1 = null;
 		ARG2 = null;
-		initComponents();
-		fillComponents();
-		this.pep.updatePokevolve(DEFAULT, 0);
 	}
 
 	private void initComponents() {
 		jtp = new JTabbedPane();
 		pcp = new PokeCardPanel();
+		jmb = new JMenuBar();
+		refreshConnectionOption = new JMenuItem("Connect");
+		terminateConnection = new JMenuItem("Close Connection");
 		pw = new PokeWelcome(this);
 		tabs = new JPanel(new BorderLayout());
 		cards = new JPanel(layout = new CardLayout());
@@ -90,25 +156,40 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		pcp.pmp.thruBtn.addActionListener(this);
 	}
 
-
-	public static void showError(String msg, String title) {
-		JOptionPane.showMessageDialog(null, msg, title,
-				JOptionPane.ERROR_MESSAGE, null);
+	private void initActions() {
+		this.refreshConnectionOption.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				establishConnection();
+			}
+		});
+		this.terminateConnection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				df.closeConnection();
+			}
+		});
 	}
-
+	
 	private void fillComponents() {
+		JMenu fileMenu = new JMenu("File");
+		JMenu connectionMenu = new JMenu("Connection");
+		connectionMenu.add(refreshConnectionOption);
+		connectionMenu.add(terminateConnection);
+		jmb.add(fileMenu);
+		jmb.add(connectionMenu);
+		setJMenuBar(jmb);
 		jtp.addTab(POKEHOME, psp = new PokeSearchPanel(this));
 		jtp.addTab(POKEDEX, ps = new PokedexScreen(this));
 		jtp.addTab(POKEMETRICS, pcp);
 		jtp.addTab(POKEVOLVE, pep = new PokevolvePanel());
 		jtp.addTab(POKEPARTY, ppp = new PokePartyPanel());
-//		jtp.addTab(POKEHELP, new JPanel());
+		//		jtp.addTab(POKEHELP, new JPanel());
 		jtp.setMnemonicAt(0, KeyEvent.VK_1);
 		jtp.setMnemonicAt(1, KeyEvent.VK_2);
 		jtp.setMnemonicAt(2, KeyEvent.VK_3);
 		jtp.setMnemonicAt(3, KeyEvent.VK_4);
 		jtp.setMnemonicAt(4, KeyEvent.VK_5);
-//		jtp.setMnemonicAt(5, KeyEvent.VK_6);
+		//		jtp.setMnemonicAt(5, KeyEvent.VK_6);
 		tabs.add(jtp, BorderLayout.CENTER);
 		cards.add(tabs, ENTER);
 		cards.add(pw, WELCOME);
@@ -117,8 +198,12 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 
+	public static void showError(String msg, String title) {
+		JOptionPane.showMessageDialog(null, msg, title,
+				JOptionPane.ERROR_MESSAGE, null);
+	}
 
-	
+
 	public void act(String command, String argument) {
 		switch(command) {
 		case ENTER:
@@ -177,43 +262,6 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 	}
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		java.io.InputStreamReader ins = null;
-		boolean ioError = false;
-		boolean privateUser = true;
-		String temp = "";
-		InputStream is = GUIEntryPoint.class.getResourceAsStream(PROPS_PRIVATE);
-		if(is == null) {
-			is = GUIEntryPoint.class.getResourceAsStream(PROPS_PUBLIC);
-			privateUser = false;
-		}
-		if(is == null) {
-			String errMsg = 
-					"<html>\n" +
-					"There has been an error cloning the git repository.\n" +
-					"Please email " +
-					"<a href=\"mailto:jhf3617@g.rit.edu\">Jimi</a>," +
-					"<a href=\"mailto:rrc9704@g.rit.edu\">Ryan</a>," +
-					"or <a href=\"mailto:ironcosine@gmail.com\">Felipe</a>.\n" +
-					PROPS_PUBLIC + " file missing.";
-			showError(errMsg, "Error");
-			return;
-		}
-		try {
-			ins = new java.io.InputStreamReader(is);
-			java.io.BufferedReader br = new java.io.BufferedReader(ins);
-			for(int i = 0; i < eUnsElo && privateUser; i++) {
-				br.readLine();
-			}
-			temp = br.readLine();
-			br.close();
-		} catch (IOException e1) {
-			ioError = true;
-		}
-		if (!System.getProperty("java.version").startsWith("1.7")) {
-			showError("Please install Java version 7", "Error");
-			return;
-		}
-
 		// Set the Nimbus look and feel because it's new and cool looking
 		try {
 			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -225,29 +273,6 @@ public class GUIEntryPoint extends JFrame implements PokeListener, ActionListene
 		} catch (Exception e) {
 			// Will be set to default LAF
 		}
-
-		if(ioError){
-			String errMsg = "<html>\n" +
-					"There has been an error reading the props file.\n" +
-					"Please email " +
-					"<a href=\"mailto:jhf3617@g.rit.edu\">Jimi</a>," +
-					"<a href=\"mailto:rrc9704@g.rit.edu\">Ryan</a>," +
-					"or <a href=\"mailto:ironcosine@gmail.com\">Felipe</a>.\n";
-			showError(errMsg, "Error");
-			return;
-		} else {
-
-			String[] both = temp.split(" ");
-			if(privateUser) {
-				ARG1 = PokeUtils.decrypt(both[1]);
-				ARG2 = PokeUtils.decrypt(both[2]);
-			} else {
-				ARG1 = both[0];
-				ARG2 = both[1];
-			}
-				
-		}
-
 		Runnable doCreateAndShowGUI = new Runnable() {
 
 			@Override
