@@ -75,7 +75,9 @@ public class PokeSearchPanel extends JPanel {
 		} else {
 			this.table.setModel(df.getSearchPokemonModel(jta.getText()));
 		}
-
+		if(table.getColumnModel().getColumnCount() == 0) {
+			return;
+		}
 		table.getColumnModel().getColumn(0).setHeaderValue("National ID");
 		table.getColumnModel().getColumn(1).setHeaderValue("Name");
 		table.getColumnModel().getColumn(2).setHeaderValue("Type 1");
