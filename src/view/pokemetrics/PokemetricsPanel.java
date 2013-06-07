@@ -155,6 +155,9 @@ public class PokemetricsPanel extends JPanel {
 	public void updatePokemetrics(String pokemon){
 		metricsData = df.getMetricsQuery(pokemon);
 		expData = df.getExpQuery(pokemon);
+		if(metricsData.size() == 0) {
+			return;
+		}
 		// Below deals with image processing
 		String ID = metricsData.get(0);
 		if(ID.length() < 3){	// pads ID number so 3 becomes 003
